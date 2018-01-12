@@ -7,14 +7,14 @@ const LoaderContainer = createComponent(
   ({ theme }) => ({
     width: 14,
     '> i.anticon': {
-      color: theme.color,
-    },
+      color: theme.color
+    }
   }),
   'div'
 );
 
 const Content = createComponent(
-  ({ theme, ellipsis = true }) => ({
+  ({ theme, ellipsis = true, inverted }) => ({
     ellipsis,
     flexGrow: 1,
     opacity: theme.collapsed ? 0 : 1,
@@ -23,8 +23,10 @@ const Content = createComponent(
     '> small': {
       display: 'block',
       marginTop: `-${theme.space1}`,
-      color: theme.inverted ? theme.light2 : theme.dark2,
-    },
+      color: (inverted !== undefined ? inverted : theme.inverted)
+        ? theme.light2
+        : theme.dark2
+    }
   }),
   'div',
   ({ ellipsis, ...props }) => Object.keys(props)
@@ -41,6 +43,7 @@ export default createComponent(
     color,
     disabled,
     ellipsis,
+    inverted = !!color
   }) => ({
     height: ellipsis === false ? undefined : large ? 54 : small ? 32 : 40,
     flexShrink: 0,
@@ -57,6 +60,8 @@ export default createComponent(
       theme[color] ||
       color ||
       (active && theme.dark5),
+    color: !!inverted && theme.light,
+    marginY: !!color && theme.space1,
     onHover: {
       backgroundColor:
         !!onClick &&
@@ -64,8 +69,8 @@ export default createComponent(
         ((color === true && theme.color) ||
           theme[color] ||
           color ||
-          theme.dark4),
-    },
+          theme.dark4)
+    }
   }),
   ({
     large,
@@ -81,6 +86,7 @@ export default createComponent(
     onClick,
     disabled,
     ellipsis,
+    inverted = !!color,
     ...rest
   }) => (
     <div
@@ -89,7 +95,7 @@ export default createComponent(
       ref={_ref || innerRef || ref}
     >
       {!!icon && <Image large={large}>{icon}</Image>}
-      <Content ellipsis={ellipsis}>
+      <Content ellipsis={ellipsis} inverted={inverted}>
         {children}
         {!!subtitle && <small>{subtitle}</small>}
       </Content>
