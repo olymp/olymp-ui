@@ -1,0 +1,45 @@
+{
+  "private": true,
+  "version": "15.2.8",
+  "name": "olymp-ui",
+  "description": "",
+  "scripts": {
+    "up": "npm-check -u",
+    "init": "lerna init --independent",
+    "watch": "olymp-lerna watch",
+    "lp": "lerna publish --registry=https://registry.npmjs.org/",
+    "lpf": "lerna publish --registry=https://registry.npmjs.org/ --force-publish",
+    "lb": "lerna bootstrap",
+    "li": "lerna exec --concurrency 1 -- npm i",
+    "lu": "lerna exec --concurrency 1 -- npm-check -u",
+    "lc": "del 'packages/*/package-lock.json' 'packages/*/node_modules'"
+  },
+  "engines": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olymp/olymp.git"
+  },
+  "keywords": [
+    "react",
+    "universal",
+    "javascript",
+    "express",
+    "webpack"
+  ],
+  "author": "Benjamin Kniffler <bkniffler@me.com>",
+  "contributors": [
+    "Benjamin Kniffler <bkniffler@me.com>",
+    "Philipp Achenbach <olymp@philipp-achenbach.de>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olymp/olymp/issues"
+  },
+  "homepage": "https://github.com/olymp/olymp#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint-config-olymp": "^20.1.2",
+    "lerna": "^2.7.0",
+    "olymp-lerna": "^20.1.10"
+  }
+}
