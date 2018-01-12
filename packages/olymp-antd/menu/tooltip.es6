@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from '../menu';
+import Menu from 'olymp-ui/menu';
 import { Tooltip } from 'antd';
 
 export default ({ open, children, ...rest }) =>
