@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from '../menu';
+import Menu from 'olymp-ui/menu';
 import { Popover } from 'antd';
 
 export default ({ open, children, content, placement = 'left', ...rest }) => (
