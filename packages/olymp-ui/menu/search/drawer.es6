@@ -13,7 +13,7 @@ const Input = createComponent(
     fontSize: '1.4em',
     outline: 0,
     fontStyle: 'italic',
-    width: '100%',
+    width: '100%'
   }),
   'input',
   p => Object.keys(p)
@@ -33,7 +33,7 @@ export default class SearchDrawer extends Component {
       placeholder,
       onChange,
       results = [],
-      header,
+      header
     } = this.props;
     return (
       <Drawer
@@ -52,7 +52,7 @@ export default class SearchDrawer extends Component {
             <Input
               innerRef={x => (this.input = x)}
               placeholder={placeholder}
-              value={value}
+              value={value || ''}
               onChange={e => onChange(e.target.value)}
             />
           }

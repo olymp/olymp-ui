@@ -29,7 +29,7 @@ const Content = createComponent(
     }
   }),
   'div',
-  ({ ellipsis, ...props }) => Object.keys(props)
+  ({ ellipsis, inverted, ...props }) => Object.keys(props)
 );
 
 export default createComponent(
