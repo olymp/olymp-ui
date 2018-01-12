@@ -1,5 +1,5 @@
 import React from 'react';
-import { createComponent } from 'olymp-fela';
+import { createComponent } from 'react-fela';
 import { FaPencil } from 'olymp-icons';
 import { Link } from 'olymp-router';
 
@@ -23,7 +23,7 @@ const Button = createComponent(
       <div className={className}>{children}</div>
     </Link>
   ),
-  ['className', 'to', 'updateQuery'],
+  ['className', 'to', 'updateQuery']
 );
 
 Button.Edit = props => (

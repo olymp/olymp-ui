@@ -1,4 +1,4 @@
-import { createComponent } from 'olymp-fela';
+import { createComponent } from 'react-fela';
 
 export default createComponent(
   ({ display, axis, show, alignLabel, ...rest }) => ({
@@ -20,5 +20,5 @@ export default createComponent(
     },
   }),
   'div',
-  ['children', 'itemScope', 'itemType'],
+  ['children', 'itemScope', 'itemType']
 );

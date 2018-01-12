@@ -1,5 +1,5 @@
 import React from 'react';
-import { createComponent } from 'olymp-fela';
+import { createComponent } from 'react-fela';
 import Image from './image';
 
 export default createComponent(
@@ -23,5 +23,5 @@ export default createComponent(
       {!!extra && <Image extra>{extra}</Image>}
     </div>
   ),
-  p => Object.keys(p),
+  p => Object.keys(p)
 );

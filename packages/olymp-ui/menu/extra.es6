@@ -1,5 +1,5 @@
 import React, { Children, cloneElement } from 'react';
-import { createComponent } from 'olymp-fela';
+import { createComponent } from 'react-fela';
 
 export default createComponent(
   ({ theme, large, onClick, disabled }) => ({
@@ -22,9 +22,9 @@ export default createComponent(
       {Children.map(
         children,
         child =>
-          child ? cloneElement(child, { size: large ? 20 : 14, ...p }) : child,
+          child ? cloneElement(child, { size: large ? 20 : 14, ...p }) : child
       )}
     </div>
   ),
-  p => Object.keys(p),
+  p => Object.keys(p)
 );

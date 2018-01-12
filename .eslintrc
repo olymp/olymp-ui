@@ -1,3 +1,3 @@
 {
-  "extends": ["./packages/eslint/index.js"]
+  "extends": ["olymp"]
 }

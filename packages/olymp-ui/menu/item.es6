@@ -1,5 +1,5 @@
 import React from 'react';
-import { createComponent } from 'olymp-fela';
+import { createComponent } from 'react-fela';
 import { Icon } from 'antd';
 import Image from './image';
 
@@ -7,8 +7,8 @@ const LoaderContainer = createComponent(
   ({ theme }) => ({
     width: 14,
     '> i.anticon': {
-      color: theme.color
-    }
+      color: theme.color,
+    },
   }),
   'div'
 );
@@ -23,8 +23,8 @@ const Content = createComponent(
     '> small': {
       display: 'block',
       marginTop: `-${theme.space1}`,
-      color: theme.inverted ? theme.light2 : theme.dark2
-    }
+      color: theme.inverted ? theme.light2 : theme.dark2,
+    },
   }),
   'div',
   ({ ellipsis, ...props }) => Object.keys(props)
@@ -40,7 +40,7 @@ export default createComponent(
     onClick,
     color,
     disabled,
-    ellipsis
+    ellipsis,
   }) => ({
     height: ellipsis === false ? undefined : large ? 54 : small ? 32 : 40,
     flexShrink: 0,
@@ -64,8 +64,8 @@ export default createComponent(
         ((color === true && theme.color) ||
           theme[color] ||
           color ||
-          theme.dark4)
-    }
+          theme.dark4),
+    },
   }),
   ({
     large,

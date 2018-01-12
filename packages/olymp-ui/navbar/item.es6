@@ -1,10 +1,10 @@
 import React, { Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { createComponent } from 'react-fela';
-import { fade } from 'olymp-fela';
+import { FaAngleDown, FaAngleLeft, FaAngleRight } from 'olymp-icons';
 import cn from 'classnames';
 import Link from './link';
-import { FaAngleDown, FaAngleLeft, FaAngleRight } from 'olymp-icons';
+import fade from '../anim/fade';
 
 const Icon = createComponent(
   ({ theme, inverse }) => ({
@@ -13,14 +13,14 @@ const Icon = createComponent(
     // right: theme.space2,
   }),
   ({ className, vertically, right }) =>
-    (!vertically ? (
+    !vertically ? (
       <FaAngleDown className={className} size={15} />
     ) : right ? (
       <FaAngleLeft className={className} size={15} />
     ) : (
       <FaAngleRight className={className} size={15} />
-    )),
-  p => Object.keys(p),
+    ),
+  p => Object.keys(p)
 );
 
 const NavItem = createComponent(
@@ -68,10 +68,17 @@ const NavItem = createComponent(
     renderItemLink,
   }) => (
     <Wrapper className={cn(className, 'o-nav-item', `o-nav-item-lvl-${level}`)}>
-      <Link to={pathname} onClick={onClick} inverse={inverse} renderItemLink={renderItemLink}>
+      <Link
+        to={pathname}
+        onClick={onClick}
+        inverse={inverse}
+        renderItemLink={renderItemLink}
+      >
         {title}
         {pages &&
-        !!pages.length && <Icon vertically={vertically} right={right} inverse={inverse} />}
+          !!pages.length && (
+            <Icon vertically={vertically} right={right} inverse={inverse} />
+          )}
       </Link>
 
       {pages &&
@@ -103,11 +110,11 @@ const NavItem = createComponent(
           isMega,
           renderNav,
           level: level + 1,
-        }),
+        })
       )}
     </Wrapper>
   ),
-  p => Object.keys(p),
+  p => Object.keys(p)
 );
 NavItem.displayName = 'Navbar.Item';
 NavItem.propTypes = {

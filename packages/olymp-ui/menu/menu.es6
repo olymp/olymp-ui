@@ -1,5 +1,5 @@
 import React from 'react';
-import { createComponent } from 'olymp-fela';
+import { createComponent } from 'react-fela';
 import { ThemeProvider } from 'react-fela';
 import useTheme from './theme';
 import Header from './header';
@@ -20,7 +20,7 @@ const Inner = createComponent(
     overflowX: 'hidden',
     // justifyContent: 'space-between',
   }),
-  'div',
+  'div'
 );
 
 const Menu = createComponent(
@@ -60,7 +60,7 @@ const Menu = createComponent(
       <Inner>{children}</Inner>
     </div>
   ),
-  ({ paddingY, paddingX, ...p }) => Object.keys(p),
+  ({ paddingY, paddingX, ...p }) => Object.keys(p)
 );
 
 const Component = useTheme(
@@ -68,7 +68,7 @@ const Component = useTheme(
     <ThemeProvider theme={theme}>
       <Menu color={color} inverted={inverted} {...props} />
     </ThemeProvider>
-  ),
+  )
 );
 
 Component.Header = Header;

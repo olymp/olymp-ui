@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Drawer } from 'olymp-fela';
+import Drawer from '../../drawer';
 import Menu from '../menu';
 import { createComponent } from 'react-fela';
 // import { Menu } from 'semantic-ui-react';

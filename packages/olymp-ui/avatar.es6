@@ -1,5 +1,5 @@
 import React from 'react';
-import { createComponent } from 'olymp-fela';
+import { createComponent } from 'react-fela';
 import Gravatar from 'react-gravatar';
 
 const getInitials = name => {
@@ -24,13 +24,13 @@ export default createComponent(
     display: 'block',
     borderRadius: '50%',
     background: `url(https://invatar0.appspot.com/svg/${getInitials(
-      name,
+      name
     )}.jpg?s=${Math.round((size || 30) * 0.8)}&bg=${encodeURIComponent(
-      theme.color,
-    )}&color=${encodeURIComponent(
-      theme.light,
-    )}) center center no-repeat, ${theme.color}`,
+      theme.color
+    )}&color=${encodeURIComponent(theme.light)}) center center no-repeat, ${
+      theme.color
+    }`,
   }),
   ({ size, ...p }) => <Gravatar {...p} size={size || 30} />,
-  p => Object.keys(p),
+  p => Object.keys(p)
 );

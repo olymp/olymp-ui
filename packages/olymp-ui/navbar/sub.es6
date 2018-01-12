@@ -1,6 +1,6 @@
 import React, { Children, cloneElement } from 'react';
 import { createComponent } from 'react-fela';
-import { border } from 'olymp-fela';
+import { border } from '../utils';
 
 export default createComponent(
   ({ theme, fill, vertically, right }) => ({
@@ -36,11 +36,11 @@ export default createComponent(
           pages: childPages,
           key: page.id || i,
           ...props,
-        }),
+        })
       )}
 
       {Children.map(children, child => cloneElement(child, props))}
     </div>
   ),
-  p => Object.keys(p),
+  p => Object.keys(p)
 );

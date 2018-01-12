@@ -1,4 +1,5 @@
-import { createComponent, border } from 'olymp-fela';
+import { createComponent } from 'react-fela';
+import { border } from '../utils';
 
 export default createComponent(
   ({ theme }) => ({
@@ -7,5 +8,5 @@ export default createComponent(
     borderTop: border(theme, theme.dark4),
   }),
   'hr',
-  [],
+  []
 );

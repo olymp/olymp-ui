@@ -1,5 +1,5 @@
 import React from 'react';
-import { createComponent } from 'olymp-fela';
+import { createComponent } from 'react-fela';
 
 export default createComponent(
   ({ theme, large, extra }) => {
@@ -28,5 +28,5 @@ export default createComponent(
     };
   },
   ({ children, className }) => <div className={className}>{children}</div>,
-  ({ large, ...p }) => Object.keys(p),
+  ({ large, ...p }) => Object.keys(p)
 );

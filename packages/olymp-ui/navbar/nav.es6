@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createComponent } from 'react-fela';
-import { fade, border } from 'olymp-fela';
 import Sub from './sub';
 import Mega from './mega';
+import { border } from '../utils';
+import fade from '../anim/fade';
 
 const Nav = createComponent(
   ({ theme, inverse, vertically, right, sub }) =>
@@ -30,11 +31,13 @@ const Nav = createComponent(
       },
     },
   ({ mega, sub, vertically, children, ...props }) =>
-    mega && mega({ mega, sub, vertically, children, ...props })
-      ? <Mega {...props} />
-      : <Sub {...props} vertically={sub || vertically}>
+    mega && mega({ mega, sub, vertically, children, ...props }) ? (
+      <Mega {...props} />
+    ) : (
+      <Sub {...props} vertically={sub || vertically}>
         {children}
-      </Sub>,
+      </Sub>
+    ),
   p => Object.keys(p)
 );
 Nav.displayName = 'Navbar.Nav';

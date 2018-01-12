@@ -1,5 +1,5 @@
 import React from 'react';
-import { createComponent } from 'olymp-fela';
+import { createComponent } from 'react-fela';
 import { ThemeProvider } from 'react-fela';
 import useTheme from './theme';
 
@@ -28,7 +28,7 @@ const Header = createComponent(
       borderRadius: theme.borderRadius,
     },
   }),
-  'div',
+  'div'
 );
 
 export default useTheme(({ inverted, color, theme, ...props }) => (
