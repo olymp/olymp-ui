@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import createComponent from './utils/create-component';
+import { createComponent } from 'react-fela';
 import Portal from './portal';
 
 let ipc = null;
@@ -41,7 +41,7 @@ const Print = createComponent(
     zIndex: 10000,
   }),
   p => <PrintWindow {...p} />,
-  p => Object.keys(p),
+  p => Object.keys(p)
 );
 export default Print;
 
@@ -50,5 +50,5 @@ Print.Break = createComponent(
     pageBreakBefore: 'always',
   }),
   ({ tag = 'div', ...rest }) => React.createElement(tag, rest),
-  ['tag'],
+  ['tag']
 );

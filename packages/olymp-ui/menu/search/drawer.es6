@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Drawer } from 'olymp-fela';
-import Menu from 'olymp-fela/menu';
+import Menu from '../menu';
 import { createComponent } from 'react-fela';
 // import { Menu } from 'semantic-ui-react';
 import { FaSearch, FaFile } from 'olymp-icons';
@@ -16,7 +16,7 @@ const Input = createComponent(
     width: '100%',
   }),
   'input',
-  p => Object.keys(p),
+  p => Object.keys(p)
 );
 
 export default class SearchDrawer extends Component {

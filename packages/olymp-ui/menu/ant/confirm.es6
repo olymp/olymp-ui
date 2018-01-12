@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from 'olymp-fela/menu';
+import Menu from '../menu';
 import { Popconfirm, Popover } from 'antd';
 
 export default ({

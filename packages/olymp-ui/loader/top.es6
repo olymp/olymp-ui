@@ -1,4 +1,4 @@
-import createComponent from '../utils/create-component';
+import { createComponent } from 'react-fela';
 
 export const topLoaderStyles = ({ theme, loading, transparent }) => ({
   zIndex: 10000,
@@ -37,5 +37,5 @@ export const topLoaderStyles = ({ theme, loading, transparent }) => ({
 export default createComponent(
   topLoaderStyles,
   'span',
-  ({ loading, dispatch, transparent, ...p }) => Object.keys(p),
+  ({ loading, dispatch, transparent, ...p }) => Object.keys(p)
 );

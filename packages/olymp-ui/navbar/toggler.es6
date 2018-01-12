@@ -1,7 +1,7 @@
 import React, { Children, cloneElement } from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
-import createComponent from '../utils/create-component';
+import { createComponent } from 'react-fela';
 
 const Div = ({ toggled, onToggle, ...props }) => (
   <div {...props} onClick={onToggle} />
@@ -59,7 +59,7 @@ const Button = createComponent(
       <span />
     </Comp>
   ),
-  p => Object.keys(p),
+  p => Object.keys(p)
 );
 
 const Container = createComponent(
@@ -77,7 +77,7 @@ const Container = createComponent(
     },
   }),
   'div',
-  [],
+  []
 );
 
 const Toggler = ({
