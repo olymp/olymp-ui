@@ -1,6 +1,7 @@
 import React from 'react';
 import { createComponent } from 'react-fela';
 import { Icon } from 'antd';
+import tinycolor from 'tinycolor2';
 import Image from './image';
 
 const LoaderContainer = createComponent(
@@ -44,34 +45,35 @@ export default createComponent(
     disabled,
     ellipsis,
     inverted = !!color
-  }) => ({
-    height: ellipsis === false ? undefined : large ? 54 : small ? 32 : 40,
-    flexShrink: 0,
-    width: !theme.collapsed ? '100%' : large ? 54 : small ? 32 : 40,
-    marginLeft: theme.collapsed && !large && 7,
-    paddingLeft: !icon && theme.space3,
-    display: 'flex',
-    alignItems: 'center',
-    cursor: !!onClick && !disabled && 'pointer',
-    borderRadius: theme.collapsed ? '50%' : theme.borderRadius,
-    opacity: disabled ? 0.67 : 1,
-    backgroundColor:
-      (color === true && theme.color) ||
-      theme[color] ||
-      color ||
-      (active && theme.dark5),
-    color: !!inverted && theme.light,
-    marginY: !!color && theme.space1,
-    onHover: {
-      backgroundColor:
-        !!onClick &&
-        !disabled &&
-        ((color === true && theme.color) ||
-          theme[color] ||
-          color ||
-          theme.dark4)
-    }
-  }),
+  }) => {
+    const bgColor = (color === true && theme.color) || theme[color] || color;
+
+    return {
+      height: ellipsis === false ? undefined : large ? 54 : small ? 32 : 40,
+      flexShrink: 0,
+      width: !theme.collapsed ? '100%' : large ? 54 : small ? 32 : 40,
+      marginLeft: theme.collapsed && !large && 7,
+      paddingLeft: !icon && theme.space3,
+      display: 'flex',
+      alignItems: 'center',
+      cursor: !!onClick && !disabled && 'pointer',
+      borderRadius: theme.collapsed ? '50%' : theme.borderRadius,
+      opacity: disabled ? 0.67 : 1,
+      backgroundColor: bgColor || (active && theme.dark5),
+      color: !!inverted && theme.light,
+      marginY: !!color && theme.space1,
+      onHover: {
+        backgroundColor:
+          !!onClick &&
+          !disabled &&
+          (bgColor
+            ? tinycolor(bgColor)
+                .darken()
+                .toString()
+            : theme.dark4)
+      }
+    };
+  },
   ({
     large,
     children,
