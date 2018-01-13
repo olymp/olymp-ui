@@ -175,7 +175,7 @@ export const Section1 = createComponent(
     }
   }),
   props => <Section {...props} />,
-  p => Object.keys(p)
+  ({ placeholder, ...rest }) => Object.keys(rest)
 );
 
 const enhance = compose(withState('absX', 'setAbsX', 0));
