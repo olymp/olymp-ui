@@ -19,27 +19,31 @@ export const AsideMobile = createComponent(
     borderTopRightRadius: 5,
     position: 'absolute',
     top: large ? 10 : 8,
-    left: (absX || (collapsed ? 0 : width)),
+    left: absX || (collapsed ? 0 : width)
   }),
   ({ className, onTap, collapsed }) => (
     <Tappable onTap={onTap} className={className}>
-      {collapsed ? <FaBars size={20} color="white" /> : <FaClose size={20} color="white" />}
+      {collapsed ? (
+        <FaBars size={20} color="white" />
+      ) : (
+        <FaClose size={20} color="white" />
+      )}
     </Tappable>
   ),
-  p => Object.keys(p),
+  p => Object.keys(p)
 );
 
-const raf = (func) => {
+const raf = func => {
   const options = {
     ticking: false,
-    x: 0,
+    x: 0
   };
   const update = () => {
     func(options.x, () => {
       options.ticking = false;
     });
   };
-  const requestTick = (x) => {
+  const requestTick = x => {
     options.x = x;
     if (!options.ticking) {
       requestAnimationFrame(update);
@@ -47,34 +51,42 @@ const raf = (func) => {
     options.ticking = true;
   };
   return requestTick;
-}
+};
 
 const enhanceSwiper = compose(
-  withHandlers(({
-    setAbsX: ({ setAbsX }) => raf(setAbsX),
-  }))
-)
+  withHandlers({
+    setAbsX: ({ setAbsX }) => raf(setAbsX)
+  })
+);
 export const Swiper = enhanceSwiper(
   createComponent(
     ({ collapsed, zIndex }) => ({
       transform: 'translateX(0%)',
       ifMediumUp: {
-        transform: 'translateX(-100%)',
+        transform: 'translateX(-100%)'
       },
       transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
       zIndex,
       position: 'fixed',
       top: 0,
       height: '100%',
-      width: collapsed ? 12 : '100%',
+      width: collapsed ? 12 : '100%'
     }),
-    ({ className, collapsed, width, setCollapsed, large = true, setAbsX, absX }) => (
+    ({
+      className,
+      collapsed,
+      width,
+      setCollapsed,
+      large = true,
+      setAbsX,
+      absX
+    }) => (
       <Swipeable
         className={className}
         onSwipingRight={(e, x) => setAbsX(x)}
         onSwipedRight={() => {
           setAbsX(0);
-          if (absX > (width * 0.33)) {
+          if (absX > width * 0.33) {
             setCollapsed(false);
           } else {
             setCollapsed(true);
@@ -83,17 +95,23 @@ export const Swiper = enhanceSwiper(
         onSwipingLeft={(e, x) => setAbsX(width - x)}
         onSwipedLeft={() => {
           setAbsX(0);
-          if (absX > (width * 0.66)) {
+          if (absX > width * 0.66) {
             setCollapsed(false);
           } else {
             setCollapsed(true);
           }
         }}
       >
-        <AsideMobile large={large} width={width} absX={absX} collapsed={collapsed} onTap={() => setCollapsed(!collapsed)} />
+        <AsideMobile
+          large={large}
+          width={width}
+          absX={absX}
+          collapsed={collapsed}
+          onTap={() => setCollapsed(!collapsed)}
+        />
       </Swipeable>
     ),
-    p => Object.keys(p),
+    p => Object.keys(p)
   )
 );
 
@@ -102,13 +120,19 @@ export const Aside1 = createComponent(
     ifSmallDown: {
       transform: collapsed && !absX ? 'translateX(-100%)' : 'translateX(0%)',
       transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
-      width: absX || width,
+      width: absX || width
     },
     zIndex,
-    maxWidth: '80%',
+    maxWidth: '80%'
   }),
-  ({ absX, width, ...props }) => <Aside {...props} width={absX || width} collapsed={absX ? false : props.collapsed} />,
-  p => Object.keys(p),
+  ({ absX, width, ...props }) => (
+    <Aside
+      {...props}
+      width={absX || width}
+      collapsed={absX ? false : props.collapsed}
+    />
+  ),
+  p => Object.keys(p)
 );
 
 export const Aside2 = createComponent(
@@ -116,18 +140,19 @@ export const Aside2 = createComponent(
     ifSmallDown: {
       left: 0,
       transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
-      width: '100%',
+      width: '100%'
     },
     zIndex,
-    left,
+    left
   }),
   props => <Aside {...props} />,
-  p => Object.keys(p),
+  p => Object.keys(p)
 );
 
 export const Section1 = createComponent(
   ({ left, placeholder, zIndex }) => ({
     marginLeft: left,
+    backgroundColor: 'white',
     ifMediumDown: !placeholder && {
       marginLeft: 0,
       transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
@@ -141,23 +166,31 @@ export const Section1 = createComponent(
       animationTimingFunction: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
       animationName: {
         '0%': {
-          transform: 'translateX(100%)',
+          transform: 'translateX(100%)'
         },
         '100%': {
-          transform: 'translateX(0)',
-        },
-      },
-    },
+          transform: 'translateX(0)'
+        }
+      }
+    }
   }),
   props => <Section {...props} />,
-  p => Object.keys(p),
+  p => Object.keys(p)
 );
 
-const enhance = compose(withState('absX', 'setAbsX', 0))
+const enhance = compose(withState('absX', 'setAbsX', 0));
 export default enhance(
   ({ collapsed, setCollapsed, menu, children, width = 240, absX, setAbsX }) => (
     <Fragment>
-      <Swiper width={width} absX={absX} setAbsX={setAbsX} zIndex={5} collapsed={collapsed} setCollapsed={setCollapsed} large={false} />
+      <Swiper
+        width={width}
+        absX={absX}
+        setAbsX={setAbsX}
+        zIndex={5}
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
+        large={false}
+      />
       <Aside1
         zIndex={6}
         absX={absX}
@@ -174,22 +207,26 @@ export default enhance(
   )
 );
 
-export const SecondarySidebar = ({ menu, children, left = 72, width = 400, hasContent = true, placeholder = null }) => (
+export const SecondarySidebar = ({
+  menu,
+  children,
+  left = 72,
+  width = 400,
+  hasContent = true,
+  placeholder = null
+}) => (
   <Fragment>
-    <Aside2
-      left={left}
-      width={width}
-      zIndex={4}
-    >
+    <Aside2 left={left} width={width} zIndex={4}>
       {menu}
     </Aside2>
     {hasContent ? (
       <Section1 zIndex={7} left={left + width}>
         {children}
-      </Section1>) : (
-        <Section1 placeholder left={left + width}>
-          {placeholder}
-        </Section1>
+      </Section1>
+    ) : (
+      <Section1 placeholder left={left + width}>
+        {placeholder}
+      </Section1>
     )}
   </Fragment>
 );
