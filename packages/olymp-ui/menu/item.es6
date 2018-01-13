@@ -47,6 +47,7 @@ export default createComponent(
     inverted = !!color
   }) => {
     const bgColor = (color === true && theme.color) || theme[color] || color;
+    const alpha = tinycolor(bgColor).getAlpha();
 
     return {
       height: ellipsis === false ? undefined : large ? 54 : small ? 32 : 40,
@@ -54,6 +55,7 @@ export default createComponent(
       width: !theme.collapsed ? '100%' : large ? 54 : small ? 32 : 40,
       marginLeft: theme.collapsed && !large && 7,
       paddingLeft: !icon && theme.space3,
+      paddingRight: !icon && theme.space2,
       display: 'flex',
       alignItems: 'center',
       cursor: !!onClick && !disabled && 'pointer',
@@ -66,11 +68,15 @@ export default createComponent(
         backgroundColor:
           !!onClick &&
           !disabled &&
-          (bgColor
-            ? tinycolor(bgColor)
-                .darken()
-                .toString()
-            : theme.dark4)
+          (!bgColor
+            ? theme.dark4
+            : (alpha === 1 &&
+                tinycolor(bgColor)
+                  .darken()
+                  .toString()) ||
+              tinycolor(bgColor)
+                .setAlpha(alpha * 1.5)
+                .toString())
       }
     };
   },
@@ -101,9 +107,14 @@ export default createComponent(
         {children}
         {!!subtitle && <small>{subtitle}</small>}
       </Content>
-      {!!extra && !loading && <Image extra>{extra}</Image>}
+      {!!extra &&
+        !loading && (
+          <Image extra inverted={inverted}>
+            {extra}
+          </Image>
+        )}
       {loading && (
-        <Image extra>
+        <Image extra inverted={inverted}>
           <LoaderContainer>
             <Icon type="loading" />
           </LoaderContainer>

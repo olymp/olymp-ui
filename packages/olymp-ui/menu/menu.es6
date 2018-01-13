@@ -1,6 +1,5 @@
 import React from 'react';
-import { createComponent } from 'react-fela';
-import { ThemeProvider } from 'react-fela';
+import { createComponent, ThemeProvider } from 'react-fela';
 import useTheme from './theme';
 import Header from './header';
 import Divider from './divider';
@@ -17,7 +16,7 @@ const Inner = createComponent(
     flexGrow: 1,
     flexDirection: 'column',
     overflowY: 'auto',
-    overflowX: 'hidden',
+    overflowX: 'hidden'
     // justifyContent: 'space-between',
   }),
   'div'
@@ -36,7 +35,7 @@ const Menu = createComponent(
     paddingX,
     overflowY: 'auto',
     overflowX: 'hidden',
-    transition: 'width 200ms ease-out',
+    transition: 'width 200ms ease-out'
   }),
   ({
     className,

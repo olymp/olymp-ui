@@ -2,8 +2,9 @@ import React from 'react';
 import { createComponent } from 'react-fela';
 
 export default createComponent(
-  ({ theme, large, extra }) => {
-    const width = (theme.collapsed && (large ? 54 : 40)) || (!extra ? 54 : 40);
+  ({ theme, large, extra, inverted }) => {
+    const width =
+      (theme.collapsed && (large ? 54 : 40)) || (!extra ? 54 : 'auto');
 
     return {
       width,
@@ -11,20 +12,24 @@ export default createComponent(
       textAlign: extra && 'right',
       display: extra && theme.collapsed && 'none',
       ellipsis: true,
+      color: (inverted !== undefined ? inverted : theme.inverted)
+        ? theme.light2
+        : theme.dark2,
+      fontSize: '80%',
       '> *': {
         display: 'block',
         margin: '0 auto',
         textAlign: 'center',
         fontSize: 22,
-        fontWeight: 200,
+        fontWeight: 200
       },
       '& svg': {
-        size: large ? 36 : !extra ? 20 : 14,
+        size: large ? 36 : !extra ? 20 : 14
       },
       '& img': {
         size: large ? 40 : !extra ? 32 : 20,
-        borderRadius: theme.collapsed ? '50%' : theme.borderRadius,
-      },
+        borderRadius: theme.collapsed ? '50%' : theme.borderRadius
+      }
     };
   },
   ({ children, className }) => <div className={className}>{children}</div>,
