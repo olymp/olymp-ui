@@ -122,5 +122,5 @@ export default createComponent(
       )}
     </div>
   ),
-  ({ active, ...p }) => Object.keys(p)
+  ({ active, small, ...p }) => Object.keys(p)
 );
