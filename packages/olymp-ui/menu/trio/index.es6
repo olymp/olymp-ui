@@ -213,10 +213,11 @@ export const SecondarySidebar = ({
   left = 72,
   width = 400,
   hasContent = true,
-  placeholder = null
+  placeholder = null,
+  className
 }) => (
   <Fragment>
-    <Aside2 left={left} width={width} zIndex={4}>
+    <Aside2 left={left} width={width} zIndex={4} className={className}>
       {menu}
     </Aside2>
     {hasContent ? (
