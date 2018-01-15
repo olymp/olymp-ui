@@ -63,7 +63,8 @@ export default createComponent(
       opacity: disabled ? 0.67 : 1,
       backgroundColor: bgColor || (active && theme.dark5),
       color: !!inverted && theme.light,
-      marginY: !!color && theme.space1,
+      marginY: theme.space1,
+      userSelect: 'none',
       onHover: {
         backgroundColor:
           !!onClick &&
