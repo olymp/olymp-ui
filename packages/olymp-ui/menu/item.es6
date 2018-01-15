@@ -48,6 +48,15 @@ export default createComponent(
   }) => {
     const bgColor = (color === true && theme.color) || theme[color] || color;
     const alpha = tinycolor(bgColor).getAlpha();
+    const hoverColor = !bgColor
+      ? theme.dark4
+      : (alpha === 1 &&
+          tinycolor(bgColor)
+            .darken()
+            .toString()) ||
+        tinycolor(bgColor)
+          .setAlpha(alpha * 1.5)
+          .toString();
 
     return {
       height: ellipsis === false ? undefined : large ? 54 : small ? 32 : 40,
@@ -61,23 +70,13 @@ export default createComponent(
       cursor: !!onClick && !disabled && 'pointer',
       borderRadius: theme.collapsed ? '50%' : theme.borderRadius,
       opacity: disabled ? 0.67 : 1,
-      backgroundColor: bgColor || (active && theme.dark5),
+      backgroundColor:
+        (bgColor && active && hoverColor) || bgColor || (active && theme.dark5),
       color: !!inverted && theme.light,
       marginY: theme.space1,
       userSelect: 'none',
       onHover: {
-        backgroundColor:
-          !!onClick &&
-          !disabled &&
-          (!bgColor
-            ? theme.dark4
-            : (alpha === 1 &&
-                tinycolor(bgColor)
-                  .darken()
-                  .toString()) ||
-              tinycolor(bgColor)
-                .setAlpha(alpha * 1.5)
-                .toString())
+        backgroundColor: !!onClick && !disabled && hoverColor
       }
     };
   },
