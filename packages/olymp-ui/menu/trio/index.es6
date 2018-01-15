@@ -175,7 +175,7 @@ export const Section1 = createComponent(
     }
   }),
   props => <Section {...props} />,
-  p => Object.keys(p)
+  ({ placeholder, ...rest }) => Object.keys(rest)
 );
 
 const enhance = compose(withState('absX', 'setAbsX', 0));
@@ -213,10 +213,11 @@ export const SecondarySidebar = ({
   left = 72,
   width = 400,
   hasContent = true,
-  placeholder = null
+  placeholder = null,
+  className
 }) => (
   <Fragment>
-    <Aside2 left={left} width={width} zIndex={4}>
+    <Aside2 left={left} width={width} zIndex={4} className={className}>
       {menu}
     </Aside2>
     {hasContent ? (

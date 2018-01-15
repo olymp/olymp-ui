@@ -96,12 +96,14 @@ export default createComponent(
     disabled,
     ellipsis,
     inverted = !!color,
+    className,
     ...rest
   }) => (
     <div
       {...rest}
       onClick={disabled ? () => {} : onClick}
       ref={_ref || innerRef || ref}
+      className={className}
     >
       {!!icon && <Image large={large}>{icon}</Image>}
       <Content ellipsis={ellipsis} inverted={inverted}>
