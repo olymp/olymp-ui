@@ -180,9 +180,6 @@ export const Section1 = createComponent(
           transform: 'translateX(0)'
         }
       }
-    },
-    ifSmallDown: {
-      display: 'none'
     }
   }),
   props => <Section {...props} />,
@@ -237,7 +234,7 @@ export const SecondarySidebar = ({
       </Section1>
     ) : (
       <Section1 placeholder left={left + width}>
-        {placeholder}
+        {placeholder || children}
       </Section1>
     )}
   </Fragment>
