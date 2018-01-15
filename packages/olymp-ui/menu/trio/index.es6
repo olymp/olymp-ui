@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { compose, withState, withHandlers } from 'recompose';
 import { createComponent } from 'react-fela';
-import { FaBars, FaClose } from 'olymp-icons';
+import { FaClose, FaChevronDoubleRight } from 'olymp-icons';
 import Tappable from 'react-tappable/lib/Tappable';
 import Swipeable from 'react-swipeable';
 import { Aside, Section } from '../../sidebar';
@@ -21,15 +21,12 @@ export const AsideMobile = createComponent(
     top: large ? 10 : 8,
     left: absX || (collapsed ? 0 : width)
   }),
-  ({ className, onTap, collapsed }) => (
-    <Tappable onTap={onTap} className={className}>
-      {collapsed ? (
-        <FaBars size={20} color="white" />
-      ) : (
-        <FaClose size={20} color="white" />
-      )}
-    </Tappable>
-  ),
+  ({ className, onTap, collapsed }) =>
+    !collapsed && (
+      <Tappable onTap={onTap} className={className}>
+        {<FaClose size={20} color="white" />}
+      </Tappable>
+    ),
   p => Object.keys(p)
 );
 
@@ -60,7 +57,7 @@ const enhanceSwiper = compose(
 );
 export const Swiper = enhanceSwiper(
   createComponent(
-    ({ collapsed, zIndex }) => ({
+    ({ theme, collapsed, zIndex }) => ({
       transform: 'translateX(0%)',
       ifMediumUp: {
         transform: 'translateX(-100%)'
@@ -70,7 +67,12 @@ export const Swiper = enhanceSwiper(
       position: 'fixed',
       top: 0,
       height: '100%',
-      width: collapsed ? 12 : '100%'
+      width: collapsed ? theme.space3 : '100%',
+      backgroundColor: collapsed && theme.color,
+      boxShadow: !!collapsed && theme.innerShadow,
+      '> svg': {
+        center: true
+      }
     }),
     ({
       className,
@@ -83,6 +85,11 @@ export const Swiper = enhanceSwiper(
     }) => (
       <Swipeable
         className={className}
+        onClick={() => {
+          if (collapsed) {
+            setCollapsed(false);
+          }
+        }}
         onSwipingRight={(e, x) => setAbsX(x)}
         onSwipedRight={() => {
           setAbsX(0);
@@ -102,6 +109,7 @@ export const Swiper = enhanceSwiper(
           }
         }}
       >
+        <FaChevronDoubleRight size={14} color="light" />
         <AsideMobile
           large={large}
           width={width}
@@ -136,11 +144,11 @@ export const Aside1 = createComponent(
 );
 
 export const Aside2 = createComponent(
-  ({ left, zIndex }) => ({
+  ({ theme, left, zIndex }) => ({
     ifSmallDown: {
-      left: 0,
+      left: theme.space3,
       transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
-      width: '100%'
+      width: `calc(100% - ${theme.space3})`
     },
     zIndex,
     left
@@ -172,6 +180,9 @@ export const Section1 = createComponent(
           transform: 'translateX(0)'
         }
       }
+    },
+    ifSmallDown: {
+      display: 'none'
     }
   }),
   props => <Section {...props} />,
