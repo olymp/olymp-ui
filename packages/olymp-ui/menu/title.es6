@@ -16,6 +16,7 @@ export default createComponent(
     justifyContent: 'space-between',
     opacity: theme.collapsed ? 0 : 1,
     transition: 'opacity 200ms ease-in-out',
+    userSelect: 'none'
   }),
   ({ extra, children, ...p }) => (
     <div {...p}>
