@@ -1,7 +1,7 @@
 export * from './image';
 export * from './loader';
 export * from './heading';
-export * from './utils';
+export { default as ThemeProvider } from './theme-provider';
 export { default as withTheme } from './with-theme';
 export { default as withPulse } from './with-pulse';
 export { default as Offline } from './offline';
