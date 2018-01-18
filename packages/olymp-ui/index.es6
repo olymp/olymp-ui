@@ -18,6 +18,7 @@ export { default as scrollTop, scrollTopHelper } from './scroll-top';
 export { default as Nav } from './nav';
 export { default as PageTransition } from './page-transition';
 export { default as MaterialColors } from './material-colors';
+export { default as MaterialProvider } from './material-provider';
 export { default as Button } from './button';
 export { default as Avatar } from './avatar';
 export { default as Logo } from './logo';
