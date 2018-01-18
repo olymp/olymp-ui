@@ -2,19 +2,12 @@ import React from 'react';
 import tinycolor from 'tinycolor2';
 import { withTheme } from 'react-fela';
 import shortId from 'shortid';
-
-const getColor = (theme, color) => {
-  if (color === true) {
-    return theme.color;
-  } else if (typeof color === 'string') {
-    return theme[color] || color;
-  }
-  return theme.inverted ? theme.light : theme.dark;
-};
+import { getColor } from './colors-provider';
 
 export default withTheme(
   ({ width, height, size, theme, color: col, className }) => {
-    const color = getColor(theme, col);
+    const color =
+      getColor(theme, col) || theme.inverted ? theme.light : theme.dark;
     const id = shortId();
 
     return (
@@ -155,5 +148,5 @@ export default withTheme(
         </g>
       </svg>
     );
-  },
+  }
 );

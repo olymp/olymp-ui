@@ -2,6 +2,7 @@ import React from 'react';
 import { createComponent } from 'react-fela';
 import { Icon } from 'antd';
 import tinycolor from 'tinycolor2';
+import { getColor } from '../colors-provider';
 import Image from './image';
 
 const LoaderContainer = createComponent(
@@ -46,7 +47,7 @@ export default createComponent(
     ellipsis,
     inverted = !!color
   }) => {
-    const bgColor = (color === true && theme.color) || theme[color] || color;
+    const bgColor = getColor(theme, color);
     const alpha = tinycolor(bgColor).getAlpha();
     const hoverColor = !bgColor
       ? theme.dark4

@@ -1,6 +1,6 @@
 import React from 'react';
-import { createComponent } from 'react-fela';
-import { ThemeProvider } from 'react-fela';
+import { createComponent, ThemeProvider } from 'react-fela';
+import { getColor } from '../colors-provider';
 import useTheme from './theme';
 
 const Header = createComponent(
@@ -18,15 +18,15 @@ const Header = createComponent(
     paddingTop: theme.space2,
     marginBottom: theme.space2,
     paddingBottom: theme.space2,
-    backgroundColor: (color === true && theme.color) || theme[color] || color,
+    backgroundColor: getColor(theme, color),
     color: theme.inverted ? theme.light : theme.dark,
     '& svg': {
-      size: 40,
+      size: 40
     },
     '& img': {
       size: 50,
-      borderRadius: theme.borderRadius,
-    },
+      borderRadius: theme.borderRadius
+    }
   }),
   'div'
 );

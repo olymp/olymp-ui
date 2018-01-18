@@ -1,5 +1,6 @@
 import React from 'react';
 import { createComponent } from 'react-fela';
+import { getColor } from './colors-provider';
 
 export const Heading = createComponent(
   ({
@@ -11,16 +12,16 @@ export const Heading = createComponent(
     textAlign,
     thin,
     color,
-    center,
+    center
   }) => ({
-    color: color && (color === true ? theme.color : theme[color] || color),
+    color: getColor(theme, color),
     textAlign: center ? 'center' : textAlign,
     fontWeight: thin && 200,
     padding,
     fontSize,
     lineHeight: fontSize ? `${fontSize}px` : undefined,
     marginTop: marginTop !== undefined ? marginTop : undefined,
-    marginBottom: marginBottom !== undefined ? marginBottom : 15,
+    marginBottom: marginBottom !== undefined ? marginBottom : 15
   }),
   ({ level, children, ...rest }) => {
     if (!level) {
@@ -28,7 +29,7 @@ export const Heading = createComponent(
     }
     return React.createElement(`h${level}`, rest, children);
   },
-  ['level', 'itemProp'],
+  ['level', 'itemProp']
 );
 
 export const SectionHeading = ({ title, description, children, level = 0 }) => (

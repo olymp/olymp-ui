@@ -1,5 +1,6 @@
 import { compose, withPropsOnChange } from 'recompose';
 import { withTheme } from 'react-fela';
+import { getColor } from '../colors-provider';
 
 const enhance = compose(
   withTheme,
@@ -10,16 +11,16 @@ const enhance = compose(
       inverted,
       color = '#F4F5F7',
       collapsed = false,
-      width = 240,
+      width = 240
     }) => ({
       theme: {
         // inverted: inverted === undefined ? color === true : inverted,
         inverted,
         collapsed,
-        width,
+        width
       },
-      color: (color === true && theme.color) || theme[color] || color,
-    }),
-  ),
+      color: getColor(theme, color)
+    })
+  )
 );
 export default enhance;
