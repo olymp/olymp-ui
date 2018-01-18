@@ -12,9 +12,10 @@ export const Heading = createComponent(
     textAlign,
     thin,
     color,
+    palette,
     center
   }) => ({
-    color: getColor(theme, color),
+    color: getColor(theme, color, palette),
     textAlign: center ? 'center' : textAlign,
     fontWeight: thin && 200,
     padding,

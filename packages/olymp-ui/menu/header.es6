@@ -4,7 +4,7 @@ import { getColor } from '../colors-provider';
 import useTheme from './theme';
 
 const Header = createComponent(
-  ({ theme, color }) => ({
+  ({ theme, color, palette }) => ({
     // height: 80,
     minHeight: 80,
     display: 'flex',
@@ -18,7 +18,7 @@ const Header = createComponent(
     paddingTop: theme.space2,
     marginBottom: theme.space2,
     paddingBottom: theme.space2,
-    backgroundColor: getColor(theme, color),
+    backgroundColor: getColor(theme, color, palette),
     color: theme.inverted ? theme.light : theme.dark,
     '& svg': {
       size: 40

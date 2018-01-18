@@ -43,11 +43,12 @@ export default createComponent(
     icon,
     onClick,
     color,
+    palette,
     disabled,
     ellipsis,
     inverted = !!color
   }) => {
-    const bgColor = getColor(theme, color);
+    const bgColor = getColor(theme, color, palette);
     const alpha = tinycolor(bgColor).getAlpha();
     const hoverColor = !bgColor
       ? theme.dark4

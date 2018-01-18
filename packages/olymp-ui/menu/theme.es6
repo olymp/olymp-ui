@@ -10,6 +10,7 @@ const enhance = compose(
       theme,
       inverted,
       color = '#F4F5F7',
+      palette,
       collapsed = false,
       width = 240
     }) => ({
@@ -19,7 +20,7 @@ const enhance = compose(
         collapsed,
         width
       },
-      color: getColor(theme, color)
+      color: getColor(theme, color, palette)
     })
   )
 );

@@ -6,6 +6,7 @@ const Drawer = createComponent(
   ({
     theme,
     color,
+    palette,
     top = 0,
     width = 312,
     right,
@@ -36,7 +37,9 @@ const Drawer = createComponent(
     boxShadow: !collapsed ? theme.boxShadow : undefined,
     transition: 'transform 200ms ease-out, min-width 200ms ease-out',
     backgroundColor:
-      getColor(theme, color) || theme.inverted ? theme.light : theme.dark,
+      getColor(theme, color, palette) || theme.inverted
+        ? theme.light
+        : theme.dark,
     display: 'flex'
   }),
   ({ className, children, open, onClose, width = 312, onClick, ...rest }) => (
