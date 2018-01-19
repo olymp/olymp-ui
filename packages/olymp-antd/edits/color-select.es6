@@ -1,9 +1,9 @@
 import React from 'react';
 import { createComponent } from 'react-fela';
 import { Select } from 'antd';
-import { ColorsMaterial } from 'olymp-ui';
+import { colorsMaterial } from 'olymp-ui';
 
-const colorsName = ColorsMaterial.map(color => color.color);
+const colorsName = colorsMaterial.map(color => color.color);
 
 const Color = createComponent(
   ({ color }) => ({
@@ -21,9 +21,9 @@ export default () => (
         key={name}
         title={name}
         value={i}
-        style={{ backgroundColor: ColorsMaterial[i].palette[7] }}
+        style={{ backgroundColor: colorsMaterial[i].palette[7] }}
       >
-        <Color color={ColorsMaterial[i].palette[7]}>{name}</Color>
+        <Color color={colorsMaterial[i].palette[7]}>{name}</Color>
       </Select.Option>
     ))}
   </Select>
