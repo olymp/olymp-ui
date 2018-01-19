@@ -44,12 +44,16 @@ const Menu = createComponent(
     inverted,
     header,
     headerColor,
+    headerPaddingBottom,
+    headerMarginBottom,
     headerInverted,
     ...p
   }) => (
     <div className={className} {...p}>
       {header && (
         <Header
+          marginBottom={headerMarginBottom}
+          paddingBottom={headerPaddingBottom}
           color={headerColor || color}
           inverted={headerInverted || inverted}
         >
