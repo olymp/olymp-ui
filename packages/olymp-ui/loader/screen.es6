@@ -8,21 +8,29 @@ const getLogo = x => {
   }
   return <img src={x} alt="logo" />;
 };
-const Modal = withTheme(
-  ({ className, theme, show = true }) =>
-    show ? (
-      <div className={className}>
-        {theme.logoWhite && (
-          <div className="logo">{getLogo(theme.logoWhite)}</div>
-        )}
-      </div>
-    ) : null,
-);
+const Modal = withTheme(({ className, theme }) => (
+  <div className={className}>
+    {theme.logoWhite && <div className="logo">{getLogo(theme.logoWhite)}</div>}
+  </div>
+));
 
 const component = createComponent(
-  ({ theme, bottomTransparency, topTransparency }) => ({
+  ({ theme, bottomTransparency, topTransparency, show = true }) => ({
     backgroundColor: theme.color,
     zIndex: 1000000,
+    pointerEvents: 'none',
+    animationDelay: 0,
+    animationIterationCount: 1,
+    animationDuration: '10ms',
+    animationTimingFunction: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+    animationName: {
+      from: {
+        opacity: 0
+      },
+      to: {
+        opacity: 1
+      }
+    },
     background: `linear-gradient(0deg, ${theme.colorEnd ||
       tinycolor(theme.color)
         .darken(6)
@@ -35,6 +43,8 @@ const component = createComponent(
         .setAlpha(topTransparency || 1)
         .toRgbString()})`,
     position: 'fixed',
+    transition: 'opacity 0.5s ease-in-out',
+    opacity: show ? 1 : 0,
     top: 0,
     left: 0,
     right: 0,
@@ -51,14 +61,14 @@ const component = createComponent(
       animationIterationCount: 'infinite',
       animationName: {
         '0%': {
-          boxShadow: '0 0 0 0 rgba(255, 255, 255, 0.3)',
+          boxShadow: '0 0 0 0 rgba(255, 255, 255, 0.3)'
         },
         '70%': {
-          boxShadow: '0 0 0 20px rgba(255,255,255, 0)',
+          boxShadow: '0 0 0 20px rgba(255,255,255, 0)'
         },
         '100%': {
-          boxShadow: '0 0 0 0 rgba(255,255,255, 0)',
-        },
+          boxShadow: '0 0 0 0 rgba(255,255,255, 0)'
+        }
       },
       '> img': {
         height: 75,
@@ -67,15 +77,15 @@ const component = createComponent(
         animationIterationCount: 'infinite',
         animationName: {
           '0%': {
-            opacity: 0.33,
+            opacity: 0.33
           },
           '70%': {
-            opacity: 0.45,
+            opacity: 0.45
           },
           '100%': {
-            opacity: 0.33,
-          },
-        },
+            opacity: 0.33
+          }
+        }
       },
       '> svg': {
         height: 75,
@@ -84,20 +94,20 @@ const component = createComponent(
         animationIterationCount: 'infinite',
         animationName: {
           '0%': {
-            opacity: 0.33,
+            opacity: 0.33
           },
           '70%': {
-            opacity: 0.45,
+            opacity: 0.45
           },
           '100%': {
-            opacity: 0.33,
-          },
-        },
-      },
-    },
+            opacity: 0.33
+          }
+        }
+      }
+    }
   }),
   Modal,
-  p => Object.keys(p),
+  p => Object.keys(p)
 );
 
 export default component;
