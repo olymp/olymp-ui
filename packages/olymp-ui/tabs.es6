@@ -38,7 +38,7 @@ const Tabs = enhance(
       activeIndex,
       setActiveInnerIndex,
       activeTab,
-      color,
+      color = true,
       palette,
       onChange,
       ...p
