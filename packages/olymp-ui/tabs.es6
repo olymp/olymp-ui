@@ -28,9 +28,11 @@ const enhance = compose(
 
 const Tabs = enhance(
   createComponent(
-    () => ({
+    ({ theme }) => ({
       display: 'flex',
-      width: '100%'
+      width: '100%',
+      flexWrap: 'wrap',
+      marginY: theme.space3
     }),
     ({
       className,
@@ -65,6 +67,7 @@ const Tabs = enhance(
     ({ activeInnerIndex, ...p }) => Object.keys(p)
   )
 );
+Tabs.displayName = 'Tabs';
 
 const Tab = createComponent(
   ({ theme, active, right, color, palette }) => ({
@@ -75,53 +78,39 @@ const Tab = createComponent(
     paddingX: theme.space3,
     marginRight: theme.space2,
     marginLeft: !!right && 'auto',
-    marginY: theme.space3,
+    marginY: theme.space1,
     cursor: 'pointer',
+    '&:last-child': {
+      marginRight: 0
+    },
     onHover: {
       backgroundColor: active
         ? getColor(theme, color, (palette || theme.palette) + 1)
         : theme.dark5
     }
   }),
-  ({ title, action, onAction, active, ...p }) => (
-    <div {...p}>
-      {title}
-      {!!action && !!active && <Icon onClick={onAction}>{action}</Icon>}
-    </div>
-  ),
-  ({ right, ...p }) => Object.keys(p)
+  ({ title, ...p }) => <div {...p}>{title}</div>,
+  ({ right, color, active, palette, ...p }) => Object.keys(p)
 );
+Tab.displayName = 'TabsTab';
 
-const Icon = createComponent(
-  ({ theme, onClick }) => ({
-    marginLeft: theme.space3,
-    onHover: {
-      opacity: !!onClick && 0.8
-    }
+const Group = createComponent(
+  ({ right }) => ({
+    display: 'flex',
+    marginLeft: !!right && 'auto'
   }),
   ({ className, children, ...p }) => (
     <div className={className}>
       {Children.map(
         children,
-        ({ onClick, ...child }) =>
-          child
-            ? cloneElement(child, {
-                size: 12,
-                color: 'light',
-                onClick: onClick
-                  ? e => {
-                      e.stopPropagation();
-                      onClick(e);
-                    }
-                  : () => {},
-                ...p
-              })
-            : child
+        child => (child ? cloneElement(child, { ...p, ...child.props }) : child)
       )}
     </div>
   ),
-  p => Object.keys(p)
+  ({ right, ...p }) => Object.keys(p)
 );
+Group.displayName = 'TabsGroup';
 
 Tabs.Tab = Tab;
+Tabs.Group = Group;
 export default Tabs;
