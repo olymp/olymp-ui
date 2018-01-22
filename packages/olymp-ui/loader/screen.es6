@@ -23,14 +23,14 @@ const component = createComponent(
     animationIterationCount: 1,
     animationDuration: '10ms',
     animationTimingFunction: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
-    animationName: {
+    /* animationName: {
       from: {
         opacity: 0
       },
       to: {
         opacity: 1
       }
-    },
+    }, */
     background: `linear-gradient(0deg, ${theme.colorEnd ||
       tinycolor(theme.color)
         .darken(6)
