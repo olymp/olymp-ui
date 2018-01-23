@@ -28,7 +28,7 @@ const enhance = compose(
 
 const Tabs = enhance(
   createComponent(
-    ({ theme, basic, fluid, size }) => ({
+    ({ theme, basic, fluid, compact }) => ({
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
@@ -38,9 +38,8 @@ const Tabs = enhance(
       justifyContent: fluid && 'space-between',
       extend: [
         {
-          condition: size === 'small',
+          condition: compact,
           style: {
-            fontSize: '90%',
             marginTop: theme.space2
           }
         }
@@ -55,7 +54,7 @@ const Tabs = enhance(
       color = true,
       palette,
       basic,
-      size,
+      compact,
       onChange,
       ...p
     }) => (
@@ -80,7 +79,7 @@ const Tabs = enhance(
                     color,
                     palette,
                     basic,
-                    size
+                    compact
                   })
                 : child
           )}
@@ -94,7 +93,7 @@ const Tabs = enhance(
 Tabs.displayName = 'Tabs';
 
 const Tab = createComponent(
-  ({ theme, active, right, color, palette, basic, size }) => ({
+  ({ theme, active, right, color, palette, basic, compact }) => ({
     display: 'flex',
     color: !!active && (!basic ? theme.light : theme.color),
     backgroundColor: !!active && !basic && getColor(theme, color, palette),
@@ -117,7 +116,7 @@ const Tab = createComponent(
     },
     extend: [
       {
-        condition: size === 'small',
+        condition: compact,
         style: {
           paddingY: theme.space1,
           paddingX: theme.space2
@@ -126,7 +125,7 @@ const Tab = createComponent(
     ]
   }),
   ({ title, ...p }) => <div {...p}>{title}</div>,
-  ({ right, color, active, palette, basic, ...p }) => Object.keys(p)
+  ({ right, color, active, palette, basic, compact, ...p }) => Object.keys(p)
 );
 Tab.displayName = 'TabsTab';
 
