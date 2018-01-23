@@ -8,9 +8,10 @@ const getLogo = x => {
   }
   return <img src={x} alt="logo" />;
 };
-const Modal = withTheme(({ className, theme }) => (
+const Modal = withTheme(({ className, theme, logo }) => (
   <div className={className}>
-    {theme.logoWhite && <div className="logo">{getLogo(theme.logoWhite)}</div>}
+    {logo && <article>{logo}</article>}
+    {!logo && theme.logoWhite && <div className="logo">{getLogo(theme.logoWhite)}</div>}
   </div>
 ));
 
@@ -51,6 +52,9 @@ const component = createComponent(
     bottom: 0,
     width: '100%',
     height: '100%',
+    '> article': {
+      center: true,
+    },
     '> div': {
       backgroundColor: theme.color,
       borderRadius: '100%',
