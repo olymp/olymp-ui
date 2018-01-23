@@ -28,11 +28,23 @@ const enhance = compose(
 
 const Tabs = enhance(
   createComponent(
-    ({ theme }) => ({
+    ({ theme, basic, fluid, size }) => ({
       display: 'flex',
       width: '100%',
       flexWrap: 'wrap',
-      marginY: theme.space3
+      marginTop: theme.space3,
+      marginBottom: theme.space3,
+      borderBottom: !!basic && `1px solid ${theme.dark4}`,
+      justifyContent: fluid && 'space-between',
+      extend: [
+        {
+          condition: size === 'small',
+          style: {
+            fontSize: '90%',
+            marginTop: theme.space2
+          }
+        }
+      ]
     }),
     ({
       className,
@@ -42,6 +54,8 @@ const Tabs = enhance(
       activeTab,
       color = true,
       palette,
+      basic,
+      size,
       onChange,
       ...p
     }) => (
@@ -53,10 +67,20 @@ const Tabs = enhance(
               child
                 ? cloneElement(child, {
                     active: i === activeIndex,
-                    onClick: e =>
-                      onChange ? onChange(e, child) : setActiveInnerIndex(i),
+                    onClick: e => {
+                      if (onChange) {
+                        onChange(e, child);
+                      } else {
+                        setActiveInnerIndex(i);
+                      }
+                      if (get(child, 'props.onClick')) {
+                        child.props.onClick(e);
+                      }
+                    },
                     color,
-                    palette
+                    palette,
+                    basic,
+                    size
                   })
                 : child
           )}
@@ -64,33 +88,45 @@ const Tabs = enhance(
         {get(activeTab, 'props.children')}
       </div>
     ),
-    ({ activeInnerIndex, ...p }) => Object.keys(p)
+    ({ activeInnerIndex, fluid, ...p }) => Object.keys(p)
   )
 );
 Tabs.displayName = 'Tabs';
 
 const Tab = createComponent(
-  ({ theme, active, right, color, palette }) => ({
+  ({ theme, active, right, color, palette, basic, size }) => ({
     display: 'flex',
-    color: !!active && theme.light,
-    backgroundColor: !!active && getColor(theme, color, palette),
+    color: !!active && (!basic ? theme.light : theme.color),
+    backgroundColor: !!active && !basic && getColor(theme, color, palette),
+    borderBottom:
+      !!active && !!basic && `1px solid ${getColor(theme, color, palette)}`,
     paddingY: theme.space2,
     paddingX: theme.space3,
-    marginRight: theme.space2,
+    marginRight: !basic && theme.space2,
     marginLeft: !!right && 'auto',
-    marginY: theme.space1,
+    marginBottom: -1,
     cursor: 'pointer',
     '&:last-child': {
       marginRight: 0
     },
     onHover: {
-      backgroundColor: active
-        ? getColor(theme, color, (palette || theme.palette) + 1)
-        : theme.dark5
-    }
+      backgroundColor:
+        active && !basic
+          ? getColor(theme, color, (palette || theme.palette) + 1)
+          : theme.dark5
+    },
+    extend: [
+      {
+        condition: size === 'small',
+        style: {
+          paddingY: theme.space1,
+          paddingX: theme.space2
+        }
+      }
+    ]
   }),
   ({ title, ...p }) => <div {...p}>{title}</div>,
-  ({ right, color, active, palette, ...p }) => Object.keys(p)
+  ({ right, color, active, palette, basic, ...p }) => Object.keys(p)
 );
 Tab.displayName = 'TabsTab';
 
