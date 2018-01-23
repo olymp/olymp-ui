@@ -1,5 +1,5 @@
 {
-  "version": "20.1.22",
+  "version": "20.1.23",
   "name": "olymp-ui",
   "description": "",
   "author": "Philipp Achenbach <olymp@philipp-achenbach.de>",
@@ -12,7 +12,7 @@
     "classnames": "^2.2.5",
     "olymp-icons": "^20.1.0",
     "particles.js": "^2.0.0",
-    "react-beautiful-dnd": "^4.0.0",
+    "react-beautiful-dnd": "^4.0.1",
     "react-fela": "^6.2.1",
     "react-gravatar": "^2.6.3",
     "react-resize-detector": "^1.1.0",

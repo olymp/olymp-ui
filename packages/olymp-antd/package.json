@@ -1,5 +1,5 @@
 {
-  "version": "20.1.22",
+  "version": "20.1.23",
   "name": "olymp-antd",
   "description": "",
   "author": "Benjamin Kniffler <bkniffler@me.com>",
@@ -9,6 +9,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "antd": "^3.1.1"
+    "antd": "^3.1.4"
   }
 }
