@@ -7,22 +7,10 @@ import { withState, compose, withPropsOnChange } from 'recompose';
 const enhance = compose(
   withState('activeInnerIndex', 'setActiveInnerIndex', 0),
   withPropsOnChange(
-    ['children', 'activeIndex', 'activeInnerIndex'],
-    ({ children, activeIndex, activeInnerIndex }) => {
-      const ai = activeIndex !== undefined ? activeIndex : activeInnerIndex;
-
-      return {
-        activeIndex: ai,
-        activeTab: (
-          (
-            Children.map(children, (child, index) => ({
-              child,
-              index
-            })) || []
-          ).find(c => c.index === ai) || {}
-        ).child
-      };
-    }
+    ['activeIndex', 'activeInnerIndex'],
+    ({ activeIndex, activeInnerIndex }) => ({
+      activeIndex: activeIndex !== undefined ? activeIndex : activeInnerIndex
+    })
   )
 );
 
@@ -34,7 +22,7 @@ const Tabs = enhance(
       flexWrap: 'wrap',
       marginTop: theme.space3,
       marginBottom: theme.space3,
-      borderBottom: !!basic && `1px solid ${theme.dark4}`,
+      borderBottom: !!basic && `2px solid ${theme.dark4}`,
       justifyContent: fluid && 'space-between',
       extend: [
         {
@@ -84,7 +72,17 @@ const Tabs = enhance(
                 : child
           )}
         </div>
-        {get(activeTab, 'props.children')}
+        {Children.map(
+          children,
+          (child, i) =>
+            child ? (
+              <Content visible={i === activeIndex}>
+                {get(child, 'props.children', null)}
+              </Content>
+            ) : (
+              child
+            )
+        )}
       </div>
     ),
     ({ activeInnerIndex, fluid, ...p }) => Object.keys(p)
@@ -98,12 +96,12 @@ const Tab = createComponent(
     color: !!active && (!basic ? theme.light : theme.color),
     backgroundColor: !!active && !basic && getColor(theme, color, palette),
     borderBottom:
-      !!active && !!basic && `1px solid ${getColor(theme, color, palette)}`,
+      !!active && !!basic && `2px solid ${getColor(theme, color, palette)}`,
     paddingY: theme.space2,
     paddingX: theme.space3,
     marginRight: !basic && theme.space2,
     marginLeft: !!right && 'auto',
-    marginBottom: -1,
+    marginBottom: !!basic && -2,
     cursor: 'pointer',
     '&:last-child': {
       marginRight: 0
@@ -145,6 +143,15 @@ const Group = createComponent(
   ({ right, ...p }) => Object.keys(p)
 );
 Group.displayName = 'TabsGroup';
+
+const Content = createComponent(
+  ({ visible }) => ({
+    display: !visible && 'none'
+  }),
+  'div',
+  ({ visible, ...p }) => Object.keys(p)
+);
+Group.displayName = 'TabsContent';
 
 Tabs.Tab = Tab;
 Tabs.Group = Group;
