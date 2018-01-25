@@ -35,7 +35,8 @@ const Menu = createComponent(
     paddingX,
     overflowY: 'auto',
     overflowX: 'hidden',
-    transition: 'width 200ms ease-out'
+    // transition: 'width 200ms ease-out',
+    transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)'
   }),
   ({
     className,

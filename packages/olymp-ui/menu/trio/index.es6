@@ -59,8 +59,12 @@ export const Swiper = enhanceSwiper(
   createComponent(
     ({ theme, collapsed, zIndex }) => ({
       transform: 'translateX(0%)',
+      display: 'none',
       ifMediumUp: {
         transform: 'translateX(-100%)'
+      },
+      ifMediumDown: {
+        display: 'block'
       },
       transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
       zIndex,
