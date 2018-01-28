@@ -35,10 +35,11 @@ export default createComponent(
       '& i': {
         fontSize: (!!large && 36) || (!extra && 20) || 14,
         color:
-          !!extra &&
-          ((inverted !== undefined ? inverted : theme.inverted)
-            ? theme.light2
-            : theme.dark2),
+          (!!extra &&
+            ((inverted !== undefined ? inverted : theme.inverted)
+              ? theme.light2
+              : theme.dark2)) ||
+          theme.dark,
         marginTop: !!extra && 2
       },
       '& img': {
