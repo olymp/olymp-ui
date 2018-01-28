@@ -16,21 +16,20 @@ const LoaderContainer = createComponent(
 );
 
 const Content = createComponent(
-  ({ theme, ellipsis = true, inverted }) =>
-    console.log(inverted, theme.inverted) || {
-      ellipsis,
-      flexGrow: 1,
-      opacity: theme.collapsed ? 0 : 1,
-      transition: 'opacity 200ms ease-out',
-      overflowY: 'hidden',
-      '> small': {
-        display: 'block',
-        marginTop: `-${theme.space1}`,
-        color: (inverted !== undefined ? inverted : theme.inverted)
-          ? theme.light2
-          : theme.dark2
-      }
-    },
+  ({ theme, ellipsis = true, inverted }) => ({
+    ellipsis,
+    flexGrow: 1,
+    opacity: theme.collapsed ? 0 : 1,
+    transition: 'opacity 200ms ease-out',
+    overflowY: 'hidden',
+    '> small': {
+      display: 'block',
+      marginTop: `-${theme.space1}`,
+      color: (inverted !== undefined ? inverted : theme.inverted)
+        ? theme.light2
+        : theme.dark2
+    }
+  }),
   'div',
   ({ ellipsis, inverted, ...props }) => Object.keys(props)
 );
