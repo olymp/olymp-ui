@@ -23,6 +23,7 @@ const Content = createComponent(
     transition: 'opacity 200ms ease-out',
     overflowY: 'hidden',
     '> small': {
+      ellipsis: true,
       display: 'block',
       marginTop: `-${theme.space1}`,
       color: (inverted !== undefined ? inverted : theme.inverted)
