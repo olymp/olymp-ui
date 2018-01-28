@@ -24,7 +24,7 @@ export default createComponent(
         fontWeight: 200
       },
       '& svg': {
-        size: large ? 36 : !extra ? 20 : 14,
+        size: (!!large && 36) || (!extra && 20) || 14,
         fill:
           !!extra &&
           ((inverted !== undefined ? inverted : theme.inverted)
@@ -32,8 +32,17 @@ export default createComponent(
             : theme.dark2),
         marginTop: !!extra && 2
       },
+      '& i': {
+        fontSize: (!!large && 36) || (!extra && 20) || 14,
+        color:
+          !!extra &&
+          ((inverted !== undefined ? inverted : theme.inverted)
+            ? theme.light2
+            : theme.dark2),
+        marginTop: !!extra && 2
+      },
       '& img': {
-        size: large ? 40 : !extra ? 32 : 20,
+        size: (!!large && 40) || (!extra && 32) || 20,
         borderRadius: theme.collapsed ? '50%' : theme.borderRadius
       }
     };
