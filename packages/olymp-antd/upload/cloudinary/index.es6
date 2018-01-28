@@ -1,10 +1,10 @@
 import { withApollo } from 'react-apollo';
-import { compose, withHandlers } from 'recompose';
+import { compose, withProps } from 'recompose';
 import gql from 'graphql-tag';
 
 export default compose(
   withApollo,
-  withHandlers({
+  withProps({
     onChange: async (
       list,
       {

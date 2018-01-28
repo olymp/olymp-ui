@@ -1,7 +1,7 @@
-import { compose, withHandlers } from 'recompose';
+import { compose, withProps } from 'recompose';
 
 export default compose(
-  withHandlers({
+  withProps({
     onChange: async (
       list,
       { fileList, url, setUploading, onSuccess = () => {}, onError = () => {} }

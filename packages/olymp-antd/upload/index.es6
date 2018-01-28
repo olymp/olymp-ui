@@ -19,14 +19,14 @@ const enhance = compose(
   withState('fileList', 'setFileList', []),
   withState('isUploading', 'setUploading', 0),
   withHandlers({
-    onChange: props => value => {
+    handle: props => value => {
       if (props.onChange) {
         return props.onChange(value, props);
       }
     }
   })
 );
-export default enhance(({ onChange, isUploading }) => (
+export default enhance(({ handle, isUploading }) => (
   <Menu.List title="Hochladen">
     {!!isUploading && (
       <Menu.Item>
@@ -44,7 +44,7 @@ export default enhance(({ onChange, isUploading }) => (
         fileList={[]}
         beforeUpload={() => false}
         onChange={info => {
-          onChange(info.fileList);
+          handle(info.fileList);
         }}
       >
         <Menu.Item style={{ textAlign: 'left' }} icon={<FaFile />}>
@@ -56,7 +56,7 @@ export default enhance(({ onChange, isUploading }) => (
       <DropboxChooser
         appKey="179442986443332"
         onChange={files =>
-          onChange(
+          handle(
             files.map(x => ({
               name: x.link.split('/').pop(),
               link: x.link,
