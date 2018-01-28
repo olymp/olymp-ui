@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { compose, withPropsOnChange, withState, withProps, getContext } from 'recompose';
+import {
+  compose,
+  withPropsOnChange,
+  withState,
+  withProps,
+  getContext
+} from 'recompose';
 import Container from './container';
 import Placeholder from './placeholder';
 import Img from './img';
@@ -41,7 +47,7 @@ const initVals = ({ width, height, maxResolution, ratio }) => {
     originalHeight,
     width,
     ratio,
-    isPercentage,
+    isPercentage
   };
 };
 
@@ -54,7 +60,7 @@ const limitWidth = ({
   maxWidth,
   maxHeight,
   maxResolution,
-  cWidth,
+  cWidth
 }) => {
   // minWidth/minHeight
   if (minWidth && width < minWidth) {
@@ -92,7 +98,7 @@ const getMode = props => {
   const defaultResult = {
     layout: 'fill',
     w,
-    h: Math.round(w * ratio),
+    h: Math.round(w * ratio)
   };
 
   switch (mode) {
@@ -105,7 +111,7 @@ const getMode = props => {
       return {
         layout: 'fixed-height',
         w,
-        h: Math.round(w * (srcRatio || ratio)),
+        h: Math.round(w * (srcRatio || ratio))
       };
 
     default:
@@ -115,20 +121,20 @@ const getMode = props => {
 
 const enhance = compose(
   getContext({
-    amp: PropTypes.bool,
+    amp: PropTypes.bool
   }),
   withState('cWidth', 'setCWidth', undefined),
   withState('isLoaded', 'setIsLoaded', false),
   withPropsOnChange(['width', 'height', 'maxResolution', 'ratio'], props =>
-    initVals(props),
+    initVals(props)
   ),
   withPropsOnChange(['mode', 'ratio', 'srcRatio', 'cWidth'], props =>
-    getMode(props),
+    getMode(props)
   ),
   withProps(({ src, w, h }) => ({
     url: typeof src === 'function' ? src(w, h) : src,
-    lowUrl: typeof src === 'function' ? src(10, 10) : src,
-  })),
+    lowUrl: typeof src === 'function' ? src(10, 10) : src
+  }))
 );
 
 @enhance
@@ -179,6 +185,8 @@ class Image extends Component {
       return <div />;
     }
 
+    console.log(this.props);
+
     const image = url ? (
       <Img
         src={url}
@@ -201,9 +209,8 @@ class Image extends Component {
         ratio={ratio}
         onClick={onClick}
       >
-        {!isLoaded &&
-          null
-          // <Placeholder height="100%" width="100%" circle={circle} />
+        {!isLoaded && null
+        // <Placeholder height="100%" width="100%" circle={circle} />
         }
         {amp && image ? (
           <Amp layout={layout} src={url} alt={alt} width={w} height={h}>
@@ -236,7 +243,7 @@ Image.propTypes = {
 
   lazy: PropTypes.bool,
   alt: PropTypes.string,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 Image.defaultProps = {
   src: undefined,
@@ -256,7 +263,7 @@ Image.defaultProps = {
 
   lazy: true,
   alt: '',
-  onClick: undefined,
+  onClick: undefined
 };
 Image.Placeholder = Placeholder;
 export default Image;

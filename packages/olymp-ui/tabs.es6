@@ -9,7 +9,7 @@ const enhance = compose(
   withPropsOnChange(
     ['activeIndex', 'activeInnerIndex'],
     ({ activeIndex, activeInnerIndex }) => ({
-      activeIndex: activeIndex !== undefined ? activeIndex : activeInnerIndex
+      activeIndex: activeIndex !== undefined ? parseInt(activeIndex, 10) : activeInnerIndex
     })
   )
 );
