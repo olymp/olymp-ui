@@ -185,8 +185,6 @@ class Image extends Component {
       return <div />;
     }
 
-    console.log(this.props);
-
     const image = url ? (
       <Img
         src={url}
