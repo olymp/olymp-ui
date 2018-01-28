@@ -2,21 +2,11 @@ import React, { Component } from 'react';
 import { Form } from 'antd';
 import { get, isEqual } from 'lodash';
 import DefaultEdits from './default-edits';
+import FormItem from './form-item';
 
 @Form.create()
 export default class AntForm extends Component {
-  shouldComponentUpdate({
-    form: {
-      getFieldValue,
-      getFieldsValue,
-      isFieldTouched,
-      resetFields,
-      setFields
-    },
-    collection,
-    item,
-    onChange
-  }) {
+  shouldComponentUpdate({ form: { setFields }, collection, item, onChange }) {
     // item has changed
     if (!isEqual(item, this.props.item)) {
       const values = {};
@@ -43,15 +33,40 @@ export default class AntForm extends Component {
   }
 
   render() {
-    const { collection, form } = this.props;
+    const {
+      collection,
+      form,
+      layout = 'vertical',
+      onSubmit,
+      hideRequiredMark
+    } = this.props;
 
     const edits = Object.keys(collection.fields).map(fieldName => {
-      const field = get(collection, ['fields', fieldName]);
-      const Edit = DefaultEdits[field.edit] || DefaultEdits.input;
+      const {
+        edit,
+        editProps: { initialValue, ...editProps } = {},
+        ...field
+      } = get(collection, ['fields', fieldName]);
+      const Edit = DefaultEdits[edit] || DefaultEdits.input;
 
-      return <Edit key={fieldName} name={fieldName} form={form} {...field} />;
+      return (
+        <FormItem key={fieldName} layout={layout} {...field}>
+          {form.getFieldDecorator(fieldName, {
+            ...editProps,
+            initialValue: this.props[initialValue] || initialValue
+          })(<Edit {...editProps} />)}
+        </FormItem>
+      );
     });
 
-    return edits;
+    return (
+      <Form
+        layout={layout}
+        onSubmit={onSubmit}
+        hideRequiredMark={hideRequiredMark}
+      >
+        {edits}
+      </Form>
+    );
   }
 }
