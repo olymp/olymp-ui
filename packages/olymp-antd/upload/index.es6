@@ -1,0 +1,83 @@
+import React from 'react';
+import { createComponent } from 'react-fela';
+import { Upload as AntUpload, Progress } from 'antd';
+import { FaDropbox, FaFile } from 'olymp-icons';
+import Menu from 'olymp-ui/menu';
+import { withState, compose, withHandlers } from 'recompose';
+import DropboxChooser from './dropbox';
+
+const Dragger = createComponent(
+  () => ({
+    '& .ant-upload': {
+      padding: 0
+    }
+  }),
+  p => <AntUpload.Dragger {...p} />,
+  p => Object.keys(p)
+);
+const enhance = compose(
+  withState('fileList', 'setFileList', []),
+  withState('isUploading', 'setUploading', 0),
+  withHandlers({
+    onChange: props => value => {
+      if (props.onChange) {
+        return props.onChange(value, props);
+      }
+    }
+  })
+);
+export default enhance(({ onChange, isUploading }) => (
+  <Menu.List title="Hochladen">
+    {!!isUploading && (
+      <Menu.Item>
+        <Progress
+          percent={100 / isUploading}
+          format={() => ''}
+          status="active"
+        />
+      </Menu.Item>
+    )}
+    {!isUploading && (
+      <Dragger
+        multiple
+        name="file"
+        fileList={[]}
+        beforeUpload={() => false}
+        onChange={info => {
+          onChange(info.fileList);
+        }}
+      >
+        <Menu.Item style={{ textAlign: 'left' }} icon={<FaFile />}>
+          Lokale Dateien
+        </Menu.Item>
+      </Dragger>
+    )}
+    {!isUploading && (
+      <DropboxChooser
+        appKey="179442986443332"
+        onChange={files =>
+          onChange(
+            files.map(x => ({
+              name: x.link.split('/').pop(),
+              link: x.link,
+              uid: x.id
+            }))
+          )
+        }
+        // onCancel={() => this.onCancel()}
+        multiselect
+        extensions={[]}
+      >
+        {({ onClick }) => (
+          <Menu.Item
+            style={{ textAlign: 'left' }}
+            icon={<FaDropbox />}
+            onClick={onClick}
+          >
+            Dropbox
+          </Menu.Item>
+        )}
+      </DropboxChooser>
+    )}
+  </Menu.List>
+));
