@@ -1,4 +1,5 @@
 import React from 'react';
+import { createComponent } from 'react-fela';
 import { Drawer } from 'olymp-ui';
 import Menu from 'olymp-ui/menu';
 import AntMenu from 'olymp-antd/menu';
@@ -7,8 +8,23 @@ import { get } from 'lodash';
 import { Icon } from 'antd';
 import Form from './form';
 
-export default ({ collection, item, onClose }) => (
-  <Drawer open={!!item.id} right onClose={onClose}>
+const Wrapper = createComponent(
+  ({ theme }) => ({
+    paddingX: theme.space3,
+    '& .ant-form-item-label': {
+      textAlign: 'left'
+    }
+  }),
+  'div'
+);
+
+export default ({ collection, item, onClose, layout }) => (
+  <Drawer
+    open={!!item.id}
+    width={layout === 'horizontal' ? 400 : undefined}
+    right
+    onClose={onClose}
+  >
     <Menu
       header={
         !item.id ? (
@@ -20,9 +36,9 @@ export default ({ collection, item, onClose }) => (
         )
       }
     >
-      <div style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
-        <Form collection={collection} item={item} />
-      </div>
+      <Wrapper>
+        <Form collection={collection} item={item} layout={layout} />
+      </Wrapper>
     </Menu>
 
     <Menu
