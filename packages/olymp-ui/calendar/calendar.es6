@@ -16,7 +16,8 @@ import {
   setMonth,
   getMonth,
   isSunday,
-  isSameDay
+  isSameDay,
+  startOfDay
 } from 'date-fns';
 import { Menu, Dropdown } from 'antd';
 import { compose, withPropsOnChange } from 'recompose';
@@ -56,7 +57,7 @@ const menuYears = (date, setDate) => (
 );
 
 const enhance = (...enhancers) => compose(
-  withPropsOnChange(['date', 'value'], ({ date }) => {
+  withPropsOnChange(['date'], ({ date, onChange }) => {
     const year = getYear(date);
     const month = getMonth(date); // 0 = Januar, ...
     const start = startOfWeek(
@@ -68,48 +69,70 @@ const enhance = (...enhancers) => compose(
     const end = endOfWeek(endOfMonth(new Date(year, month, 1)), {
       weekStartsOn: 1
     });
-    return {
-      year,
-      month, 
-      start,
-      end
-    }
-  }),
-  ...enhancers,
-  withPropsOnChange(['start', 'end', 'value'], (props) => {
-    const { value, start, end, onChange, year, month, getDayProps } = props;
     let i = 0;
-
     const days = [];
     while (compareAsc(addDays(start, i), end) < 0) {
       const date2 = addDays(start, i - 1);
 
       if (!(i % 7)) {
-        days.push(
-          <Caption key={format(addDays(start, i), 'WW')}>
-            {format(addDays(start, i), 'WW')}
-          </Caption>
-        );
+        days.push({
+          date: date2,
+          isSunday: true,
+          key: format(addDays(start, i), 'WW'),
+          label: format(addDays(start, i), 'WW'),
+        });
       } else {
-        const dayProps = (getDayProps && getDayProps(date2, props)) || {};
-        days.push(
-          <Day
-            disabled={!isSameMonth(date2, new Date(year, month, 1))}
-            active={!compareAsc(date2, value)}
-            today={isSameDay(date2, new Date())}
-            // points={Math.floor(Math.random() * 4)}
-            onClick={() => onChange(date2)}
-            key={format(date2, 'X')}
-            {...dayProps}
-          >
-            {format(date2, 'DD')}
-          </Day>
-        );
+        days.push({
+          date: date2,
+          disabled: !isSameMonth(date2, new Date(year, month, 1)),
+          today: isSameDay(date2, new Date()),
+          onClick: () => onChange(date2),
+          key: format(date2, 'X'),
+          label: format(date2, 'DD'),
+        });
       }
       i += 1;
     }
+    return {
+      year,
+      month, 
+      start: +start,
+      end: +end,
+      days
+    }
+  }),
+  withPropsOnChange(['value'], ({ value }) => ({
+      value: +startOfDay(value || new Date())
+    })),
+  ...enhancers,
+  withPropsOnChange(['days', 'value', 'data'], (props) => {
+    const { value, days, getDayProps } = props;
 
-    return { days };
+    return {
+      days: days.map(({ label, isSunday, date, key, ...rest }) => {
+        if (isSunday) {
+          return (
+            <Caption
+              key={key}
+              {...rest}
+            >
+              {label}
+            </Caption>
+          )
+        } 
+        const dayProps = (getDayProps && getDayProps(date, props)) || {};
+        return (
+          <Day
+            key={key}
+            {...rest}
+            active={!compareAsc(date, value)}
+            {...dayProps}
+          >
+            {label}
+          </Day>
+        )
+      }),
+    }
   })
 );
 

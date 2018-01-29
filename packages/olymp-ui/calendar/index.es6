@@ -1,10 +1,10 @@
 import React from 'react';
 import { compose, withState } from 'recompose';
-import { addMonths } from 'date-fns';
+import { addMonths, startOfMonth } from 'date-fns';
 import Calendar, { createCalendar as _createCalendar } from './calendar';
 
 const enhance = compose(
-  withState('date', 'setDate', ({ start }) => +(start || new Date()))
+  withState('date', 'setDate', ({ start }) => +startOfMonth(start || new Date()))
 );
 
 export const createCalendar = (...args) => {
