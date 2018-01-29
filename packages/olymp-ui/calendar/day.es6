@@ -1,12 +1,14 @@
 import React from 'react';
 import { createComponent } from 'react-fela';
 import tinycolor from 'tinycolor2';
+import { getColor } from '../colors-provider';
 import Field from './field';
 
 export default createComponent(
-  ({ theme, disabled, active, today }) => ({
-    color: (!!active && theme.light) || (disabled && theme.dark4),
-    backgroundColor: (!!active && theme.color) || (!!today && theme.dark4),
+  ({ theme, disabled, active, today, pointColor, color, backgroundColor, bold, palette }) => ({
+    color: (color && getColor(theme, color, palette)) || (!!active && theme.light) || (disabled && theme.dark4),
+    backgroundColor: (backgroundColor && getColor(theme, backgroundColor, palette)) || (!!active && theme.color) || (!!today && theme.dark4),
+    fontWeight: bold ? 'bold' : undefined,
     borderRadius: '50%',
     cursor: 'pointer',
     '> .content': {
@@ -14,6 +16,7 @@ export default createComponent(
         centerX: true,
         top: 10,
         color:
+          (pointColor && getColor(theme, pointColor, palette)) ||
           (!!active && theme.light2) ||
           (disabled && theme.dark5) ||
           theme.dark2,

@@ -55,8 +55,8 @@ const menuYears = (date, setDate) => (
   </Menu>
 );
 
-const enhance = compose(
-  withPropsOnChange(['date', 'value'], ({ date, value, onChange }) => {
+const enhance = (...enhancers) => compose(
+  withPropsOnChange(['date', 'value'], ({ date }) => {
     const year = getYear(date);
     const month = getMonth(date); // 0 = Januar, ...
     const start = startOfWeek(
@@ -68,6 +68,16 @@ const enhance = compose(
     const end = endOfWeek(endOfMonth(new Date(year, month, 1)), {
       weekStartsOn: 1
     });
+    return {
+      year,
+      month, 
+      start,
+      end
+    }
+  }),
+  ...enhancers,
+  withPropsOnChange(['start', 'end', 'value'], (props) => {
+    const { value, start, end, onChange, year, month, getDayProps } = props;
     let i = 0;
 
     const days = [];
@@ -81,14 +91,16 @@ const enhance = compose(
           </Caption>
         );
       } else {
+        const dayProps = (getDayProps && getDayProps(date2, props)) || {};
         days.push(
           <Day
             disabled={!isSameMonth(date2, new Date(year, month, 1))}
             active={!compareAsc(date2, value)}
             today={isSameDay(date2, new Date())}
-            points={Math.floor(Math.random() * 4)}
+            // points={Math.floor(Math.random() * 4)}
             onClick={() => onChange(date2)}
             key={format(date2, 'X')}
+            {...dayProps}
           >
             {format(date2, 'DD')}
           </Day>
@@ -101,7 +113,7 @@ const enhance = compose(
   })
 );
 
-export default enhance(
+const Calendar = (...enhancers) => enhance(...enhancers)(
   createComponent(
     ({ theme }) => ({
       userSelect: 'none',
@@ -172,3 +184,6 @@ export default enhance(
     p => Object.keys(p)
   )
 );
+
+export const createCalendar = Calendar;
+export default Calendar();
