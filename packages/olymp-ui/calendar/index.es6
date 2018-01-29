@@ -4,7 +4,7 @@ import { addMonths, startOfMonth } from 'date-fns';
 import Calendar, { createCalendar as _createCalendar } from './calendar';
 
 const enhance = compose(
-  withState('date', 'setDate', ({ start }) => +startOfMonth(start || new Date()))
+  withState('date', 'setDate', ({ value, start }) => +startOfMonth(start || value || new Date()))
 );
 
 export const createCalendar = (...args) => {
