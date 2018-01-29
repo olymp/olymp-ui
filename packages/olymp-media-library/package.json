@@ -1,0 +1,20 @@
+{
+  "version": "20.2.1",
+  "name": "olymp-media-library",
+  "description": "",
+  "author": "Benjamin Kniffler <bkniffler@me.com>",
+  "contributors": [
+    "Benjamin Kniffler <bkniffler@me.com>",
+    "Philipp Achenbach <olymp@philipp-achenbach.de>"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "up": "npm-check -u"
+  },
+  "dependencies": {
+    "cloudinary": "^1.9.1",
+    "react-dropbox-chooser": "0.0.5",
+    "react-virtualized": "^9.14.1",
+    "recompose": "^0.26.0"
+  }
+}
