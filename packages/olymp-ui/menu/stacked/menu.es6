@@ -12,7 +12,7 @@ const SlideIn = createComponent(
       zIndex: 0,
       position: 'absolute',
       top: 0,
-      left: 0,
+      left: 0
     },
     '> :nth-child(2)': {
       position: 'absolute',
@@ -21,16 +21,16 @@ const SlideIn = createComponent(
       animationTimingFunction: 'ease-out',
       animationName: {
         '0%': {
-          transform: isBack ? 'translateX(-100%)' : 'translateX(100%)',
+          transform: isBack ? 'translateX(-100%)' : 'translateX(100%)'
         },
         '100%': {
-          transform: 'translateX(0)',
-        },
-      },
-    },
+          transform: 'translateX(0)'
+        }
+      }
+    }
   }),
   'div',
-  ({ isBack, ...p }) => Object.keys(p),
+  ({ isBack, ...p }) => Object.keys(p)
 );
 
 export default class StackedMenu extends Component {
@@ -42,6 +42,7 @@ export default class StackedMenu extends Component {
   }
   render() {
     const { isLoading, renderMenu, keys, children } = this.props;
+    console.log(this.props);
     if (!isLoading && renderMenu) {
       return (
         <SlideIn isBack={this.isBack}>
@@ -49,7 +50,10 @@ export default class StackedMenu extends Component {
           {renderMenu(keys, this.oldKeys)}
         </SlideIn>
       );
+    } else if (isLoading && this.oldKeys) {
+      return <SlideIn isBack={this.isBack}>{renderMenu(this.oldKeys)}</SlideIn>;
     }
+
     return <SlideIn isBack={this.isBack}>{children}</SlideIn>;
   }
 }

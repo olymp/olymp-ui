@@ -8,6 +8,9 @@ import Image from './image';
 const LoaderContainer = createComponent(
   ({ theme }) => ({
     width: 14,
+    marginTop: -6,
+    marginX: theme.space2,
+    overflow: 'hidden',
     '> i.anticon': {
       color: theme.color
     }
