@@ -12,8 +12,7 @@
     "lb": "lerna bootstrap",
     "li": "lerna exec --concurrency 1 -- npm i",
     "lu": "lerna exec --concurrency 1 -- npm-check -u",
-    "lc":
-      "lerna exec --concurrency 1 -- del 'package-lock.json' 'node_modules'",
+    "lc": "lerna exec --concurrency 1 -- del 'package-lock.json' 'node_modules'",
     "la": "npm run lc && npm run li && npm run lb"
   },
   "engines": {},
@@ -40,8 +39,8 @@
   "homepage": "https://github.com/olymp/olymp#readme",
   "dependencies": {},
   "devDependencies": {
-    "eslint-config-olymp": "^20.1.28",
+    "eslint-config-olymp": "^20.1.31",
     "lerna": "^2.8.0",
-    "olymp-lerna": "^20.1.28"
+    "olymp-lerna": "^20.1.29"
   }
 }

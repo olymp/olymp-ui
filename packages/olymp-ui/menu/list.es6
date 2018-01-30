@@ -13,14 +13,16 @@ const List = ({
   extra,
   title,
   rest,
+  onClick,
 }) => (
   <div
     className={className}
     ref={_ref || innerRef || ref}
     style={style}
+    onClick={!title ? onClick : null}
     {...rest}
   >
-    {title && <Title extra={extra}>{title}</Title>}
+    {title && <Title onClick={onClick} extra={extra}>{title}</Title>}
     {children}
   </div>
 );
