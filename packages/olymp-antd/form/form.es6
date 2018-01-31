@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form } from 'antd';
+import { Form, Icon } from 'antd';
 import { get } from 'lodash';
 import DefaultEdits from './default-edits';
 import defaultPattern from './default-pattern';
@@ -26,18 +26,48 @@ export default class AntForm extends Component {
       decoratorProps: { initialValue, rules = {}, ...decoratorProps } = {},
       ...field
     } = f;
+    const newEditProps = { ...editProps };
+    let e = edit;
+
+    switch (edit) {
+      case 'phone':
+        e = 'input';
+        newEditProps.suffix = <Icon type="phone" />;
+        rules.pattern = 'phone';
+        rules.message = 'Ungültige Nummer';
+        rules.min = 4;
+        rules.max = 20;
+        break;
+
+      case 'url':
+        e = 'input';
+        newEditProps.suffix = <Icon type="link" />;
+        rules.pattern = 'url';
+        rules.message = 'Ungültige URL';
+        rules.min = 4;
+        break;
+
+      case 'email':
+        e = 'input';
+        newEditProps.suffix = <Icon type="mail" />;
+        rules.pattern = 'email';
+        rules.message = 'Ungültige E-Mail';
+        rules.min = 4;
+        break;
+
+      default:
+    }
 
     const result = {
-      Edit: DefaultEdits[edit] || DefaultEdits.input,
+      Edit: DefaultEdits[e] || DefaultEdits.input,
       decoratorProps: {
         initialValue: this.props[initialValue] || initialValue,
         rules: [
-          { pattern: defaultPattern[rules.pattern] || rules.pattern },
-          ...rules
+          { ...rules, pattern: defaultPattern[rules.pattern] || rules.pattern }
         ],
         ...decoratorProps
       },
-      editProps,
+      editProps: newEditProps,
       field
     };
 
