@@ -18,26 +18,31 @@ const Wrapper = createComponent(
   'div'
 );
 
-export default ({ collection, item, onClose, layout }) => (
+export default ({ schema, value, onChange, onClose, layout, title }) => (
   <Drawer
-    open={!!item.id}
+    open={!!value.id}
     width={layout === 'horizontal' ? 400 : undefined}
     right
     onClose={onClose}
   >
     <Menu
       header={
-        !item.id ? (
-          <Menu.Item large>{collection.label} anlegen</Menu.Item>
+        !value.id ? (
+          <Menu.Item large>{schema.label} anlegen</Menu.Item>
         ) : (
-          <Menu.Item large subtitle={`${collection.label} bearbeiten`}>
-            {get(item, 'list.title')}
+          <Menu.Item large subtitle={`${schema.label} bearbeiten`}>
+            {title}
           </Menu.Item>
         )
       }
     >
       <Wrapper>
-        <Form collection={collection} item={item} layout={layout} />
+        <Form
+          schema={schema}
+          value={value}
+          onChange={onChange}
+          layout={layout}
+        />
       </Wrapper>
     </Menu>
 
@@ -48,7 +53,7 @@ export default ({ collection, item, onClose, layout }) => (
       header={
         <Menu.Item
           large
-          icon={collection.icon ? <Icon type={collection.icon} /> : <FaCube />}
+          icon={schema.icon ? <Icon type={schema.icon} /> : <FaCube />}
         />
       }
     >
@@ -58,7 +63,7 @@ export default ({ collection, item, onClose, layout }) => (
       <AntMenu.Tooltip icon={<FaTimes />} onClick={onClose}>
         Abbrechen
       </AntMenu.Tooltip>
-      {!!item.id && (
+      {!!value.id && (
         <AntMenu.Tooltip icon={<FaTrashAlt />} onClick={() => {}}>
           Löschen
         </AntMenu.Tooltip>

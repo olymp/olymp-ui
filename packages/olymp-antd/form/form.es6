@@ -1,71 +1,75 @@
 import React, { Component } from 'react';
 import { Form } from 'antd';
-import { get, isEqual } from 'lodash';
+import { get } from 'lodash';
 import DefaultEdits from './default-edits';
+import defaultPattern from './default-pattern';
 import FormItem from './form-item';
 
-@Form.create()
+@Form.create({
+  mapPropsToFields: ({ value }) => {
+    const obj = {};
+    Object.keys(value).forEach(field => {
+      obj[field] = Form.createFormField({
+        value: value[field]
+      });
+    });
+
+    return obj;
+  },
+  onValuesChange: ({ onChange }, changed, all) => onChange(changed, all)
+})
 export default class AntForm extends Component {
-  shouldComponentUpdate({ form: { setFields }, collection, item, onChange }) {
-    // item has changed
-    if (!isEqual(item, this.props.item)) {
-      const values = {};
-      Object.keys(collection.fields).forEach(fieldName => {
-        values[fieldName] = { value: get(item, ['raw', fieldName]) };
-      });
-      setFields(values);
-
-      return false;
-    }
-
-    // form/values has changed
-    if (!!onChange && !isEqual(item, this.props.item)) {
-      const values = {};
-      Object.keys(collection.fields).forEach(fieldName => {
-        values[fieldName] = item.raw[fieldName];
-      });
-      onChange(values);
-
-      return false;
-    }
-
-    return true;
-  }
-
-  render() {
+  resolve = (f, resolver) => {
     const {
-      collection,
-      form,
-      layout = 'vertical',
-      onSubmit,
-      hideRequiredMark
-    } = this.props;
+      edit,
+      editProps,
+      decoratorProps: { initialValue, rules = {}, ...decoratorProps } = {},
+      ...field
+    } = f;
 
-    const edits = Object.keys(collection.fields).map(fieldName => {
-      const {
-        edit,
-        editProps: { initialValue, ...editProps } = {},
-        ...field
-      } = get(collection, ['fields', fieldName]);
-      const Edit = DefaultEdits[edit] || DefaultEdits.input;
+    const result = {
+      Edit: DefaultEdits[edit] || DefaultEdits.input,
+      decoratorProps: {
+        initialValue: this.props[initialValue] || initialValue,
+        rules: [
+          { pattern: defaultPattern[rules.pattern] || rules.pattern },
+          ...rules
+        ],
+        ...decoratorProps
+      },
+      editProps,
+      field
+    };
+
+    return resolver(result) || result;
+  };
+
+  renderEdits = () => {
+    const { schema, form, layout = 'vertical', resolve } = this.props;
+    const fields = get(schema, 'fields', []);
+
+    return Object.keys(fields).map(fieldName => {
+      const { Edit, decoratorProps, editProps, field } = this.resolve(
+        get(schema, ['fields', fieldName]),
+        resolve || (() => {})
+      );
 
       return (
         <FormItem key={fieldName} layout={layout} {...field}>
-          {form.getFieldDecorator(fieldName, {
-            ...editProps,
-            initialValue: this.props[initialValue] || initialValue
-          })(<Edit {...editProps} />)}
+          {form.getFieldDecorator(fieldName, decoratorProps)(
+            <Edit {...editProps} />
+          )}
         </FormItem>
       );
     });
+  };
+
+  render() {
+    const { layout = 'vertical', hideRequiredMark } = this.props;
 
     return (
-      <Form
-        layout={layout}
-        onSubmit={onSubmit}
-        hideRequiredMark={hideRequiredMark}
-      >
-        {edits}
+      <Form layout={layout} hideRequiredMark={hideRequiredMark}>
+        {this.renderEdits()}
       </Form>
     );
   }
