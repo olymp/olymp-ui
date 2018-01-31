@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Switch } from 'antd';
+import { Input, Switch, TimePicker, DatePicker } from 'antd';
 import slate from './edit-slate';
 import color from './edit-color';
 import geocode from './edit-geocode';
@@ -19,12 +19,21 @@ import geocode from './edit-geocode';
 import slug from './edit-slug'; */
 
 export default {
+  test: e => ({ id, ...p }) => (
+    <div style={{ color: 'red' }}>
+      {id} vom Typ {e} fehlt!
+      <Input id={id} {...p} />
+    </div>
+  ),
   input: Input,
   bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
   slate,
   geocode,
   place,
-  color
+  color,
+  date: DatePicker,
+  datetime: DatePicker,
+  time: TimePicker
   // image: p => <EditImage maxHeight={100} maxWidth={250} {...p} />
 
   /* color,

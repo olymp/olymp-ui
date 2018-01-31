@@ -59,7 +59,7 @@ export default class AntForm extends Component {
     }
 
     const result = {
-      Edit: DefaultEdits[e] || DefaultEdits.input,
+      Edit: DefaultEdits[e] || DefaultEdits.test(e) || DefaultEdits.input,
       decoratorProps: {
         initialValue: this.props[initialValue] || initialValue,
         rules: [
