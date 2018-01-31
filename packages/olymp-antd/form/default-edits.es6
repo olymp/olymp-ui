@@ -1,8 +1,11 @@
-import input from './edit-input';
-/* import strings from './edit-strings';
-import bool from './edit-bool';
-import tags from './edit-tags';
+import React from 'react';
+import { Input, Switch } from 'antd';
 import slate from './edit-slate';
+import color from './edit-color';
+import geocode from './edit-geocode';
+import place from './edit-place';
+/* import strings from './edit-strings';
+import tags from './edit-tags';
 import openings from './edit-openings';
 import list from './edit-list';
 import enu from './edit-enum';
@@ -16,18 +19,23 @@ import geocode from './edit-geocode';
 import slug from './edit-slug'; */
 
 export default {
-  /* bool,
-  color,
+  input: Input,
+  bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
+  slate,
+  geocode,
+  place,
+  color
+  // image: p => <EditImage maxHeight={100} maxWidth={250} {...p} />
+
+  /* color,
   date,
   enum: enu,
   geocode,
   image, */
-  input
   /* list,
   openings,
   relList,
   rel,
-  slate,
   slug,
   strings,
   tags,
