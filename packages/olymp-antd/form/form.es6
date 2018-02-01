@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { Form, Icon } from 'antd';
+import { createComponent } from 'react-fela';
 import { get } from 'lodash';
 import DefaultEdits from './default-edits';
 import defaultPattern from './default-pattern';
 import FormItem from './form-item';
+
+const StyledIcon = createComponent(
+  ({ theme }) => ({
+    color: theme.dark3
+  }),
+  p => <Icon {...p} />,
+  p => Object.keys(p)
+);
 
 @Form.create({
   mapPropsToFields: ({ value }) => {
@@ -32,7 +41,7 @@ export default class AntForm extends Component {
     switch (edit) {
       case 'phone':
         e = 'input';
-        newEditProps.suffix = <Icon type="phone" />;
+        newEditProps.suffix = <StyledIcon type="phone" />;
         rules.pattern = 'phone';
         rules.message = 'Ungültige Nummer';
         rules.min = 4;
@@ -41,7 +50,7 @@ export default class AntForm extends Component {
 
       case 'url':
         e = 'input';
-        newEditProps.suffix = <Icon type="link" />;
+        newEditProps.suffix = <StyledIcon type="link" />;
         rules.pattern = 'url';
         rules.message = 'Ungültige URL';
         rules.min = 4;
@@ -49,7 +58,7 @@ export default class AntForm extends Component {
 
       case 'email':
         e = 'input';
-        newEditProps.suffix = <Icon type="mail" />;
+        newEditProps.suffix = <StyledIcon type="mail" />;
         rules.pattern = 'email';
         rules.message = 'Ungültige E-Mail';
         rules.min = 4;
