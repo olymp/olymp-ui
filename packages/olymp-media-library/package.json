@@ -14,7 +14,7 @@
   "dependencies": {
     "cloudinary": "^1.9.1",
     "react-dropbox-chooser": "0.0.5",
-    "react-virtualized": "^9.14.1",
+    "react-virtualized": "^9.18.5",
     "recompose": "^0.26.0"
   }
 }
