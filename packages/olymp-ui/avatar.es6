@@ -29,8 +29,8 @@ export default createComponent(
       theme.color
     )}&color=${encodeURIComponent(theme.light)}) center center no-repeat, ${
       theme.color
-    }`,
+    }`
   }),
-  ({ size, ...p }) => <Gravatar {...p} size={size || 30} />,
+  ({ size, ...p }) => <Gravatar {...p} protocol="https://" size={size || 30} />,
   p => Object.keys(p)
 );
