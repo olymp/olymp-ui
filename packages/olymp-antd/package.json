@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "antd": "^3.1.6",
+    "moment": "^2.20.1",
     "react-color": "^2.13.8"
   }
 }

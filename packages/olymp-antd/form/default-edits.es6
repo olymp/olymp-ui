@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { Input, Switch, TimePicker, DatePicker } from 'antd';
 import slate from './edit-slate';
 import color from './edit-color';
@@ -25,15 +26,59 @@ export default {
       <Input id={id} {...p} />
     </div>
   ),
-  input: Input,
-  bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
+  input: Input, // phone, url, email
+  text: Input.TextArea,
   slate,
   geocode,
   place,
   color,
-  date: DatePicker,
-  datetime: DatePicker,
-  time: TimePicker
+  bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
+  date: ({ value, onChange, ...p }) => (
+    <DatePicker
+      value={moment(value).startOf('day')}
+      format="DD.MM.YYYY"
+      onChange={(v, props) => onChange(v.format(), props)}
+      style={{ width: '100%' }}
+      {...p}
+    />
+  ),
+  datetime: ({ value, onChange, ...p }) => (
+    <DatePicker
+      value={moment(value)}
+      showTime
+      format="DD.MM.YYYY"
+      onChange={(v, props) => onChange(v.format(), props)}
+      style={{ width: '100%' }}
+      {...p}
+    />
+  ),
+  time: ({ value, onChange, ...p }) => (
+    <TimePicker
+      value={moment(value).startOf('hour')}
+      format="HH:mm"
+      onChange={(v, props) => onChange(v.format(), props)}
+      style={{ width: '100%' }}
+      {...p}
+    />
+  ),
+  week: ({ value, onChange, ...p }) => (
+    <DatePicker.WeekPicker
+      value={moment(value).startOf('week')}
+      format="ww. / YYYY"
+      onChange={(v, props) => onChange(v.format(), props)}
+      style={{ width: '100%' }}
+      {...p}
+    />
+  ),
+  month: ({ value, onChange, ...p }) => (
+    <DatePicker.MonthPicker
+      value={moment(value).startOf('month')}
+      format="MM / YYYY"
+      onChange={(v, props) => onChange(v.format(), props)}
+      style={{ width: '100%' }}
+      {...p}
+    />
+  )
   // image: p => <EditImage maxHeight={100} maxWidth={250} {...p} />
 
   /* color,
