@@ -11,20 +11,26 @@ import Space from './space';
 import Extra from './extra';
 
 const Inner = createComponent(
-  () => ({
+  ({ overflowY = 'auto' }) => ({
     display: 'flex',
     flexGrow: 1,
     flexDirection: 'column',
-    // overflowY: 'auto',
-    // overflowX: 'hidden'
-    overflow: 'hidden'
+    overflowY,
+    overflowX: 'hidden'
     // justifyContent: 'space-between',
   }),
-  'div'
+  'div',
+  []
 );
 
 const Menu = createComponent(
-  ({ theme, color, paddingX = 9, paddingY = theme.space2 }) => ({
+  ({
+    theme,
+    color,
+    paddingX = 9,
+    paddingY = theme.space2,
+    overflowY = 'auto'
+  }) => ({
     display: 'flex',
     flexGrow: theme.collapsed ? 0 : 1,
     flexDirection: 'column',
@@ -34,9 +40,8 @@ const Menu = createComponent(
     backgroundColor: color,
     paddingY,
     paddingX,
-    // overflowY: 'auto',
-    // overflowX: 'hidden',
-    overflow: 'hidden',
+    overflowY,
+    overflowX: 'hidden',
     // transition: 'width 200ms ease-out',
     transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)'
   }),
@@ -50,6 +55,7 @@ const Menu = createComponent(
     headerPaddingBottom,
     headerMarginBottom,
     headerInverted,
+    overflowY,
     ...p
   }) => (
     <div className={className} {...p}>
@@ -63,7 +69,7 @@ const Menu = createComponent(
           {header}
         </Header>
       )}
-      <Inner>{children}</Inner>
+      <Inner overflowY={overflowY}>{children}</Inner>
     </div>
   ),
   ({ paddingY, paddingX, ...p }) => Object.keys(p)
