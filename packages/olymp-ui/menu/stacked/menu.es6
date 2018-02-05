@@ -42,7 +42,7 @@ export default class StackedMenu extends Component {
   }
   render() {
     const { isLoading, renderMenu, keys, children } = this.props;
-    console.log(this.props);
+    
     if (!isLoading && renderMenu) {
       return (
         <SlideIn isBack={this.isBack}>
