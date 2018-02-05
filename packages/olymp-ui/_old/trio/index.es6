@@ -63,7 +63,6 @@ export const Navigation = createComponent(
       onSwipedLeft={() => setCollapsed(true)}
       className={className}
       onMouseLeave={() => setCollapsed(true)}
-      onMouseOver={() => collapsed && setCollapsed(false)}
       onMouseEnter={() => setCollapsed(false)}
       onTap={collapsed ? () => setCollapsed(false) : null}
     >
