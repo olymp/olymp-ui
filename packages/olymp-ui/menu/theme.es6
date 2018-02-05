@@ -12,7 +12,7 @@ const enhance = compose(
       color = '#F4F5F7',
       palette,
       collapsed = false,
-      width = 240
+      width = '100%'
     }) => ({
       theme: {
         // inverted: inverted === undefined ? color === true : inverted,
