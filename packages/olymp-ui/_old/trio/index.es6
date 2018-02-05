@@ -1,38 +1,12 @@
 import React from 'react';
-import { compose, withState, withHandlers } from 'recompose';
-import { createComponent } from 'react-fela';
-import { withStyle } from 'olymp-fela';
+import PropTypes from 'prop-types';
+import { compose, withState, getContext, withProps } from 'recompose';
+import { withStyle, withTheme, createComponent } from 'olymp-fela';
 import { FaChevronLeft, FaEllipsisV } from 'olymp-icons';
 import Swipeable from 'react-swipeable';
 import Menu from '../menu';
 
-const raf = func => {
-  const options = {
-    ticking: false,
-    x: 0
-  };
-  const update = () => {
-    func(options.x, () => {
-      options.ticking = false;
-    });
-  };
-  const requestTick = x => {
-    options.x = x;
-    if (!options.ticking) {
-      requestAnimationFrame(update);
-    }
-    options.ticking = true;
-  };
-  return requestTick;
-};
-
-const enhanceSwiper = compose(
-  withHandlers({
-    setAbsX: ({ setAbsX }) => raf(setAbsX)
-  })
-);
-
-export const Icon = enhanceSwiper(
+export const Icon = 
   createComponent(
     () => ({
         // display: 'none',
@@ -57,8 +31,7 @@ export const Icon = enhanceSwiper(
       <Icon className={className} size={size || 18} color={color || 'light'} />
     ),
     p => Object.keys(p)
-  )
-);
+  );
 
 export const ContentContainer = createComponent(
   () => ({
@@ -72,7 +45,7 @@ export const ContentContainer = createComponent(
 );
 
 export const Navigation = createComponent(
-  ({ collapsed, absX, width = 240 }) => ({
+  ({ collapsed }) => ({
     transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
     flex: 0,
     width: collapsed ? 72 : 240,
@@ -90,6 +63,7 @@ export const Navigation = createComponent(
       onSwipedLeft={() => setCollapsed(true)}
       className={className}
       onMouseLeave={() => setCollapsed(true)}
+      onMouseOver={() => collapsed && setCollapsed(false)}
       onMouseEnter={() => setCollapsed(false)}
       onTap={collapsed ? () => setCollapsed(false) : null}
     >
@@ -148,6 +122,34 @@ const enhance = compose(
     flexDirection: 'row',
     flex: 1,
     overflow: 'hidden'
+  }),
+  getContext({
+    renderer: PropTypes.object,
+  }),
+  withTheme,  
+  withProps(({ renderer, theme }) => {
+    renderer.renderStatic(
+      {
+        overflow: 'hidden',
+        height: '100%',
+      },
+      '#app,body,html'
+    );
+    renderer.renderStatic(
+      {
+        padding: 'env(safe-area-inset-top) 0 0 0',
+        backgroundColor: theme.color
+      },
+      'body'
+    );
+    renderer.renderStatic(
+      {
+        display: 'flex',
+        flexDirection: 'row',
+        backgroundColor: 'white'
+      },
+      '#app'
+    );
   })
 );
 export default enhance(

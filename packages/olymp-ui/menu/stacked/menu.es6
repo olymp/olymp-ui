@@ -21,7 +21,7 @@ const SlideIn = createComponent(
       animationTimingFunction: 'ease-out',
       animationName: {
         '0%': {
-          transform: isBack ? 'translateX(-100%)' : 'translateX(100%)'
+          transform: isBack ? 'translateX(-101%)' : 'translateX(100%)'
         },
         '100%': {
           transform: 'translateX(0)'

@@ -61,7 +61,7 @@ export const Swiper = enhanceSwiper(
       transform: 'translateX(0%)',
       display: 'none',
       ifMediumUp: {
-        transform: 'translateX(-100%)'
+        transform: 'translateX(-101%)'
       },
       ifMediumDown: {
         display: 'block'
@@ -130,7 +130,7 @@ export const Swiper = enhanceSwiper(
 export const Aside1 = createComponent(
   ({ collapsed, absX, zIndex, width }) => ({
     ifSmallDown: {
-      transform: collapsed && !absX ? 'translateX(-100%)' : 'translateX(0%)',
+      transform: collapsed && !absX ? 'translateX(-101%)' : 'translateX(0%)',
       transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
       width: absX || width
     },

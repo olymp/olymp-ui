@@ -29,7 +29,7 @@ const Drawer = createComponent(
           }
         : {
             left: (left !== true && left) || 0,
-            transform: open ? null : 'translateX(-100%)'
+            transform: open ? null : 'translateX(-101%)'
           },
     height: '100%',
     minWidth: width,
