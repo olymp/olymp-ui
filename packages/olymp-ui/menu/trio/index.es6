@@ -64,7 +64,8 @@ export const ContentContainer = createComponent(
   () => ({
     display: 'flex',
     flexDirection: 'row',
-    flex: 1
+    flex: 1,
+    overflow: 'hidden'
   }),
   ({ children, className }) => <div className={className}>{children}</div>,
   []
@@ -130,6 +131,7 @@ export const Section = createComponent(
     backgroundColor: 'white',
     height: '100%',
     display: 'flex',
+    overflow: 'hidden',
     ifSmallDown: placeholder && {
       display: 'none'
     }
@@ -144,7 +146,8 @@ const enhance = compose(
   withStyle({
     display: 'flex',
     flexDirection: 'row',
-    flex: 1
+    flex: 1,
+    overflow: 'hidden'
   })
 );
 export default enhance(
