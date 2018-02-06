@@ -5,20 +5,18 @@ import { getColor } from '../colors-provider';
 const enhance = compose(
   withTheme,
   withPropsOnChange(
-    ['theme', 'inverted', 'color', 'collapsed', 'width'],
+    ['theme', 'inverted', 'color', 'collapsed'],
     ({
       theme,
       inverted,
       color = '#F4F5F7',
       palette,
-      collapsed = false,
-      width = '100%'
+      collapsed,
     }) => ({
       theme: {
         // inverted: inverted === undefined ? color === true : inverted,
-        inverted,
-        collapsed,
-        width
+        inverted: inverted !== undefined ? inverted : theme.inverted,
+        collapsed: (collapsed !== undefined ? collapsed : theme.collapsed) || false,
       },
       color: getColor(theme, color, palette)
     })

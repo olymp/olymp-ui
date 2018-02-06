@@ -29,12 +29,15 @@ const Menu = createComponent(
     color,
     paddingX = 9,
     paddingY = theme.space2,
+    width = '100%',
     overflowY = 'auto'
   }) => ({
     display: 'flex',
     flexGrow: theme.collapsed ? 0 : 1,
     flexDirection: 'column',
-    minWidth: theme.collapsed ? 72 : theme.width,
+    width: theme.collapsed ? 72 : width,
+    maxWidth: theme.collapsed ? 72 : width,
+    minWidth: theme.collapsed ? 72 : width,
     height: '100%',
     color: theme.inverted ? theme.light1 : theme.dark1,
     backgroundColor: color,
@@ -76,7 +79,7 @@ const Menu = createComponent(
 );
 
 const Component = useTheme(
-  ({ inverted, color, collapsed, theme, width, ...props }) => (
+  ({ inverted, color, collapsed, theme, ...props }) => (
     <ThemeProvider theme={theme}>
       <Menu color={color} inverted={inverted} {...props} />
     </ThemeProvider>
