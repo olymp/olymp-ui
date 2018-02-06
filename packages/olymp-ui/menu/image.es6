@@ -44,7 +44,8 @@ export default createComponent(
       },
       '& img': {
         size: (!!large && 40) || (!extra && 32) || 20,
-        borderRadius: theme.collapsed ? '50%' : theme.borderRadius
+        borderRadius: theme.borderRadius
+        // borderRadius: theme.collapsed ? '50%' : theme.borderRadius
       }
     };
   },
