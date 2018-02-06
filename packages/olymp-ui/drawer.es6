@@ -1,4 +1,4 @@
-import React, { Children, cloneElement } from 'react';
+import React, { Fragment } from 'react';
 import { createComponent } from 'react-fela';
 import { getColor } from './colors-provider';
 
@@ -34,6 +34,7 @@ const Drawer = createComponent(
     height: '100%',
     minWidth: width,
     zIndex: dim ? 15 : 12,
+    overflow: !open ? 'hidden' : undefined,
     boxShadow: !collapsed ? theme.boxShadow : undefined,
     transition: 'transform 200ms ease-out, min-width 200ms ease-out',
     backgroundColor:
@@ -51,10 +52,7 @@ const Drawer = createComponent(
         if (onClick) onClick(e);
       }}
     >
-      {Children.map(
-        children,
-        child => (child ? cloneElement(child, { width }) : child)
-      )}
+      {children}
     </aside>
   ),
   ({ inverted, right, top, left, collapsed, dim, ...p }) => Object.keys(p)
@@ -79,9 +77,11 @@ const Dimmer = createComponent(
   ['onClick']
 );
 
-export default ({ dim = true, children, onClose, ...props }) => [
-  dim && <Dimmer {...props} onClick={onClose} key="dim" />,
-  <Drawer {...props} dim={dim} key="draw">
-    {children}
-  </Drawer>
-];
+export default ({ dim = true, children, onClose, ...props }) => (
+  <Fragment>
+    {dim && <Dimmer {...props} onClick={onClose} key="dim" />}
+    <Drawer {...props} dim={dim} key="draw">
+      {children}
+    </Drawer>
+  </Fragment>
+);

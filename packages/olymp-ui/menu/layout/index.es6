@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import {
   compose,
@@ -10,26 +10,35 @@ import {
 import { withStyle, withTheme, createComponent } from 'olymp-fela';
 import { connect } from 'react-redux';
 import { FaChevronLeft, FaEllipsisV } from 'olymp-icons';
+import Tappable from 'react-tappable';
 import Swipeable from 'react-swipeable';
-import Menu from '../menu';
 
 export const Icon = createComponent(
-  () => ({
-    // display: 'none',
-    display: 'none',
+  ({ theme }) => ({
     position: 'absolute',
-    top: '50%',
+    height: '100%',
+    top: 0,
     left: 0,
-    right: 0,
-    padding: 1,
-    transform: 'translate(-2px, -50%)',
-    borderRadius: '100%',
-    ifSmallDown: {
-      display: 'block'
+    width: '100%',
+    '> svg': {
+        // display: 'none',
+      display: 'none',
+      position: 'absolute',
+      top: '50%',
+      right: 0,
+      left: 0,
+      padding: 1,
+      transform: 'translate(4px, -50%)',
+      borderRadius: '100%',
+      ifSmallDown: {
+        display: 'block'
+      }
     }
   }),
-  ({ className, color, size, icon: Icon }) => (
-    <Icon className={className} size={size || 18} color={color || 'light'} />
+  ({ className, color, size, icon: Icon, onClick }) => (
+    <Tappable className={className} onTap={onClick}>
+      <Icon size={size || 18} color={color || 'light'} />
+    </Tappable>
   ),
   p => Object.keys(p)
 );
@@ -46,38 +55,44 @@ export const ContentContainer = createComponent(
 );
 
 export const Navigation = createComponent(
-  ({ collapsed, width = 240 }) => ({
-    transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
+  ({ collapsed, width = 240, theme }) => ({
     flex: 0,
-    width: collapsed ? 72 : width,
-    maxWidth: collapsed ? 72 : width,
-    minWidth: collapsed ? 72 : width,
+    width: 72,
+    maxWidth: 72,
+    minWidth: 72,
+    height: '100%',
     position: 'relative',
+    '> div': !collapsed ? {
+      height: '100%',
+      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
+      zIndex: 5,
+      width,
+      position: 'absolute',
+    } : {
+      height: '100%',
+    },
     ifSmallDown: {
-      width: collapsed ? 12 : width,
-      maxWidth: collapsed ? 12 : width,
-      minWidth: collapsed ? 12 : width,
-      overflow: 'hidden'
+      width: 24,
+      maxWidth: 24,
+      minWidth: 24,
+      overflow: collapsed ? 'hidden' : undefined,
+      '> div > div > *': collapsed && {
+        display: 'none',
+      }
     }
   }),
   ({ children, className, setCollapsed, collapsed }) => (
-    <Swipeable
-      onSwipedRight={() => setCollapsed(false)}
-      onSwipedLeft={() => setCollapsed(true)}
-      className={className}
-      onMouseLeave={() => setCollapsed(true)}
-      onMouseEnter={() => setCollapsed(false)}
-      onTap={collapsed ? () => setCollapsed(false) : null}
-    >
-      {collapsed && (
-        <Icon
-          icon={FaEllipsisV}
-          collapsed={collapsed}
-          setCollapsed={setCollapsed}
-        />
-      )}
-      {children}
-    </Swipeable>
+    <div className={className}>
+      <Swipeable
+        onSwipedRight={() => setCollapsed(false)}
+        onSwipedLeft={() => setCollapsed(true)}
+        onMouseLeave={() => setCollapsed(true)}
+        onMouseEnter={() => setCollapsed(false)}
+      >
+        {children}
+        {collapsed && <Icon onClick={() => setCollapsed(false)} icon={FaEllipsisV} />}
+      </Swipeable>
+    </div>
   ),
   ['setCollapsed', 'collapsed']
 );
@@ -88,10 +103,13 @@ export const Sidebar = createComponent(
     width,
     position: 'relative',
     ifSmallDown: {
-      width: hasContent ? 12 : '100%',
-      maxWidth: hasContent ? 12 : '100%',
-      minWidth: hasContent ? 12 : '100%',
-      overflow: 'hidden'
+      width: hasContent ? 24 : '100%',
+      maxWidth: hasContent ? 24 : '100%',
+      minWidth: hasContent ? 24 : '100%',
+      overflow: 'hidden',
+      '> div > *': {
+        display: hasContent ? 'none' : undefined
+      }
     }
   }),
   ({ children, className, goBack, hasContent }) => (
@@ -182,7 +200,6 @@ export default enhance(
     menu,
     children,
     width = 240,
-    header
   }) => (
     // const collapsed = width < 1200;
     <div className={className}>
@@ -191,9 +208,7 @@ export default enhance(
         collapsed={collapsed}
         width={width}
       >
-        <Menu color inverted collapsed={collapsed} header={header}>
-          {menu}
-        </Menu>
+        {cloneElement(menu, { collapsed })}
       </Navigation>
       {children}
     </div>

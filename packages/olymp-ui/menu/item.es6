@@ -2,6 +2,7 @@ import React from 'react';
 import { createComponent } from 'react-fela';
 import { Icon } from 'antd';
 import tinycolor from 'tinycolor2';
+import Tappable from 'react-tappable';
 import { getColor } from '../colors-provider';
 import Image from './image';
 
@@ -19,10 +20,10 @@ const LoaderContainer = createComponent(
 );
 
 const Content = createComponent(
-  ({ theme, ellipsis = true, inverted }) => ({
+  ({ theme, collapsed, ellipsis = true, inverted }) => ({
     ellipsis,
     flexGrow: 1,
-    opacity: theme.collapsed ? 0 : 1,
+    opacity: collapsed ? 0 : 1,
     transition: 'opacity 200ms ease-out',
     overflowY: 'hidden',
     '> small': {
@@ -50,6 +51,7 @@ export default createComponent(
     palette,
     disabled,
     ellipsis,
+    collapsed,
     inverted = !!color
   }) => {
     const bgColor = getColor(theme, color, palette);
@@ -67,15 +69,15 @@ export default createComponent(
     return {
       height: ellipsis === false ? undefined : large ? 54 : small ? 32 : 40,
       flexShrink: 0,
-      width: !theme.collapsed ? '100%' : large ? 54 : small ? 32 : 40,
-      marginLeft: theme.collapsed && !large && 7,
+      width: !collapsed ? '100%' : large ? 54 : small ? 32 : 40,
+      marginLeft: collapsed && !large && 7,
       marginY: theme.space1,
       paddingLeft: !icon && theme.space3,
       paddingRight: theme.space3,
       display: 'flex',
       alignItems: 'center',
       cursor: !!onClick && !disabled && 'pointer',
-      borderRadius: theme.collapsed ? '50%' : theme.borderRadius,
+      borderRadius: collapsed ? '50%' : theme.borderRadius,
       opacity: disabled ? 0.67 : 1,
       backgroundColor:
         (bgColor && active && hoverColor) || bgColor || (active && theme.dark5),
@@ -102,33 +104,34 @@ export default createComponent(
     ellipsis,
     inverted = color ? !!color : undefined,
     className,
+    collapsed,
     ...rest
   }) => (
-    <div
+    <Tappable
       {...rest}
-      onClick={disabled ? () => {} : onClick}
+      onTap={disabled ? () => {} : onClick}
       ref={_ref || innerRef || ref}
       className={className}
     >
-      {!!icon && <Image large={large}>{icon}</Image>}
-      <Content ellipsis={ellipsis} inverted={inverted}>
+      {!!icon && <Image collapsed={collapsed} large={large}>{icon}</Image>}
+      <Content collapsed={collapsed} ellipsis={ellipsis} inverted={inverted}>
         {children}
         {!!subtitle && <small>{subtitle}</small>}
       </Content>
       {!!extra &&
         !loading && (
-          <Image extra inverted={inverted}>
+          <Image collapsed={collapsed} extra inverted={inverted}>
             {extra}
           </Image>
         )}
       {loading && (
-        <Image extra inverted={inverted}>
+        <Image collapsed={collapsed} extra inverted={inverted}>
           <LoaderContainer>
             <Icon type="loading" />
           </LoaderContainer>
         </Image>
       )}
-    </div>
+    </Tappable>
   ),
   ({ active, small, ...p }) => Object.keys(p)
 );

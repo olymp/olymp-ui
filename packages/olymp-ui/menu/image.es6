@@ -2,15 +2,15 @@ import React from 'react';
 import { createComponent } from 'react-fela';
 
 export default createComponent(
-  ({ theme, large, extra, inverted }) => {
+  ({ theme, large, extra, inverted, collapsed }) => {
     const width =
-      (theme.collapsed && (large ? 54 : 40)) || (!extra ? 54 : 'auto');
+      (collapsed && (large ? 54 : 40)) || (!extra ? 54 : 'auto');
 
     return {
       width,
       minWidth: width,
       textAlign: extra && 'right',
-      display: extra && theme.collapsed && 'none',
+      display: extra && collapsed && 'none',
       ellipsis: true,
       color: (inverted !== undefined ? inverted : theme.inverted)
         ? theme.light2
@@ -45,7 +45,7 @@ export default createComponent(
       '& img': {
         size: (!!large && 40) || (!extra && 32) || 20,
         borderRadius: theme.borderRadius
-        // borderRadius: theme.collapsed ? '50%' : theme.borderRadius
+        // borderRadius: collapsed ? '50%' : theme.borderRadius
       }
     };
   },

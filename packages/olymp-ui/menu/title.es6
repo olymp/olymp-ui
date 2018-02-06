@@ -3,7 +3,7 @@ import { createComponent } from 'react-fela';
 import Image from './image';
 
 export default createComponent(
-  ({ theme }) => ({
+  ({ theme, collapsed }) => ({
     color: theme.inverted ? theme.light2 : theme.dark2,
     ellipsis: true,
     textTransform: 'uppercase',
@@ -14,7 +14,7 @@ export default createComponent(
     display: 'flex',
     flexGrow: 1,
     justifyContent: 'space-between',
-    opacity: theme.collapsed ? 0 : 1,
+    opacity: collapsed ? 0 : 1,
     transition: 'opacity 200ms ease-in-out',
     userSelect: 'none'
   }),

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children, cloneElement } from 'react';
 import Title from './title';
 import Item from './item';
 import Divider from './divider';
@@ -14,6 +14,7 @@ const List = ({
   title,
   rest,
   onClick,
+  collapsed
 }) => (
   <div
     className={className}
@@ -22,8 +23,11 @@ const List = ({
     onClick={!title ? onClick : null}
     {...rest}
   >
-    {title && <Title onClick={onClick} extra={extra}>{title}</Title>}
-    {children}
+    {title && <Title collapsed={collapsed} onClick={onClick} extra={extra}>{title}</Title>}
+    {Children.map(
+      children,
+      child => (child ? cloneElement(child, { collapsed }) : child)
+    )}
   </div>
 );
 

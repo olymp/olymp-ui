@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { cloneElement, Children } from 'react';
 import { createComponent, ThemeProvider } from 'react-fela';
 import useTheme from './theme';
 import Header from './header';
@@ -31,14 +31,18 @@ const Menu = createComponent(
     paddingX = 9,
     paddingY = theme.space2,
     width = '100%',
-    overflowY = 'auto'
+    overflowY = 'auto',
+    collapsed
   }) => ({
     display: 'flex',
-    flexGrow: theme.collapsed ? 0 : 1,
+    flexGrow: collapsed ? 0 : 1,
     flexDirection: 'column',
-    width: theme.collapsed ? 72 : width,
-    maxWidth: theme.collapsed ? 72 : width,
-    minWidth: theme.collapsed ? 72 : width,
+    width,
+    minWidth: width,
+    maxWidth: width,
+    /* width: collapsed ? 72 : width,
+    maxWidth: collapsed ? 72 : width,
+    minWidth: collapsed ? 72 : width, */
     height: '100%',
     color: theme.inverted ? theme.light1 : theme.dark1,
     backgroundColor: color,
@@ -60,6 +64,7 @@ const Menu = createComponent(
     headerMarginBottom,
     headerInverted,
     overflowY,
+    collapsed,
     ...p
   }) => (
     <div className={className} {...p}>
@@ -68,12 +73,18 @@ const Menu = createComponent(
           marginBottom={headerMarginBottom}
           paddingBottom={headerPaddingBottom}
           color={headerColor || color}
+          collapsed={collapsed}
           inverted={headerInverted || inverted}
         >
           {header}
         </Header>
       )}
-      <Inner overflowY={overflowY}>{children}</Inner>
+      <Inner overflowY={overflowY}>
+        {Children.map(
+          children,
+          child => (child ? cloneElement(child, { collapsed }) : child)
+        )}
+      </Inner>
     </div>
   ),
   ({ paddingY, paddingX, ...p }) => Object.keys(p)
@@ -82,7 +93,7 @@ const Menu = createComponent(
 const Component = useTheme(
   ({ inverted, color, collapsed, theme, ...props }) => (
     <ThemeProvider theme={theme}>
-      <Menu color={color} inverted={inverted} {...props} />
+      <Menu color={color} inverted={inverted} collapsed={collapsed} {...props} />
     </ThemeProvider>
   )
 );
