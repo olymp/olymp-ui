@@ -34,7 +34,7 @@ const Menu = createComponent(
     display: 'flex',
     flexGrow: theme.collapsed ? 0 : 1,
     flexDirection: 'column',
-    // width: theme.collapsed ? 72 : theme.width,
+    minWidth: theme.collapsed ? 72 : theme.width,
     height: '100%',
     color: theme.inverted ? theme.light1 : theme.dark1,
     backgroundColor: color,

@@ -1,38 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withState, getContext, withProps, withPropsOnChange } from 'recompose';
+import {
+  compose,
+  withState,
+  getContext,
+  withProps,
+  withPropsOnChange
+} from 'recompose';
 import { withStyle, withTheme, createComponent } from 'olymp-fela';
 import { connect } from 'react-redux';
 import { FaChevronLeft, FaEllipsisV } from 'olymp-icons';
 import Swipeable from 'react-swipeable';
 import Menu from '../menu';
 
-export const Icon = 
-  createComponent(
-    () => ({
-        // display: 'none',
-        display: 'none',
-        position: 'absolute',
-        top: '50%',
-        left: 0,
-        right: 0,
-        padding: 1,
-        transform: 'translate(-2px, -50%)',
-        borderRadius: '100%',
-        ifSmallDown: {
-          display: 'block',
-        },
-    }),
-    ({
-      className,
-      color,
-      size,
-      icon: Icon
-    }) => (
-      <Icon className={className} size={size || 18} color={color || 'light'} />
-    ),
-    p => Object.keys(p)
-  );
+export const Icon = createComponent(
+  () => ({
+    // display: 'none',
+    display: 'none',
+    position: 'absolute',
+    top: '50%',
+    left: 0,
+    right: 0,
+    padding: 1,
+    transform: 'translate(-2px, -50%)',
+    borderRadius: '100%',
+    ifSmallDown: {
+      display: 'block'
+    }
+  }),
+  ({ className, color, size, icon: Icon }) => (
+    <Icon className={className} size={size || 18} color={color || 'light'} />
+  ),
+  p => Object.keys(p)
+);
 
 export const ContentContainer = createComponent(
   () => ({
@@ -46,17 +46,19 @@ export const ContentContainer = createComponent(
 );
 
 export const Navigation = createComponent(
-  ({ collapsed }) => ({
+  ({ collapsed, width = 240 }) => ({
     transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
     flex: 0,
-    width: collapsed ? 72 : 240,
+    width: collapsed ? 72 : width,
+    maxWidth: collapsed ? 72 : width,
+    minWidth: collapsed ? 72 : width,
     position: 'relative',
     ifSmallDown: {
-      width: collapsed ? 12 : 240,
-      maxWidth: collapsed ? 12 : 240,
-      minWidth: collapsed ? 12 : 240,
-      overflow: 'hidden',
-    },
+      width: collapsed ? 12 : width,
+      maxWidth: collapsed ? 12 : width,
+      minWidth: collapsed ? 12 : width,
+      overflow: 'hidden'
+    }
   }),
   ({ children, className, setCollapsed, collapsed }) => (
     <Swipeable
@@ -67,7 +69,13 @@ export const Navigation = createComponent(
       onMouseEnter={() => setCollapsed(false)}
       onTap={collapsed ? () => setCollapsed(false) : null}
     >
-      {collapsed && <Icon icon={FaEllipsisV} collapsed={collapsed} setCollapsed={setCollapsed} />}
+      {collapsed && (
+        <Icon
+          icon={FaEllipsisV}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+        />
+      )}
       {children}
     </Swipeable>
   ),
@@ -77,14 +85,14 @@ export const Navigation = createComponent(
 export const Sidebar = createComponent(
   ({ hasContent, width = 240 }) => ({
     transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
-    width, 
+    width,
     position: 'relative',
     ifSmallDown: {
       width: hasContent ? 12 : '100%',
       maxWidth: hasContent ? 12 : '100%',
       minWidth: hasContent ? 12 : '100%',
       overflow: 'hidden'
-    },
+    }
   }),
   ({ children, className, goBack, hasContent }) => (
     <Swipeable
@@ -92,7 +100,14 @@ export const Sidebar = createComponent(
       className={className}
       onTap={hasContent ? () => goBack() : null}
     >
-      {hasContent && <Icon setCollapsed={() => goBack()} icon={FaChevronLeft} size={14} color="dark" />}
+      {hasContent && (
+        <Icon
+          setCollapsed={() => goBack()}
+          icon={FaChevronLeft}
+          size={14}
+          color="dark"
+        />
+      )}
       {children}
     </Swipeable>
   ),
@@ -124,14 +139,14 @@ const enhance = compose(
     overflow: 'hidden'
   }),
   getContext({
-    renderer: PropTypes.object,
+    renderer: PropTypes.object
   }),
-  withTheme, 
+  withTheme,
   withProps(({ renderer, theme }) => {
     renderer.renderStatic(
       {
         overflow: 'hidden',
-        height: '100%',
+        height: '100%'
       },
       '#app,body,html'
     );
@@ -151,13 +166,13 @@ const enhance = compose(
       '#app'
     );
   }),
-  withState('collapsed', 'setCollapsed', true), 
+  withState('collapsed', 'setCollapsed', true),
   connect(({ location }) => ({
-    url: location.url,
+    url: location.url
   })),
   withPropsOnChange(['url'], ({ url, collapsed, setCollapsed }) => ({
-    xy: !collapsed ? setCollapsed(true) : null,
-  })),
+    xy: !collapsed ? setCollapsed(true) : null
+  }))
 );
 export default enhance(
   ({
@@ -168,24 +183,21 @@ export default enhance(
     children,
     width = 240,
     header
-  }) => 
+  }) => (
     // const collapsed = width < 1200;
-     (
-       <div
-         className={className}
-       >
-         <Navigation
-           setCollapsed={setCollapsed}
-           collapsed={collapsed}
-           width={width}
-         >
-           <Menu color inverted collapsed={collapsed} header={header}>
-             {menu}
-           </Menu>
-         </Navigation>
-         {children}
-       </div>
-    )
+    <div className={className}>
+      <Navigation
+        setCollapsed={setCollapsed}
+        collapsed={collapsed}
+        width={width}
+      >
+        <Menu color inverted collapsed={collapsed} header={header}>
+          {menu}
+        </Menu>
+      </Navigation>
+      {children}
+    </div>
+  )
 );
 
 export const Area = ({
@@ -198,7 +210,12 @@ export const Area = ({
   className
 }) => (
   <ContentContainer>
-    <Sidebar width={width} className={className} hasContent={hasContent} goBack={goBack}>
+    <Sidebar
+      width={width}
+      className={className}
+      hasContent={hasContent}
+      goBack={goBack}
+    >
       {menu}
     </Sidebar>
     {hasContent ? (
