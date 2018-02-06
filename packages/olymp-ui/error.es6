@@ -9,6 +9,7 @@ export default createComponent(
     height: '100vh',
     textAlign: 'center',
     fontSize: 16,
+    width: '100%',
     '& h1': {
       fontSize: 32,
       marginTop: 32
