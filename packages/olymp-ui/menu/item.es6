@@ -69,8 +69,9 @@ export default createComponent(
       flexShrink: 0,
       width: !theme.collapsed ? '100%' : large ? 54 : small ? 32 : 40,
       marginLeft: theme.collapsed && !large && 7,
+      marginY: theme.space1,
       paddingLeft: !icon && theme.space3,
-      paddingRight: !icon && theme.space2,
+      paddingRight: theme.space3,
       display: 'flex',
       alignItems: 'center',
       cursor: !!onClick && !disabled && 'pointer',
@@ -79,7 +80,6 @@ export default createComponent(
       backgroundColor:
         (bgColor && active && hoverColor) || bgColor || (active && theme.dark5),
       color: !!inverted && theme.light,
-      marginY: theme.space1,
       userSelect: 'none',
       onHover: {
         backgroundColor: !!onClick && !disabled && hoverColor
