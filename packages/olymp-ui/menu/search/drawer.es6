@@ -1,22 +1,7 @@
 import React, { Component } from 'react';
-import { createComponent } from 'react-fela';
 import { FaSearch, FaFile } from 'olymp-icons';
 import Drawer from '../../drawer';
 import Menu from '../menu';
-
-const Input = createComponent(
-  ({ theme }) => ({
-    backgroundColor: 'transparent',
-    border: 0,
-    color: theme.inverted ? theme.light2 : theme.dark2,
-    fontSize: '1.4em',
-    outline: 0,
-    fontStyle: 'italic',
-    width: '100%'
-  }),
-  'input',
-  p => Object.keys(p)
-);
 
 export default class SearchDrawer extends Component {
   componentWillReceiveProps({ open }) {
@@ -47,14 +32,17 @@ export default class SearchDrawer extends Component {
           <Menu.Item onClick={onClose} icon={<FaSearch />} />
         </Menu>
         <Menu
-          color="white"
           header={
-            <Input
-              innerRef={x => (this.input = x)}
-              placeholder={placeholder}
-              value={value || ''}
-              onChange={e => onChange(e.target.value)}
-            />
+            <Menu.Item large style={{ padding: 0 }}>
+              <Menu.Input
+                innerRef={x => {
+                  this.input = x;
+                }}
+                placeholder={placeholder}
+                value={value || ''}
+                onChange={e => onChange(e.target.value)}
+              />
+            </Menu.Item>
           }
         >
           {results.map(item => (

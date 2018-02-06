@@ -9,6 +9,7 @@ import Item from './item';
 import Title from './title';
 import Space from './space';
 import Extra from './extra';
+import Input from './input';
 
 const Inner = createComponent(
   ({ overflowY = 'auto' }) => ({
@@ -94,4 +95,5 @@ Component.Title = Title;
 Component.Image = Image;
 Component.Space = Space;
 Component.Extra = Extra;
+Component.Input = Input;
 export default Component;
