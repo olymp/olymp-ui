@@ -1,9 +1,48 @@
-import React, { Fragment } from 'react';
-import { createComponent } from 'react-fela';
+import React, { Fragment, cloneElement } from 'react';
+import { createComponent, withStyle } from 'olymp-fela';
+import { withState, compose } from 'recompose';
+import Swipeable from 'react-swipeable';
 import { getColor } from './colors-provider';
 
-const Drawer = createComponent(
-  ({
+export const Navigation = createComponent(
+  ({ collapsed, width = 240, right }) => ({
+    flex: 0,
+    flexWidth: 72,
+    height: '100%',
+    position: 'relative', 
+    '> div': !collapsed ? {  
+      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',   
+      height: '100%',
+      right: right ? 0 : undefined,
+      zIndex: 5,
+      flexWidth: width,
+      position: 'absolute',
+    } : {
+      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',   
+      position: 'absolute',
+      flexWidth: 72,
+      height: '100%',
+    },
+  }),
+  ({ children, className, setCollapsed, collapsed }) => (
+    <div className={className}>
+      <Swipeable
+        onSwipedRight={() => setCollapsed(false)}
+        onSwipedLeft={() => setCollapsed(true)}
+        onMouseLeave={() => setCollapsed(true)}
+        onMouseEnter={() => setCollapsed(false)}
+      >
+        {children}
+      </Swipeable>
+    </div>
+  ),
+  ['setCollapsed', 'collapsed']
+);
+
+
+const enhance = compose(
+  withState('collapsed', 'setCollapsed', true),
+  withStyle(({
     theme,
     color,
     palette,
@@ -32,8 +71,7 @@ const Drawer = createComponent(
             transform: open ? null : 'translateX(-101%)'
           },
     height: '100%',
-    minWidth: collapsed ? 72 : width,
-    maxWidth: collapsed ? 72 : width,
+    flexWidth: width,
     zIndex: dim ? 15 : 12,
     overflow: !open ? 'hidden' : undefined,
     boxShadow: !collapsed ? theme.boxShadow : undefined,
@@ -42,22 +80,33 @@ const Drawer = createComponent(
       getColor(theme, color, palette) || theme.inverted
         ? theme.light
         : theme.dark,
-    display: 'flex'
-  }),
-  ({ className, children, open, onClose, width = 312, onClick, ...rest }) => (
-    <aside
-      className={className}
-      {...rest}
-      onClick={e => {
-        e.stopPropagation();
-        if (onClick) onClick(e);
-      }}
-    >
-      {children}
-    </aside>
-  ),
-  ({ inverted, right, top, left, collapsed, dim, ...p }) => Object.keys(p)
+    display: 'flex',
+    ifSmallDown: {
+      flexWidth: '100%',
+    }
+  })),
 );
+
+const Drawer = enhance(({ className, children, open, onClose, onClick, right, menu, setCollapsed, collapsed, width, ...rest }) => (
+  <aside
+    className={className}
+    {...rest}
+    onClick={e => {
+      e.stopPropagation();
+      if (onClick) onClick(e);
+    }}
+  >
+    {children}
+    <Navigation
+      right={right}
+      setCollapsed={setCollapsed}
+      collapsed={collapsed}
+      width={width}
+    >
+      {menu && cloneElement(menu, { collapsed })}
+    </Navigation>
+  </aside>
+));
 
 const Dimmer = createComponent(
   ({ theme, top = 0, open, inverted }) => ({
