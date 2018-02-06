@@ -35,46 +35,56 @@ export default {
   bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
   date: ({ value, onChange, ...p }) => (
     <DatePicker
-      value={moment(value).startOf('day')}
+      value={value ? moment(value).startOf('day') : undefined}
       format="DD.MM.YYYY"
-      onChange={(v, props) => onChange(v.format(), props)}
+      onChange={(v, props) =>
+        v ? onChange(v.format(), props) : onChange(undefined, props)
+      }
       style={{ width: '100%' }}
       {...p}
     />
   ),
   datetime: ({ value, onChange, ...p }) => (
     <DatePicker
-      value={moment(value)}
+      value={value ? moment(value) : undefined}
       showTime
       format="DD.MM.YYYY"
-      onChange={(v, props) => onChange(v.format(), props)}
+      onChange={(v, props) =>
+        v ? onChange(v.format(), props) : onChange(undefined, props)
+      }
       style={{ width: '100%' }}
       {...p}
     />
   ),
   time: ({ value, onChange, ...p }) => (
     <TimePicker
-      value={moment(value).startOf('hour')}
+      value={value ? moment(value).startOf('hour') : undefined}
       format="HH:mm"
-      onChange={(v, props) => onChange(v.format(), props)}
+      onChange={(v, props) =>
+        v ? onChange(v.format(), props) : onChange(undefined, props)
+      }
       style={{ width: '100%' }}
       {...p}
     />
   ),
   week: ({ value, onChange, ...p }) => (
     <DatePicker.WeekPicker
-      value={moment(value).startOf('week')}
+      value={value ? moment(value).startOf('week') : undefined}
       format="ww. / YYYY"
-      onChange={(v, props) => onChange(v.format(), props)}
+      onChange={(v, props) =>
+        v ? onChange(v.format(), props) : onChange(undefined, props)
+      }
       style={{ width: '100%' }}
       {...p}
     />
   ),
   month: ({ value, onChange, ...p }) => (
     <DatePicker.MonthPicker
-      value={moment(value).startOf('month')}
+      value={value ? moment(value).startOf('month') : undefined}
       format="MM / YYYY"
-      onChange={(v, props) => onChange(v.format(), props)}
+      onChange={(v, props) =>
+        v ? onChange(v.format(), props) : onChange(undefined, props)
+      }
       style={{ width: '100%' }}
       {...p}
     />
