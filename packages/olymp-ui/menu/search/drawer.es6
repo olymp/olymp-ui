@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import { createComponent } from 'react-fela';
+import { FaSearch, FaFile } from 'olymp-icons';
 import Drawer from '../../drawer';
 import Menu from '../menu';
-import { createComponent } from 'react-fela';
-// import { Menu } from 'semantic-ui-react';
-import { FaSearch, FaFile } from 'olymp-icons';
 
 const Input = createComponent(
   ({ theme }) => ({
@@ -25,6 +24,7 @@ export default class SearchDrawer extends Component {
       this.input.focus();
     }
   }
+
   render() {
     const {
       open,
