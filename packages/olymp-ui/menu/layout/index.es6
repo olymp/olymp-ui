@@ -55,26 +55,25 @@ export const ContentContainer = createComponent(
 );
 
 export const Navigation = createComponent(
-  ({ collapsed, width = 240, theme }) => ({
+  ({ collapsed, width = 240 }) => ({
     flex: 0,
-    width: 72,
-    maxWidth: 72,
-    minWidth: 72,
+    flexWidth: 72,
     height: '100%',
-    position: 'relative',
-    '> div': !collapsed ? {
+    position: 'relative', 
+    '> div': !collapsed ? {  
+      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',   
       height: '100%',
-      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
       zIndex: 5,
-      width,
+      flexWidth: width,
       position: 'absolute',
     } : {
+      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',   
+      position: 'absolute',
+      flexWidth: 72,
       height: '100%',
     },
     ifSmallDown: {
-      width: 24,
-      maxWidth: 24,
-      minWidth: 24,
+      flexWidth: 24,
       overflow: collapsed ? 'hidden' : undefined,
       '> div > div > *': collapsed && {
         display: 'none',
