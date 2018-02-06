@@ -101,7 +101,6 @@ const Drawer = enhance(({ className, children, open, onClose, onClick, right, me
       right={right}
       setCollapsed={setCollapsed}
       collapsed={collapsed}
-      width={width}
     >
       {menu && cloneElement(menu, { collapsed })}
     </Navigation>

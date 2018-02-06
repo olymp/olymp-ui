@@ -201,7 +201,6 @@ export default enhance(
     children,
     width = 240,
   }) => (
-    // const collapsed = width < 1200;
     <div className={className}>
       <Navigation
         setCollapsed={setCollapsed}
