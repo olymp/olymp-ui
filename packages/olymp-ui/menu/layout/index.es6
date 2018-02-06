@@ -86,6 +86,7 @@ export const Navigation = createComponent(
       <Swipeable
         onSwipedRight={() => setCollapsed(false)}
         onSwipedLeft={() => setCollapsed(true)}
+        onMouseMove={() => collapsed && setCollapsed(false)}
         onMouseLeave={() => setCollapsed(true)}
         onMouseEnter={() => setCollapsed(false)}
       >

@@ -32,7 +32,8 @@ const Drawer = createComponent(
             transform: open ? null : 'translateX(-101%)'
           },
     height: '100%',
-    minWidth: width,
+    minWidth: collapsed ? 72 : width,
+    maxWidth: collapsed ? 72 : width,
     zIndex: dim ? 15 : 12,
     overflow: !open ? 'hidden' : undefined,
     boxShadow: !collapsed ? theme.boxShadow : undefined,
