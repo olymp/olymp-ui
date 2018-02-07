@@ -56,6 +56,7 @@ const enhance = compose(
     dim
   }) => ({
     zIndex: 15,
+    xy: console.log(open),
     pointerEvents: 'initial',
     position: 'absolute',
     // position: flex ? 'absolute' : 'fixed',
@@ -75,7 +76,7 @@ const enhance = compose(
             left: (left !== true && left) || 0,
             transform: open ? null : 'translateX(-101%)'
           },
-    width: open ? 0 : width,
+    width: !open ? 0 : width,
     maxWidth: '100%',
     overflow: !open ? 'hidden' : 'scroll',
     boxShadow: open ? theme.boxShadow : undefined,
