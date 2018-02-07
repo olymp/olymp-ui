@@ -5,12 +5,12 @@ import assign from 'object-assign';
 
 @withStyle(() => ({
   overflowY: 'auto',
-  overflowX: 'hidden',
+  // overflowX: 'hidden',
   '-webkit-overflow-scrolling': 'touch',
 }))
 export default class BounceFix extends Component {
     static defaultProps = {
-            componentClass: 'div'
+        componentClass: 'div'
     }
     onTouchMove = (e) => {
         if (this._blockTouchMove) {

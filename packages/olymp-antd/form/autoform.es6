@@ -20,9 +20,9 @@ const Wrapper = createComponent(
 
 export default (p) => (
   <Wrapper>
-    <AutoSizer>
-      {({ width }) => (
-        <Form {...p} layout={width > 400 ? 'horizontal' : 'vertical'} />
+    <AutoSizer steps={[0, 400]}>
+      {({ step }) => (
+        <Form {...p} layout={step === 400 ? 'horizontal' : 'vertical'} />
       )}
     </AutoSizer>
   </Wrapper>

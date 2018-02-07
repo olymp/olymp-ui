@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { FaChevronLeft, FaEllipsisV } from 'olymp-icons';
 import Tappable from 'react-tappable';
 import Swipeable from 'react-swipeable';
-import NoBounce from '../../bouncefix';
+import NoBounce from '../bouncefix';
 
 export const Icon = createComponent(
   ({ theme }) => ({
