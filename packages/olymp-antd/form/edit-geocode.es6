@@ -15,6 +15,16 @@ const LocIcon = createComponent(
   ({ hasLocation, ...p }) => Object.keys(p)
 );
 
+const StyledInput = createComponent(
+  ({ theme }) => ({
+    '> input': {
+      paddingRight: `${theme.space3} !important`
+    }
+  }),
+  p => <Input {...p} />,
+  p => Object.keys(p)
+);
+
 const enhance = compose(
   withApollo,
   withState('input', 'setInput'),
@@ -185,20 +195,25 @@ export default class GeocodeEditor extends Component {
       geocodeLoading
     } = this.props;
 
+    const dataSource = [...(items || [])];
+
+    if (value && value.id)
+      dataSource.push({
+        placeId: value.id,
+        description: value.formattedAddress
+      });
+
     return (
       <AutoComplete
         style={{ width: '100%' }}
-        dataSource={[
-          { placeId: value.id, description: value.formattedAddress },
-          ...(items || [])
-        ].map(this.renderOption)}
+        dataSource={dataSource.map(this.renderOption)}
         onSelect={this.onSelect}
         onSearch={this.handleSearch}
         optionLabelProp="text"
-        value={input || value.id}
+        value={input || get(value, 'id')}
         disabled={placesLoading || geocodeLoading}
       >
-        <Input
+        <StyledInput
           suffix={
             placesLoading || geocodeLoading ? (
               <Icon type="loading" />
