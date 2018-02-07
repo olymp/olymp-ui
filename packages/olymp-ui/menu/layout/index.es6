@@ -171,7 +171,9 @@ const enhance = compose(
     renderer.renderStatic(
       {
         padding: 'env(safe-area-inset-top) 0 0 0',
-        backgroundColor: theme.color
+        backgroundColor: theme.color,
+        margin: 0,
+        '-webkit-overflow-scrolling': 'touch',
       },
       'body'
     );
@@ -188,7 +190,7 @@ const enhance = compose(
   connect(({ location }) => ({
     url: location.url
   })),
-  withPropsOnChange(['url'], ({ url, collapsed, setCollapsed }) => ({
+  withPropsOnChange(['url'], ({ collapsed, setCollapsed }) => ({
     xy: !collapsed ? setCollapsed(true) : null
   }))
 );

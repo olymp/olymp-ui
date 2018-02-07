@@ -46,17 +46,12 @@ const enhance = compose(
     theme,
     color,
     palette,
-    top = 0,
     width = 312,
     right,
     left,
     open,
-    collapsed = true,
-    flex,
-    dim
   }) => ({
     zIndex: 15,
-    xy: console.log(open),
     pointerEvents: 'initial',
     position: 'absolute',
     // position: flex ? 'absolute' : 'fixed',
@@ -130,8 +125,8 @@ const Dimmer = createComponent(
 
 export default ({ dim = true, children, onClose, ...props }) => (
   <Fragment>
-    {dim && <Dimmer {...props} onClick={onClose} key="dim" />}
-    <Drawer {...props} dim={dim} key="draw">
+    {dim && <Dimmer {...props} onClick={onClose} />}
+    <Drawer {...props}>
       {children}
     </Drawer>
   </Fragment>
