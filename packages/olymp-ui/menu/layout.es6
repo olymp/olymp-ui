@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { FaChevronLeft, FaEllipsisV } from 'olymp-icons';
 import Tappable from 'react-tappable';
 import Swipeable from 'react-swipeable';
+import NoBounce from '../../bouncefix';
 
 export const Icon = createComponent(
   ({ theme }) => ({
@@ -50,7 +51,9 @@ export const ContentContainer = createComponent(
     flex: 1,
     overflow: 'hidden'
   }),
-  ({ children, className }) => <div className={className}>{children}</div>,
+  ({ children, className }) => (
+    <NoBounce className={className}>{children}</NoBounce>
+  ),
   []
 );
 
@@ -198,7 +201,7 @@ const enhance = compose(
 );
 export default enhance(
   ({ className, setCollapsed, collapsed, menu, children, width = 240 }) => (
-    <div className={className}>
+    <NoBounce className={className}>
       <Navigation
         setCollapsed={setCollapsed}
         collapsed={collapsed}
@@ -207,7 +210,7 @@ export default enhance(
         {cloneElement(menu, { collapsed })}
       </Navigation>
       {children}
-    </div>
+    </NoBounce>
   )
 );
 
