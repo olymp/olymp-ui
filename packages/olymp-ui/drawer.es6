@@ -55,35 +55,36 @@ const enhance = compose(
     flex,
     dim
   }) => ({
+    zIndex: 15,
     pointerEvents: 'initial',
-    position: flex ? 'absolute' : 'fixed',
+    position: 'absolute',
+    // position: flex ? 'absolute' : 'fixed',
+    // top: 'env(safe-area-inset-top)',
     top: 0,
-    paddingTop: top,
+    height: '100%',
+    '-webkit-overflow-scrolling': 'touch',
+    bottom: 0,
     extend:
       right !== undefined
         ? {
             right: (right !== true && right) || 0,
             justifyContent: 'flex-end',
-            transform: open ? null : 'translateX(100%)'
+            transform: open ? null : 'translateX(101%)'
           }
         : {
             left: (left !== true && left) || 0,
             transform: open ? null : 'translateX(-101%)'
           },
-    height: '100%',
-    flexWidth: width,
-    zIndex: dim ? 15 : 12,
-    overflow: !open ? 'hidden' : undefined,
-    boxShadow: !collapsed ? theme.boxShadow : undefined,
+    width: open ? 0 : width,
+    maxWidth: '100%',
+    overflow: !open ? 'hidden' : 'scroll',
+    boxShadow: open ? theme.boxShadow : undefined,
     transition: 'transform 200ms ease-out, min-width 200ms ease-out',
     backgroundColor:
       getColor(theme, color, palette) || theme.inverted
         ? theme.light
         : theme.dark,
     display: 'flex',
-    ifSmallDown: {
-      flexWidth: '100%',
-    }
   })),
 );
 
@@ -110,11 +111,11 @@ const Drawer = enhance(({ className, children, open, onClose, onClick, right, me
 const Dimmer = createComponent(
   ({ theme, top = 0, open, inverted }) => ({
     height: '100%',
-    position: 'fixed',
+    width: '100%',
     top: 0,
-    paddingTop: top,
-    right: 0,
     bottom: 0,
+    position: 'fixed',
+    right: 0,
     left: 0,
     backgroundColor: inverted ? theme.light2 : theme.dark3,
     zIndex: 14,
