@@ -10,7 +10,7 @@ import assign from 'object-assign';
 }))
 export default class BounceFix extends Component {
     static defaultProps = {
-            componentClass: 'div'
+        componentClass: 'div'
     }
     onTouchMove = (e) => {
         if (this._blockTouchMove) {
