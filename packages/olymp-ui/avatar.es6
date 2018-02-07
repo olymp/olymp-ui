@@ -31,6 +31,6 @@ export default createComponent(
       theme.color
     }`
   }),
-  ({ size, ...p }) => <Gravatar {...p} protocol="https://" size={size || 30} />,
-  p => Object.keys(p)
+  ({ size, ...p }) => <Gravatar  {...p} protocol="https://" size={size || 30} />,
+  ['email', 'name', 'default', 'size']
 );
