@@ -42,5 +42,5 @@ export default createComponent(
       )}
     </Field>
   ),
-  ({ active, today, ...p }) => Object.keys(p)
+  ({ active, today, bold, ...p }) => Object.keys(p)
 );
