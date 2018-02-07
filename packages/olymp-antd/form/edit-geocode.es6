@@ -1,148 +1,212 @@
 import React, { Component } from 'react';
-import { AutoComplete, Input } from 'antd';
-import { FaNeuter } from 'olymp-icons';
-import { withApollo, graphql } from 'react-apollo';
-import { compose, withState } from 'recompose';
+import { AutoComplete, Input, Icon } from 'antd';
 import { get, debounce } from 'lodash';
+import { withApollo, graphql } from 'react-apollo';
+import { createComponent } from 'react-fela';
+import { compose, withState } from 'recompose';
 import gql from 'graphql-tag';
+
+const LocIcon = createComponent(
+  ({ theme, hasLocation }) => ({
+    color: !hasLocation ? theme.color : theme.dark3,
+    cursor: 'pointer'
+  }),
+  p => <Icon type="environment-o" {...p} />,
+  ({ hasLocation, ...p }) => Object.keys(p)
+);
 
 const enhance = compose(
   withApollo,
-  withState('lat', 'setLat'),
-  withState('lng', 'setLng'),
+  withState('input', 'setInput'),
+  withState('geocodeLoading', 'setGeocodeLoading'),
+  withState(
+    'location',
+    'setLocation',
+    ({ lat, lng }) => lat !== undefined && lng !== undefined && `${lat},${lng}`
+  ),
   graphql(
     gql`
-      query geocodeList($address: String!) {
-        geocodeList(address: $address, region: "DE", language: "DE") {
-          id
-          streetNumber
-          route
-          locality
-          administrativeAreaLevel1
-          administrativeAreaLevel2
-          country
-          postalCode
-          formattedAddress
-          lat
-          lng
-          locationType
-          partialMatch
-          types
+      query places($input: String!, $location: String) {
+        places(input: $input, location: $location) {
+          placeId
+          description
         }
       }
     `,
     {
-      options: ({ lat, lng }) => ({
-        skip: lat === undefined || lng === undefined,
+      options: ({ input, location }) => ({
+        skip: !input,
         variables: {
-          address: `${lat}, ${lng}`,
-        },
+          input,
+          location
+        }
       }),
-      props: ({ ownProps, data }) => ({
-        ...ownProps,
-        value: get(data, 'geocodeList[0]', {}),
-      }),
-    },
-  ),
-  withState('items', 'setItems', []),
+      props: ({ ownProps: props, data }) => ({
+        ...props,
+        placesLoading: data.loading,
+        items: get(data, 'places', [])
+      })
+    }
+  )
 );
 
 @enhance
 export default class GeocodeEditor extends Component {
   static defaultProps = {
-    value: null,
+    forceLatLng: true
   };
 
-  onAdd = code => {
-    const { onChange, items } = this.props;
+  componentWillMount() {
+    const { forceLatLng } = this.props;
 
-    this.text = null;
-    const item = items.find(x => x.id === code);
-    onChange(item);
+    if (forceLatLng) {
+      this.getLatLng(false);
+    }
+  }
+
+  onSelect = id => {
+    const { client, onChange, setInput, setGeocodeLoading } = this.props;
+
+    setGeocodeLoading(true);
+    client
+      .query({
+        query: gql(`
+        query place($id: String!) {
+          place(placeId: $id) {
+            id
+            streetNumber
+            route
+            locality
+            administrativeAreaLevel1
+            administrativeAreaLevel2
+            country
+            postalCode
+            formattedAddress
+            lat
+            lng
+            locationType
+            partialMatch
+            types
+          }
+        }
+      `),
+        variables: {
+          id
+        }
+      })
+      .then(({ data, loading }) => {
+        setGeocodeLoading(loading);
+
+        if (data.place) {
+          onChange(data.place);
+          setInput();
+        }
+      })
+      .catch(err => console.log(err));
   };
 
-  handleSearch = term => {
-    this.text = term;
+  getLatLng = (force = true) => {
+    const {
+      client,
+      value,
+      onChange,
+      setInput,
+      setLocation,
+      setGeocodeLoading
+    } = this.props;
 
-    if (term) {
-      this.performSearch(term);
+    if (navigator.geolocation) {
+      setGeocodeLoading(true);
+
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        const location = `${coords.latitude},${coords.longitude}`;
+
+        client
+          .query({
+            query: gql(`
+            query geocode($location: String) {
+              geocode(location: $location) {
+                id
+                streetNumber
+                route
+                locality
+                administrativeAreaLevel1
+                administrativeAreaLevel2
+                country
+                postalCode
+                formattedAddress
+                lat
+                lng
+                locationType
+                partialMatch
+                types
+              }
+            }
+          `),
+            variables: {
+              location
+            }
+          })
+          .then(({ data, loading }) => {
+            setGeocodeLoading(loading);
+
+            if (data.geocode[0] && (force || !value.id)) {
+              onChange(data.geocode[0]);
+              setInput();
+            }
+          })
+          .catch(err => console.log(err));
+
+        setLocation(location);
+      });
     }
   };
 
-  performSearch = debounce(
-    address => {
-      const { client, setItems } = this.props;
+  handleSearch = debounce(input => this.props.setInput(input), 500, {
+    trailing: true,
+    leading: false
+  });
 
-      return client
-        .query({
-          query: gql(`
-              query geocodeList($address: String!) {
-                geocodeList(address: $address, region: "DE", language: "DE") {
-                  id
-                  streetNumber
-                  route
-                  locality
-                  administrativeAreaLevel1
-                  administrativeAreaLevel2
-                  country
-                  postalCode
-                  formattedAddress
-                  lat
-                  lng
-                  locationType
-                  partialMatch
-                  types
-                }
-              }
-            `),
-          variables: {
-            address,
-          },
-        })
-        .then(({ data }) => {
-          setItems(data.geocodeList);
-        });
-    },
-    500,
-    { trailing: true, leading: false },
-  );
-
-  renderOption = ({ id, formattedAddress }) => (
-    <AutoComplete.Option key={id} text={formattedAddress}>
+  renderOption = ({ placeId, description }) => (
+    <AutoComplete.Option key={placeId} text={description}>
       <div style={{ whiteSpace: 'initial', display: 'flex' }}>
-        {formattedAddress}
+        {description}
       </div>
     </AutoComplete.Option>
   );
 
   render() {
-    const { value, size, placeholder, items, setLat, setLng } = this.props;
+    const {
+      input,
+      items,
+      value,
+      location,
+      placesLoading,
+      geocodeLoading
+    } = this.props;
 
     return (
       <AutoComplete
-        value={this.text || (value ? value.formattedAddress : '')}
         style={{ width: '100%' }}
-        dataSource={(items || []).map(this.renderOption)}
-        onSelect={this.onAdd}
+        dataSource={[
+          { placeId: value.id, description: value.formattedAddress },
+          ...(items || [])
+        ].map(this.renderOption)}
+        onSelect={this.onSelect}
         onSearch={this.handleSearch}
         optionLabelProp="text"
+        value={input || value.id}
+        disabled={placesLoading || geocodeLoading}
       >
         <Input
-          placeholder={placeholder || 'Suche ...'}
-          size={size}
           suffix={
-            <FaNeuter
-              size={14}
-              onClick={() => {
-                if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(({ coords }) => {
-                    setLat(coords.latitude);
-                    setLng(coords.longitude);
-                  });
-                }
-              }}
-            />
+            placesLoading || geocodeLoading ? (
+              <Icon type="loading" />
+            ) : (
+              <LocIcon hasLocation={!!location} onClick={this.getLatLng} />
+            )
           }
+          disabled={placesLoading || geocodeLoading}
         />
       </AutoComplete>
     );
