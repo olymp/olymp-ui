@@ -26,11 +26,11 @@ export const Navigation = createComponent(
           height: '100%'
         }
   }),
-  ({ children, className, setCollapsed, collapsed }) => (
+  ({ children, className, setCollapsed, right }) => (
     <div className={className}>
       <Swipeable
-        onSwipedRight={() => setCollapsed(false)}
-        onSwipedLeft={() => setCollapsed(true)}
+        onSwipedRight={() => right ? setCollapsed(true) : setCollapsed(false)}
+        onSwipedLeft={() => right ? setCollapsed(false) : setCollapsed(true)}
         onMouseLeave={() => setCollapsed(true)}
         onMouseEnter={() => setCollapsed(false)}
       >
@@ -38,7 +38,7 @@ export const Navigation = createComponent(
       </Swipeable>
     </div>
   ),
-  ['setCollapsed', 'collapsed']
+  ['setCollapsed', 'right']
 );
 
 const enhance = compose(
