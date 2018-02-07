@@ -4,7 +4,6 @@ import { Input, Switch, TimePicker, DatePicker } from 'antd';
 import slate from './edit-slate';
 import color from './edit-color';
 import geocode from './edit-geocode';
-import place from './edit-place';
 /* import strings from './edit-strings';
 import tags from './edit-tags';
 import openings from './edit-openings';
@@ -30,7 +29,6 @@ export default {
   text: Input.TextArea,
   slate,
   geocode,
-  place,
   color,
   bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
   date: ({ value, onChange, ...p }) => (
@@ -91,12 +89,10 @@ export default {
   )
   // image: p => <EditImage maxHeight={100} maxWidth={250} {...p} />
 
-  /* color,
-  date,
+  /* 
   enum: enu,
-  geocode,
-  image, */
-  /* list,
+  image,
+  list,
   openings,
   relList,
   rel,
