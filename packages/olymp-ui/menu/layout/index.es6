@@ -21,7 +21,7 @@ export const Icon = createComponent(
     left: 0,
     width: '100%',
     '> svg': {
-        // display: 'none',
+      // display: 'none',
       display: 'none',
       position: 'absolute',
       top: '50%',
@@ -59,24 +59,26 @@ export const Navigation = createComponent(
     flex: 0,
     flexWidth: 72,
     height: '100%',
-    position: 'relative', 
-    '> div': !collapsed ? {  
-      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',   
-      height: '100%',
-      zIndex: 5,
-      flexWidth: width,
-      position: 'absolute',
-    } : {
-      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',   
-      position: 'absolute',
-      flexWidth: 72,
-      height: '100%',
-    },
+    position: 'relative',
+    '> div': !collapsed
+      ? {
+          transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
+          height: '100%',
+          zIndex: 5,
+          flexWidth: width,
+          position: 'absolute'
+        }
+      : {
+          transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
+          position: 'absolute',
+          flexWidth: 72,
+          height: '100%'
+        },
     ifSmallDown: {
       flexWidth: 24,
       overflow: collapsed ? 'hidden' : undefined,
       '> div > div > *': collapsed && {
-        display: 'none',
+        display: 'none'
       }
     }
   }),
@@ -90,7 +92,9 @@ export const Navigation = createComponent(
         onMouseEnter={() => setCollapsed(false)}
       >
         {children}
-        {collapsed && <Icon onClick={() => setCollapsed(false)} icon={FaEllipsisV} />}
+        {collapsed && (
+          <Icon onClick={() => setCollapsed(false)} icon={FaEllipsisV} />
+        )}
       </Swipeable>
     </div>
   ),
@@ -103,9 +107,7 @@ export const Sidebar = createComponent(
     width,
     position: 'relative',
     ifSmallDown: {
-      width: hasContent ? 24 : '100%',
-      maxWidth: hasContent ? 24 : '100%',
-      minWidth: hasContent ? 24 : '100%',
+      flexWidth: hasContent ? 24 : '100%',
       overflow: 'hidden',
       '> div > *': {
         display: hasContent ? 'none' : undefined
@@ -173,7 +175,7 @@ const enhance = compose(
         padding: 'env(safe-area-inset-top) 0 0 0',
         backgroundColor: theme.color,
         margin: 0,
-        '-webkit-overflow-scrolling': 'touch',
+        '-webkit-overflow-scrolling': 'touch'
       },
       'body'
     );
@@ -195,14 +197,7 @@ const enhance = compose(
   }))
 );
 export default enhance(
-  ({
-    className,
-    setCollapsed,
-    collapsed,
-    menu,
-    children,
-    width = 240,
-  }) => (
+  ({ className, setCollapsed, collapsed, menu, children, width = 240 }) => (
     <div className={className}>
       <Navigation
         setCollapsed={setCollapsed}

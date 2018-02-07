@@ -9,20 +9,22 @@ export const Navigation = createComponent(
     flex: 0,
     flexWidth: 72,
     height: '100%',
-    position: 'relative', 
-    '> div': !collapsed ? {  
-      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',   
-      height: '100%',
-      right: right ? 0 : undefined,
-      zIndex: 5,
-      flexWidth: width,
-      position: 'absolute',
-    } : {
-      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',   
-      position: 'absolute',
-      flexWidth: 72,
-      height: '100%',
-    },
+    position: 'relative',
+    '> div': !collapsed
+      ? {
+          transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
+          height: '100%',
+          right: right ? 0 : undefined,
+          zIndex: 5,
+          flexWidth: width,
+          position: 'absolute'
+        }
+      : {
+          transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
+          position: 'absolute',
+          flexWidth: 72,
+          height: '100%'
+        }
   }),
   ({ children, className, setCollapsed, collapsed }) => (
     <div className={className}>
@@ -39,18 +41,9 @@ export const Navigation = createComponent(
   ['setCollapsed', 'collapsed']
 );
 
-
 const enhance = compose(
   withState('collapsed', 'setCollapsed', true),
-  withStyle(({
-    theme,
-    color,
-    palette,
-    width = 312,
-    right,
-    left,
-    open,
-  }) => ({
+  withStyle(({ theme, color, palette, width = 312, right, left, open }) => ({
     zIndex: 15,
     pointerEvents: 'initial',
     position: 'absolute',
@@ -73,36 +66,50 @@ const enhance = compose(
           },
     width: !open ? 0 : width,
     maxWidth: '100%',
-    overflow: !open ? 'hidden' : 'scroll',
+    overflow: !open ? 'hidden' : 'auto',
     boxShadow: open ? theme.boxShadow : undefined,
     transition: 'transform 200ms ease-out, min-width 200ms ease-out',
     backgroundColor:
       getColor(theme, color, palette) || theme.inverted
         ? theme.light
         : theme.dark,
-    display: 'flex',
-  })),
+    display: 'flex'
+  }))
 );
 
-const Drawer = enhance(({ className, children, open, onClose, onClick, right, menu, setCollapsed, collapsed, width, ...rest }) => (
-  <aside
-    className={className}
-    {...rest}
-    onClick={e => {
-      e.stopPropagation();
-      if (onClick) onClick(e);
-    }}
-  >
-    {children}
-    <Navigation
-      right={right}
-      setCollapsed={setCollapsed}
-      collapsed={collapsed}
+const Drawer = enhance(
+  ({
+    className,
+    children,
+    open,
+    onClose,
+    onClick,
+    right,
+    menu,
+    setCollapsed,
+    collapsed,
+    width,
+    ...rest
+  }) => (
+    <aside
+      className={className}
+      {...rest}
+      onClick={e => {
+        e.stopPropagation();
+        if (onClick) onClick(e);
+      }}
     >
-      {menu && cloneElement(menu, { collapsed })}
-    </Navigation>
-  </aside>
-));
+      {children}
+      <Navigation
+        right={right}
+        setCollapsed={setCollapsed}
+        collapsed={collapsed}
+      >
+        {menu && cloneElement(menu, { collapsed })}
+      </Navigation>
+    </aside>
+  )
+);
 
 const Dimmer = createComponent(
   ({ theme, top = 0, open, inverted }) => ({
@@ -126,8 +133,6 @@ const Dimmer = createComponent(
 export default ({ dim = true, children, onClose, ...props }) => (
   <Fragment>
     {dim && <Dimmer {...props} onClick={onClose} />}
-    <Drawer {...props}>
-      {children}
-    </Drawer>
+    <Drawer {...props}>{children}</Drawer>
   </Fragment>
 );
