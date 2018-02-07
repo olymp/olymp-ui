@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { debounce } from 'lodash';
 
 export default class AutoSizer extends React.PureComponent {
   static defaultProps = {
     onResize: () => {},
-    disableHeight: false,
+    disableHeight: true,
     disableWidth: false,
     style: {}
   };
@@ -36,7 +37,7 @@ export default class AutoSizer extends React.PureComponent {
         this._onResize
       );
 
-      this._onResize();
+      this.onResize();
     }
   }
 
@@ -55,9 +56,10 @@ export default class AutoSizer extends React.PureComponent {
       className,
       disableHeight,
       disableWidth,
-      style
+      style,
+      steps
     } = this.props;
-    const { height, width } = this.state;
+    const { height, width, step } = this.state;
 
     // Outer div should not force width/height since that may prevent containers from shrinking.
     // Inner component should overflow and use calculated width/height.
@@ -65,8 +67,9 @@ export default class AutoSizer extends React.PureComponent {
     const outerStyle: Object = { overflow: 'visible' };
     const childParams: Object = {};
 
-    childParams.height = height;
+    // childParams.height = height;
     childParams.width = width;
+    childParams.step = step || steps[0];
 
     /**
      * TODO: Avoid rendering children before the initial measurements have been collected.
@@ -95,36 +98,56 @@ export default class AutoSizer extends React.PureComponent {
     );
   }
 
-  _onResize = () => {
-    const { disableHeight, disableWidth, onResize } = this.props;
+  _onResize = debounce((...args) => this.onResize(...args), 100, {
+    trailing: true,
+    leading: false
+  });
+
+  onResize = () => {
+    const { disableHeight, disableWidth, onResize, steps = [] } = this.props;
 
     if (this._parentNode) {
       // Guard against AutoSizer component being removed from the DOM immediately after being added.
       // This can result in invalid style values which can result in NaN values if we don't handle them.
       // See issue #150 for more context.
 
-      const height = this._parentNode.offsetHeight || 0;
+      // const height = this._parentNode.offsetHeight || 0;
       const width = this._parentNode.offsetWidth || 0;
 
       const style = window.getComputedStyle(this._parentNode) || {};
       const paddingLeft = parseInt(style.paddingLeft, 10) || 0;
       const paddingRight = parseInt(style.paddingRight, 10) || 0;
-      const paddingTop = parseInt(style.paddingTop, 10) || 0;
-      const paddingBottom = parseInt(style.paddingBottom, 10) || 0;
+      // const paddingTop = parseInt(style.paddingTop, 10) || 0;
+      // const paddingBottom = parseInt(style.paddingBottom, 10) || 0;
 
-      const newHeight = height - paddingTop - paddingBottom;
+      // const newHeight = height - paddingTop - paddingBottom;
       const newWidth = width - paddingLeft - paddingRight;
 
       if (
-        (!disableHeight && this.state.height !== newHeight) ||
+        // (!disableHeight && this.state.height !== newHeight) ||
         (!disableWidth && this.state.width !== newWidth)
       ) {
-        this.setState({
-          height: height - paddingTop - paddingBottom,
-          width: width - paddingLeft - paddingRight
-        });
+        if (!steps.length) {
+          this.setState({
+            // height: height - paddingTop - paddingBottom,
+            width: width - paddingLeft - paddingRight
+          });
+          // onResize({ height, width });
+          onResize({ width });
+        } else {
+          const lastStep = [...steps].reverse().filter(x => x < this.state.width);
+          const step = [...steps].reverse().filter(x => x < width);
+          if (lastStep[0] !== step[0]) {
+            this.setState({
+              // height: height - paddingTop - paddingBottom,
+              width: width - paddingLeft - paddingRight,
+              step: step[0] || steps[0],
+            });
+            // onResize({ height, width });
+            onResize({ width });
+          }
+        }
 
-        onResize({ height, width });
       }
     }
   };
