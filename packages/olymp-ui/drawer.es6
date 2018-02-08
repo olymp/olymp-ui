@@ -26,7 +26,7 @@ export const Navigation = createComponent(
           height: '100%'
         }
   }),
-  ({ children, className, setCollapsed, collapsed }) => (
+  ({ children, className, setCollapsed }) => (
     <div className={className}>
       <Swipeable
         onSwipedRight={() => setCollapsed(false)}

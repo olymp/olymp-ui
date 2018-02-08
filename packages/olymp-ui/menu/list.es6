@@ -12,7 +12,6 @@ const List = ({
   style,
   extra,
   title,
-  rest,
   onClick,
   collapsed
 }) => (
@@ -21,9 +20,12 @@ const List = ({
     ref={_ref || innerRef || ref}
     style={style}
     onClick={!title ? onClick : null}
-    {...rest}
   >
-    {title && <Title collapsed={collapsed} onClick={onClick} extra={extra}>{title}</Title>}
+    {title && (
+      <Title collapsed={collapsed} onClick={onClick} extra={extra}>
+        {title}
+      </Title>
+    )}
     {Children.map(
       children,
       child => (child ? cloneElement(child, { collapsed }) : child)

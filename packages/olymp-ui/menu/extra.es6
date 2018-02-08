@@ -11,11 +11,11 @@ export default createComponent(
     cursor: onClick && !disabled ? 'pointer' : undefined,
     opacity: disabled ? 0.67 : 1,
     '> *': {
-      center: true,
+      center: true
     },
     onHover: {
-      backgroundColor: onClick && !disabled ? theme.dark5 : undefined,
-    },
+      backgroundColor: onClick && !disabled ? theme.dark5 : undefined
+    }
   }),
   ({ className, children, onClick, disabled, large, ...p }) => (
     <div className={className} onClick={disabled ? () => {} : onClick}>

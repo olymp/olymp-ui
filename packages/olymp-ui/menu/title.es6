@@ -24,5 +24,5 @@ export default createComponent(
       {!!extra && <Image extra>{extra}</Image>}
     </div>
   ),
-  p => Object.keys(p)
+  ({ collapsed, ...p }) => Object.keys(p)
 );
