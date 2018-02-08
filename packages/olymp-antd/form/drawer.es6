@@ -17,7 +17,18 @@ const Wrapper = createComponent(
   'div'
 );
 
-export default ({ schema, value, onChange, onClose, layout, title, width }) => (
+export default ({
+  icon,
+  label,
+  name,
+  fields,
+  value,
+  onChange,
+  onClose,
+  layout,
+  title,
+  width
+}) => (
   <Drawer
     open={!!value.id}
     width={width || (layout === 'horizontal' ? 520 : 400)}
@@ -29,10 +40,9 @@ export default ({ schema, value, onChange, onClose, layout, title, width }) => (
         inverted
         collapsed
         header={
-          <Menu.Item
-            large
-            icon={schema.icon ? <Icon type={schema.icon} /> : <FaCube />}
-          />
+          <Menu.Item large icon={icon ? <Icon type={icon} /> : <FaCube />}>
+            {label}
+          </Menu.Item>
         }
       >
         <AntMenu.Tooltip icon={<FaCheck />} onClick={() => {}}>
@@ -52,9 +62,9 @@ export default ({ schema, value, onChange, onClose, layout, title, width }) => (
     <Menu
       header={
         !value.id ? (
-          <Menu.Item large>{schema.label} anlegen</Menu.Item>
+          <Menu.Item large>{label} anlegen</Menu.Item>
         ) : (
-          <Menu.Item large subtitle={`${schema.label} bearbeiten`}>
+          <Menu.Item large subtitle={`${label} bearbeiten`}>
             {title}
           </Menu.Item>
         )
@@ -62,10 +72,10 @@ export default ({ schema, value, onChange, onClose, layout, title, width }) => (
     >
       <Wrapper>
         <Form
-          schema={schema}
           value={value}
           onChange={onChange}
           layout={layout}
+          fields={fields}
         />
       </Wrapper>
     </Menu>

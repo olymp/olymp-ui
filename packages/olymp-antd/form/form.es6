@@ -84,12 +84,11 @@ export default class AntForm extends Component {
   };
 
   renderEdits = () => {
-    const { schema, form, layout = 'vertical', resolve } = this.props;
-    const fields = get(schema, 'fields', []);
+    const { fields = [], form, layout = 'vertical', resolve } = this.props;
 
     return Object.keys(fields).map(fieldName => {
       const { Edit, decoratorProps, editProps, field } = this.resolve(
-        get(schema, ['fields', fieldName]),
+        get(fields, [fieldName]),
         resolve || (() => {})
       );
 
