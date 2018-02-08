@@ -2,7 +2,6 @@ import React from 'react';
 import { createComponent } from 'react-fela';
 import { Drawer } from 'olymp-ui';
 import Menu from 'olymp-ui/menu';
-import AntMenu from 'olymp-antd/menu';
 import { FaCube, FaCheck, FaTimes, FaTrashAlt } from 'olymp-icons';
 import { Icon } from 'antd';
 import Form from './form';
@@ -20,7 +19,6 @@ const Wrapper = createComponent(
 export default ({
   icon,
   label,
-  name,
   fields,
   value,
   onChange,
@@ -45,16 +43,16 @@ export default ({
           </Menu.Item>
         }
       >
-        <AntMenu.Tooltip icon={<FaCheck />} onClick={() => {}}>
+        <Menu.Item icon={<FaCheck />} onClick={() => {}}>
           Speichern
-        </AntMenu.Tooltip>
-        <AntMenu.Tooltip icon={<FaTimes />} onClick={onClose}>
+        </Menu.Item>
+        <Menu.Item icon={<FaTimes />} onClick={onClose}>
           Abbrechen
-        </AntMenu.Tooltip>
+        </Menu.Item>
         {!!value.id && (
-          <AntMenu.Tooltip icon={<FaTrashAlt />} onClick={() => {}}>
+          <Menu.Item icon={<FaTrashAlt />} onClick={() => {}}>
             Löschen
-          </AntMenu.Tooltip>
+          </Menu.Item>
         )}
       </Menu>
     }
