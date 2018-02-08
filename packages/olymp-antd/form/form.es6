@@ -68,7 +68,7 @@ export default class AntForm extends Component {
 
     const result = {
       ...f,
-      edit: DefaultEdits[e] || DefaultEdits.test(e) || DefaultEdits.input,
+      edit: e,
       decoratorProps: {
         initialValue: this.props[initialValue] || initialValue,
         rules: [
@@ -86,10 +86,12 @@ export default class AntForm extends Component {
     const { fields = [], form, layout = 'vertical', resolve } = this.props;
 
     return Object.keys(fields).map(fieldName => {
-      const { edit: Edit, decoratorProps, editProps, ...field } = this.resolve(
+      const { edit, decoratorProps, editProps, ...field } = this.resolve(
         get(fields, [fieldName]),
         resolve || (() => {})
       );
+      const Edit =
+        DefaultEdits[edit] || DefaultEdits.test(edit) || DefaultEdits.input;
 
       return (
         <FormItem key={fieldName} layout={layout} {...field}>
