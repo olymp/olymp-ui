@@ -18,12 +18,18 @@ const Wrapper = createComponent(
   'div'
 );
 
-export default (p) => (
+export default ({ layout = 'auto', ...rest }) => (
   <Wrapper>
-    <AutoSizer steps={[0, 400]}>
-      {({ step }) => (
-        <Form {...p} layout={step === 400 ? 'horizontal' : 'vertical'} />
-      )}
-    </AutoSizer>
+    {
+      layout === 'auto' ? (
+        <AutoSizer steps={[0, 400]}>
+          {({ step }) => (
+            <Form {...rest} layout={step === 400 ? 'horizontal' : 'vertical'} />
+          )}
+        </AutoSizer>
+      ) : (
+        <Form {...rest} layout={layout} />
+      )
+    }
   </Wrapper>
 )
