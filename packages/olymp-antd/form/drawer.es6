@@ -17,10 +17,10 @@ const Wrapper = createComponent(
   'div'
 );
 
-export default ({ schema, value, onChange, onClose, layout, title }) => (
+export default ({ schema, value, onChange, onClose, layout, title, width }) => (
   <Drawer
     open={!!value.id}
-    width={layout === 'horizontal' ? 400 : undefined}
+    width={width || (layout === 'horizontal' ? 520 : 400)}
     right
     onClose={onClose}
     menu={
