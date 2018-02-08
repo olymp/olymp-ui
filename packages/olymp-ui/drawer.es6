@@ -12,21 +12,15 @@ export const Navigation = createComponent(
     flexWidth: 72,
     height: '100%',
     position: 'relative',
-    '> div': !collapsed
-      ? {
-          transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
-          height: '100%',
-          right: right ? 0 : undefined,
-          zIndex: 5,
-          flexWidth: width,
-          position: 'absolute'
-        }
-      : {
-          transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
-          position: 'absolute',
-          flexWidth: 72,
-          height: '100%'
-        }
+    '> div': {
+      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
+      zIndex: 5,
+      position: 'absolute',
+      right: right ? 0 : undefined,
+      left: right ? undefined :0,
+      height: '100%',
+      flexWidth: !collapsed ? width : 72,
+    },
   }),
   ({ children, className, setCollapsed, right }) => (
     <div className={className}>
