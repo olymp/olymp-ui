@@ -32,7 +32,7 @@ export const Icon = createComponent(
       left: 0,
       padding: 1,
       transform: 'translate(4px, -50%)',
-      borderRadius: '100%',
+      borderRadius: '100%'
     }
   }),
   ({ className, color, size, icon: Icon, onClick }) => (
@@ -50,9 +50,7 @@ export const ContentContainer = createComponent(
     flex: 1,
     overflow: 'hidden'
   }),
-  ({ children, className }) => (
-    <div className={className}>{children}</div>
-  ),
+  ({ children, className }) => <div className={className}>{children}</div>,
   []
 );
 
@@ -67,7 +65,7 @@ export const Navigation = createComponent(
       zIndex: 5,
       position: 'absolute',
       height: '100%',
-      flexWidth: !collapsed ? width : 72,
+      flexWidth: !collapsed ? width : 72
     },
     ifSmallDown: {
       flexWidth: 24,
@@ -87,7 +85,6 @@ export const Navigation = createComponent(
         onMouseEnter={() => setCollapsed(false)}
       >
         {children}
-        {console.log(collapsed)}
         {collapsed && (
           <Icon onClick={() => setCollapsed(false)} icon={FaEllipsisV} />
         )}
@@ -163,7 +160,7 @@ const enhance = compose(
       {
         overflow: 'hidden',
         padding: 0,
-        margin: 0,
+        margin: 0
         /* padding: [
           0,
           `0 constant(safe-area-inset-right) constant(safe-area-inset-bottom) constant(safe-area-inset-left)`,
