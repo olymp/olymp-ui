@@ -1,4 +1,4 @@
-export { default } from './form';
+export { default } from './autoform';
 export { default as Drawer } from './drawer';
 export * from './utils';
 
