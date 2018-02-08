@@ -63,20 +63,13 @@ export const Navigation = createComponent(
     flexWidth: 72,
     height: '100%',
     position: 'relative',
-    '> div': !collapsed
-      ? {
-          transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
-          height: '100%',
-          zIndex: 5,
-          flexWidth: width,
-          position: 'absolute'
-        }
-      : {
-          transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
-          position: 'absolute',
-          flexWidth: 72,
-          height: '100%'
-        },
+    '> div': {
+      transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
+      zIndex: 5,
+      position: 'absolute',
+      height: '100%',
+      flexWidth: !collapsed ? width : 72,
+    },
     ifSmallDown: {
       flexWidth: 24,
       overflow: collapsed ? 'hidden' : undefined,
@@ -169,15 +162,22 @@ const enhance = compose(
     renderer.renderStatic(
       {
         overflow: 'hidden',
-        height: '100%'
+        padding: 0,
+        margin: 0,
+        /* padding: [
+          0,
+          `0 constant(safe-area-inset-right) constant(safe-area-inset-bottom) constant(safe-area-inset-left)`,
+          `0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)`
+        ], */
       },
       'html'
     );
     renderer.renderStatic(
       {
-        overflow: 'auto',
-        padding: 'env(safe-area-inset-top) 0 0 0',
+        overflow: 'hidden',
+        position: 'absolute',
         backgroundColor: theme.color,
+        padding: 0,
         margin: 0,
         '-webkit-overflow-scrolling': 'touch'
       },

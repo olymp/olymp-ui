@@ -115,11 +115,9 @@ const Drawer = enhance(
 
 const Dimmer = createComponent(
   ({ theme, top = 0, open, inverted }) => ({
-    height: '100%',
-    width: '100%',
     top: 0,
     bottom: 0,
-    position: 'fixed',
+    position: 'absolute',
     right: 0,
     left: 0,
     backgroundColor: inverted ? theme.light2 : theme.dark3,
