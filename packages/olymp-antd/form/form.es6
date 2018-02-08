@@ -6,6 +6,79 @@ import DefaultEdits from './default-edits';
 import defaultPattern from './default-pattern';
 import FormItem from './form-item';
 
+const reduce = (fns = [], value, props) => {
+  const [fn, ...rest] = fns;
+
+  if (fn) {
+    const newValue = fn(value, props);
+    if (newValue) {
+      return reduce(rest, newValue);
+    }
+  }
+  return value;
+};
+
+const defaultResolver = (f, resolver) => {
+  const {
+    edit,
+    editProps,
+    decoratorProps: { initialValue, rules = {}, ...decoratorProps } = {}
+  } = f;
+  const newEditProps = { ...editProps };
+  let e = edit;
+
+  switch (edit) {
+    case 'phone':
+      e = 'input';
+      newEditProps.suffix = <StyledIcon type="phone" />;
+      rules.pattern = 'phone';
+      rules.message = 'Ungültige Nummer';
+      rules.min = 4;
+      rules.max = 20;
+      break;
+
+    case 'url':
+      e = 'input';
+      newEditProps.suffix = <StyledIcon type="link" />;
+      rules.pattern = 'url';
+      rules.message = 'Ungültige URL';
+      rules.min = 4;
+      break;
+
+    case 'email':
+      e = 'input';
+      newEditProps.suffix = <StyledIcon type="mail" />;
+      rules.pattern = 'email';
+      rules.message = 'Ungültige E-Mail';
+      rules.min = 4;
+      break;
+
+    default:
+  }
+
+  return {
+    ...f,
+    edit: e,
+    decoratorProps: {
+      initialValue,
+      rules: [
+        { ...rules, pattern: defaultPattern[rules.pattern] || rules.pattern }
+      ],
+      ...decoratorProps
+    },
+    editProps: newEditProps,
+    component: DefaultEdits[e] || DefaultEdits.test(e) || DefaultEdits.input
+  };
+};
+
+const compose = (resolvers = []) => {
+  if (!Array.isArray(resolvers)) {
+    resolvers = [resolvers];
+  }
+  resolvers = [...resolvers.filter(x => x), defaultResolver].reverse();
+  return (initial, props) => reduce(resolvers, initial, props);
+};
+
 const StyledIcon = createComponent(
   ({ theme }) => ({
     color: theme.dark3
@@ -28,63 +101,8 @@ const StyledIcon = createComponent(
   onValuesChange: ({ onChange }, changed, all) => onChange(changed, all)
 })
 export default class AntForm extends Component {
-  resolve = (f, resolver) => {
-    const {
-      edit,
-      editProps,
-      decoratorProps: { initialValue, rules = {}, ...decoratorProps } = {}
-    } = f;
-    const newEditProps = { ...editProps };
-    let e = edit;
-
-    switch (edit) {
-      case 'phone':
-        e = 'input';
-        newEditProps.suffix = <StyledIcon type="phone" />;
-        rules.pattern = 'phone';
-        rules.message = 'Ungültige Nummer';
-        rules.min = 4;
-        rules.max = 20;
-        break;
-
-      case 'url':
-        e = 'input';
-        newEditProps.suffix = <StyledIcon type="link" />;
-        rules.pattern = 'url';
-        rules.message = 'Ungültige URL';
-        rules.min = 4;
-        break;
-
-      case 'email':
-        e = 'input';
-        newEditProps.suffix = <StyledIcon type="mail" />;
-        rules.pattern = 'email';
-        rules.message = 'Ungültige E-Mail';
-        rules.min = 4;
-        break;
-
-      default:
-    }
-
-    const result = {
-      ...f,
-      edit: e,
-      decoratorProps: {
-        initialValue: this.props[initialValue] || initialValue,
-        rules: [
-          { ...rules, pattern: defaultPattern[rules.pattern] || rules.pattern }
-        ],
-        ...decoratorProps
-      },
-      editProps: newEditProps,
-      component: DefaultEdits[e] || DefaultEdits.test(e) || DefaultEdits.input
-    };
-
-    return resolver(result) || result;
-  };
-
-  renderEdits = () => {
-    const { fields = [], form, layout = 'vertical', resolve } = this.props;
+  renderEdits = (resolve) => {
+    const { fields = [], form, layout = 'vertical' } = this.props;
 
     return Object.keys(fields).map(fieldName => {
       const {
@@ -93,7 +111,7 @@ export default class AntForm extends Component {
         editProps,
         component: Edit,
         ...field
-      } = this.resolve(get(fields, [fieldName]), resolve || (() => {}));
+      } = resolve(get(fields, [fieldName]), this.props);
 
       return (
         <FormItem key={fieldName} layout={layout} {...field}>
@@ -106,11 +124,11 @@ export default class AntForm extends Component {
   };
 
   render() {
-    const { layout = 'vertical', hideRequiredMark } = this.props;
-
+    const { layout = 'vertical', hideRequiredMark, resolve } = this.props;
+    const composedResolver = compose(resolve);
     return (
       <Form layout={layout} hideRequiredMark={hideRequiredMark}>
-        {this.renderEdits()}
+        {this.renderEdits(composedResolver)}
       </Form>
     );
   }
