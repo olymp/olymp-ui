@@ -3,9 +3,11 @@ import { createComponent, withStyle } from 'olymp-fela';
 import { withState, compose } from 'recompose';
 import Swipeable from 'react-swipeable';
 import { getColor } from './colors-provider';
+import Portal from './portal';
 
 export const Navigation = createComponent(
   ({ collapsed, width = 240, right }) => ({
+    transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
     flex: 0,
     flexWidth: 72,
     height: '100%',
@@ -64,11 +66,11 @@ const enhance = compose(
             left: (left !== true && left) || 0,
             transform: open ? null : 'translateX(-101%)'
           },
-    width: !open ? 0 : width,
+    width,
     maxWidth: '100%',
     overflow: !open ? 'hidden' : 'auto',
     boxShadow: open ? theme.boxShadow : undefined,
-    transition: 'transform 200ms ease-out, min-width 200ms ease-out',
+    transition: 'all 200ms cubic-bezier(0.165, 0.84, 0.44, 1)',
     backgroundColor:
       getColor(theme, color, palette) || theme.inverted
         ? theme.light
@@ -131,8 +133,10 @@ const Dimmer = createComponent(
 );
 
 export default ({ dim = true, children, onClose, ...props }) => (
-  <Fragment>
-    {dim && <Dimmer {...props} onClick={onClose} />}
-    <Drawer {...props}>{children}</Drawer>
-  </Fragment>
+  <Portal open>
+    <Fragment>
+      {dim && <Dimmer {...props} onClick={onClose} />}
+      <Drawer {...props}>{children}</Drawer>
+    </Fragment>
+  </Portal>
 );
