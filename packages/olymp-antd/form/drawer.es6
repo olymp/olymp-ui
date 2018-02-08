@@ -27,7 +27,8 @@ export default ({
   onDelete,
   layout,
   title,
-  width
+  width,
+  resolve
 }) => (
   <Drawer
     open={!!value}
@@ -41,7 +42,7 @@ export default ({
         collapsed
         header={
           <Menu.Item large icon={icon ? <Icon type={icon} /> : <FaCube />}>
-            {label || title}
+            {label}
           </Menu.Item>
         }
       >
@@ -63,13 +64,14 @@ export default ({
       </Menu>
     }
   >
-    <Menu header={<Menu.Item large>{title || label}</Menu.Item>}>
+    <Menu header={!!title && <Menu.Item large>{title}</Menu.Item>}>
       <Wrapper>
         <Form
           value={value}
           onChange={onChange}
           layout={layout}
           fields={fields}
+          resolve={resolve}
         />
       </Wrapper>
     </Menu>
