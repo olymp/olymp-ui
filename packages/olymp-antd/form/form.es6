@@ -17,7 +17,7 @@ const StyledIcon = createComponent(
 @Form.create({
   mapPropsToFields: ({ value }) => {
     const obj = {};
-    Object.keys(value).forEach(field => {
+    Object.keys(value || {}).forEach(field => {
       obj[field] = Form.createFormField({
         value: value[field]
       });
@@ -32,8 +32,7 @@ export default class AntForm extends Component {
     const {
       edit,
       editProps,
-      decoratorProps: { initialValue, rules = {}, ...decoratorProps } = {},
-      ...field
+      decoratorProps: { initialValue, rules = {}, ...decoratorProps } = {}
     } = f;
     const newEditProps = { ...editProps };
     let e = edit;
@@ -68,7 +67,8 @@ export default class AntForm extends Component {
     }
 
     const result = {
-      Edit: DefaultEdits[e] || DefaultEdits.test(e) || DefaultEdits.input,
+      ...f,
+      edit: DefaultEdits[e] || DefaultEdits.test(e) || DefaultEdits.input,
       decoratorProps: {
         initialValue: this.props[initialValue] || initialValue,
         rules: [
@@ -76,8 +76,7 @@ export default class AntForm extends Component {
         ],
         ...decoratorProps
       },
-      editProps: newEditProps,
-      field
+      editProps: newEditProps
     };
 
     return resolver(result) || result;
@@ -87,7 +86,7 @@ export default class AntForm extends Component {
     const { fields = [], form, layout = 'vertical', resolve } = this.props;
 
     return Object.keys(fields).map(fieldName => {
-      const { Edit, decoratorProps, editProps, field } = this.resolve(
+      const { edit: Edit, decoratorProps, editProps, ...field } = this.resolve(
         get(fields, [fieldName]),
         resolve || (() => {})
       );
