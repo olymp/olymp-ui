@@ -4,7 +4,7 @@ import { Drawer } from 'olymp-ui';
 import Menu from 'olymp-ui/menu';
 import { FaCube, FaCheck, FaTimes, FaTrashAlt } from 'olymp-icons';
 import { Icon } from 'antd';
-import Form from './form';
+import Form from './autoform';
 
 const Wrapper = createComponent(
   ({ theme }) => ({
