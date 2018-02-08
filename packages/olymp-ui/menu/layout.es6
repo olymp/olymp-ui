@@ -177,6 +177,22 @@ const enhance = compose(
         overflow: 'hidden',
         position: 'absolute',
         backgroundColor: theme.color,
+        top: [
+          0,
+          'constant(safe-area-inset-top)'
+        ],
+        left: [
+          0,
+          'constant(safe-area-inset-left)'
+        ],
+        right: [
+          0,
+          'constant(safe-area-inset-right)'
+        ],
+        bottom: [
+          0,
+          'constant(safe-area-inset-bottom)'
+        ],
         padding: 0,
         margin: 0,
         '-webkit-overflow-scrolling': 'touch'
