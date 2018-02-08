@@ -21,12 +21,11 @@ export const Icon = createComponent(
     top: 0,
     left: 0,
     width: '100%',
+    display: 'none',
     ifSmallDown: {
-      display: 'none',
+      display: 'block'
     },
     '> svg': {
-      // display: 'none',
-      display: 'none',
       position: 'absolute',
       top: '50%',
       right: 0,
@@ -34,9 +33,6 @@ export const Icon = createComponent(
       padding: 1,
       transform: 'translate(4px, -50%)',
       borderRadius: '100%',
-      ifSmallDown: {
-        display: 'block'
-      }
     }
   }),
   ({ className, color, size, icon: Icon, onClick }) => (
@@ -91,6 +87,7 @@ export const Navigation = createComponent(
         onMouseEnter={() => setCollapsed(false)}
       >
         {children}
+        {console.log(collapsed)}
         {collapsed && (
           <Icon onClick={() => setCollapsed(false)} icon={FaEllipsisV} />
         )}
