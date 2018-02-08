@@ -21,6 +21,9 @@ export const Icon = createComponent(
     top: 0,
     left: 0,
     width: '100%',
+    ifSmallDown: {
+      display: 'none',
+    },
     '> svg': {
       // display: 'none',
       display: 'none',
