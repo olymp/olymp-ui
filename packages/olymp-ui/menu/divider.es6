@@ -8,6 +8,5 @@ export default createComponent(
     borderTop: border(theme, theme.dark4),
     marginBottom
   }),
-  'hr',
-  []
+  'hr'
 );

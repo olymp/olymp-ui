@@ -36,7 +36,7 @@ const Content = createComponent(
     }
   }),
   'div',
-  ({ ellipsis, inverted, ...props }) => Object.keys(props)
+  ({ ellipsis, inverted, collapsed, ...props }) => Object.keys(props)
 );
 
 export default createComponent(
@@ -113,7 +113,11 @@ export default createComponent(
       ref={_ref || innerRef || ref}
       className={className}
     >
-      {!!icon && <Image collapsed={collapsed} large={large}>{icon}</Image>}
+      {!!icon && (
+        <Image collapsed={collapsed} large={large}>
+          {icon}
+        </Image>
+      )}
       <Content collapsed={collapsed} ellipsis={ellipsis} inverted={inverted}>
         {children}
         {!!subtitle && <small>{subtitle}</small>}

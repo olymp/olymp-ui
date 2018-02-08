@@ -142,7 +142,7 @@ export const Section = createComponent(
     }
   }),
   props => <div {...props} />,
-  ({ placeholder, ...rest }) => Object.keys(rest)
+  ({ placeholder, ...p }) => Object.keys(p)
 );
 
 const enhance = compose(
