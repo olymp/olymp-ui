@@ -22,13 +22,15 @@ export default ({
   fields,
   value,
   onChange,
+  onSave,
   onClose,
+  onDelete,
   layout,
   title,
   width
 }) => (
   <Drawer
-    open={!!value.id}
+    open={!!value}
     width={width || (layout === 'horizontal' ? 520 : 400)}
     right
     onClose={onClose}
@@ -39,35 +41,29 @@ export default ({
         collapsed
         header={
           <Menu.Item large icon={icon ? <Icon type={icon} /> : <FaCube />}>
-            {label}
+            {label || title}
           </Menu.Item>
         }
       >
-        <Menu.Item icon={<FaCheck />} onClick={() => {}}>
-          Speichern
-        </Menu.Item>
-        <Menu.Item icon={<FaTimes />} onClick={onClose}>
-          Abbrechen
-        </Menu.Item>
-        {!!value.id && (
-          <Menu.Item icon={<FaTrashAlt />} onClick={() => {}}>
+        {!!onSave && (
+          <Menu.Item icon={<FaCheck />} onClick={onSave}>
+            Speichern
+          </Menu.Item>
+        )}
+        {!!onClose && (
+          <Menu.Item icon={<FaTimes />} onClick={onClose}>
+            Abbrechen
+          </Menu.Item>
+        )}
+        {!!onDelete && (
+          <Menu.Item icon={<FaTrashAlt />} onClick={onDelete}>
             Löschen
           </Menu.Item>
         )}
       </Menu>
     }
   >
-    <Menu
-      header={
-        !value.id ? (
-          <Menu.Item large>{label} anlegen</Menu.Item>
-        ) : (
-          <Menu.Item large subtitle={`${label} bearbeiten`}>
-            {title}
-          </Menu.Item>
-        )
-      }
-    >
+    <Menu header={<Menu.Item large>{title || label}</Menu.Item>}>
       <Wrapper>
         <Form
           value={value}
