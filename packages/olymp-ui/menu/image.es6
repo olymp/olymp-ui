@@ -12,6 +12,7 @@ export default createComponent(
       textAlign: extra && 'right',
       display: extra && collapsed && 'none',
       ellipsis: true,
+      overflowY: 'hidden',
       color: (inverted !== undefined ? inverted : theme.inverted)
         ? theme.light2
         : theme.dark2,
