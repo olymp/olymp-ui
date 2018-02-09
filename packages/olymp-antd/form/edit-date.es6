@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Popover } from 'antd';
-import { format, isValid } from 'date-fns';
+import { format, isValid, startOfDay, compareAsc } from 'date-fns';
 import { withState } from 'recompose';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import Calendar from 'olymp-ui/calendar';
@@ -9,16 +10,26 @@ import FormIcon from './form-icon';
 
 const enhance = withState('input', 'setInput');
 
-export default enhance(
-  ({
-    value,
-    onChange,
-    input,
-    setInput,
-    calendar: CalendarComponent,
-    ...rest
-  }) => {
-    const Component = CalendarComponent || Calendar;
+@enhance
+class EditDate extends Component {
+  componentWillReceiveProps(nextProps) {
+    const { value, setInput } = this.props;
+
+    if (compareAsc(new Date(value), new Date(nextProps.value)) === 0) {
+      setInput();
+    }
+  }
+
+  render() {
+    const {
+      value,
+      onChange,
+      input,
+      setInput,
+      calendar: CalendarComponent,
+      ...rest
+    } = this.props;
+    const Cal = CalendarComponent || Calendar;
 
     return (
       <MaskedTextInput
@@ -30,7 +41,7 @@ export default enhance(
             placement="bottomRight"
             trigger="click"
             content={
-              <Component
+              <Cal
                 value={value}
                 arrows
                 onChange={v => {
@@ -52,7 +63,7 @@ export default enhance(
           if (!date) {
             onChange();
           } else if (isValid(date.split('.').reverse())) {
-            onChange(new Date(date.split('.').reverse()));
+            onChange(startOfDay(new Date(date.split('.').reverse())));
           }
           setInput(date);
         }}
@@ -61,4 +72,8 @@ export default enhance(
       />
     );
   }
-);
+}
+EditDate.propTypes = {
+  value: PropTypes.instanceOf(Date)
+};
+export default EditDate;
