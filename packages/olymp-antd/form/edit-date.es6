@@ -2,21 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Popover } from 'antd';
 import { format, isValid, startOfDay, compareAsc } from 'date-fns';
-import { withState } from 'recompose';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import Calendar from 'olymp-ui/calendar';
 import MaskedTextInput from './edit-mask-input';
 import FormIcon from './form-icon';
 
-const enhance = withState('input', 'setInput');
+export default class EditDate extends Component {
+  static propTypes = {
+    value: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.number,
+      PropTypes.string
+    ])
+  };
+  state = { input: undefined };
 
-@enhance
-class EditDate extends Component {
   componentWillReceiveProps(nextProps) {
-    const { value, setInput } = this.props;
+    const { value } = this.props;
 
     if (compareAsc(new Date(value), new Date(nextProps.value)) === 0) {
-      setInput();
+      this.setState({ input: undefined });
     }
   }
 
@@ -24,11 +29,10 @@ class EditDate extends Component {
     const {
       value,
       onChange,
-      input,
-      setInput,
       calendar: CalendarComponent,
       ...rest
     } = this.props;
+    const { input } = this.state;
     const Cal = CalendarComponent || Calendar;
 
     return (
@@ -40,16 +44,7 @@ class EditDate extends Component {
           <Popover
             placement="bottomRight"
             trigger="click"
-            content={
-              <Cal
-                value={value}
-                arrows
-                onChange={v => {
-                  onChange(v);
-                  setInput();
-                }}
-              />
-            }
+            content={<Cal value={value} arrows onChange={onChange} />}
           >
             <FormIcon type="calendar" onClick={() => {}} />
           </Popover>
@@ -64,8 +59,9 @@ class EditDate extends Component {
             onChange();
           } else if (isValid(date.split('.').reverse())) {
             onChange(startOfDay(new Date(date.split('.').reverse())));
+          } else {
+            this.setState({ input: date });
           }
-          setInput(date);
         }}
         pipe={createAutoCorrectedDatePipe('dd.mm.yyyy')}
         {...rest}
@@ -73,7 +69,3 @@ class EditDate extends Component {
     );
   }
 }
-EditDate.propTypes = {
-  value: PropTypes.instanceOf(Date)
-};
-export default EditDate;
