@@ -4,6 +4,8 @@ import { Input, Switch, TimePicker, DatePicker } from 'antd';
 // import slate from './edit-slate';
 import color from './edit-color';
 import geocode from './edit-geocode';
+import date from './edit-date';
+import input from './edit-mask-input';
 /* import strings from './edit-strings';
 import tags from './edit-tags';
 import openings from './edit-openings';
@@ -25,23 +27,13 @@ export default {
       <Input id={id} {...p} />
     </div>
   ),
-  input: Input, // phone, url, email
+  input, // phone, url, email
   text: Input.TextArea,
   // slate,
   geocode,
   color,
+  date,
   bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
-  date: ({ value, onChange, ...p }) => (
-    <DatePicker
-      value={value ? moment(value).startOf('day') : undefined}
-      format="DD.MM.YYYY"
-      onChange={(v, props) =>
-        v ? onChange(v.format(), props) : onChange(undefined, props)
-      }
-      style={{ width: '100%' }}
-      {...p}
-    />
-  ),
   datetime: ({ value, onChange, ...p }) => (
     <DatePicker
       value={value ? moment(value) : undefined}
