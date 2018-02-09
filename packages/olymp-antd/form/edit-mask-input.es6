@@ -1,29 +1,27 @@
 import React, { Component } from 'react';
 import { Input } from 'antd';
+import { get } from 'lodash';
 import { createTextMaskInputElement } from 'text-mask-core/dist/textMaskCore';
 
+// https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
+// https://github.com/text-mask/text-mask/tree/master/addons
+
 export default class MaskedTextInput extends Component {
-  constructor(...args) {
-    super(...args);
-
-    this.onChange = this.onChange.bind(this);
-  }
-
   componentDidMount() {
-    this.initTextMask();
+    if (this.props.mask) this.initTextMask();
   }
 
   componentDidUpdate() {
-    this.initTextMask();
+    if (this.props.mask) this.initTextMask();
   }
 
-  onChange(event) {
+  onChange = event => {
     this.textMaskInputElement.update();
 
     if (typeof this.props.onChange === 'function') {
       this.props.onChange(event);
     }
-  }
+  };
 
   initTextMask() {
     const { props, props: { value } } = this;
@@ -38,14 +36,17 @@ export default class MaskedTextInput extends Component {
   render() {
     const props = { ...this.props };
 
-    delete props.mask;
     delete props.guide;
     delete props.pipe;
     delete props.placeholderChar;
     delete props.keepCharPositions;
+    delete props.showMask;
+
+    if (!props.mask) return <Input {...props} />;
+
+    delete props.mask;
     delete props.value;
     delete props.onChange;
-    delete props.showMask;
 
     return (
       <Input
@@ -53,7 +54,7 @@ export default class MaskedTextInput extends Component {
         onChange={this.onChange}
         defaultValue={this.props.value}
         ref={inputElement => {
-          this.inputElement = inputElement.input;
+          this.inputElement = get(inputElement, 'input');
         }}
       />
     );
