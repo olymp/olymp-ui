@@ -7,6 +7,9 @@ import Calendar from 'olymp-ui/calendar';
 import MaskedTextInput from './edit-mask-input';
 import FormIcon from './form-icon';
 
+const getDate = date => !!date && new Date(date.split('.').reverse());
+const getDateString = date => format(new Date(date), 'DD.MM.YYYY');
+
 export default class EditDate extends Component {
   static propTypes = {
     value: PropTypes.oneOfType([
@@ -15,13 +18,18 @@ export default class EditDate extends Component {
       PropTypes.string
     ])
   };
-  state = { input: undefined };
 
-  componentWillReceiveProps(nextProps) {
-    const { value } = this.props;
+  constructor(props) {
+    super(props);
 
-    if (compareAsc(new Date(value), new Date(nextProps.value)) === 0) {
-      this.setState({ input: undefined });
+    this.state = { input: getDateString(props.value) };
+  }
+
+  componentWillReceiveProps({ value }) {
+    if (compareAsc(new Date(this.value), new Date(value)) !== 0) {
+      this.setState({
+        input: !value ? undefined : getDateString(value)
+      });
     }
   }
 
@@ -49,16 +57,14 @@ export default class EditDate extends Component {
             <FormIcon type="calendar" onClick={() => {}} />
           </Popover>
         }
-        value={
-          input !== undefined ? input : format(new Date(value), 'DD.MM.YYYY')
-        }
+        value={input}
         onChange={e => {
           const date = e.target.value;
 
           if (!date) {
             onChange();
-          } else if (isValid(date.split('.').reverse())) {
-            onChange(startOfDay(new Date(date.split('.').reverse())));
+          } else if (date.search('_') === -1 && isValid(getDate(date))) {
+            onChange(startOfDay(getDate(date)));
           } else {
             this.setState({ input: date });
           }
