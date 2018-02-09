@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
-import { AutoComplete, Input, Icon } from 'antd';
+import { AutoComplete, Input } from 'antd';
 import { get, debounce } from 'lodash';
 import { withApollo, graphql } from 'react-apollo';
 import { createComponent } from 'react-fela';
 import { compose, withState } from 'recompose';
 import gql from 'graphql-tag';
-
-const LocIcon = createComponent(
-  ({ theme, hasLocation }) => ({
-    color: !hasLocation ? theme.color : theme.dark3,
-    cursor: 'pointer'
-  }),
-  p => <Icon type="environment-o" {...p} />,
-  ({ hasLocation, ...p }) => Object.keys(p)
-);
+import FormIcon from './form-icon';
 
 const StyledInput = createComponent(
   ({ theme }) => ({
@@ -216,9 +208,13 @@ export default class GeocodeEditor extends Component {
         <StyledInput
           suffix={
             placesLoading || geocodeLoading ? (
-              <Icon type="loading" />
+              <FormIcon type="loading" />
             ) : (
-              <LocIcon hasLocation={!!location} onClick={this.getLatLng} />
+              <FormIcon
+                type="environment-o"
+                isActive={!location}
+                onClick={this.getLatLng}
+              />
             )
           }
           disabled={placesLoading || geocodeLoading}

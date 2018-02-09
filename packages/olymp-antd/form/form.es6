@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Icon } from 'antd';
-import { createComponent } from 'react-fela';
+import { Form } from 'antd';
 import { get } from 'lodash';
 import DefaultEdits from './default-edits';
 import defaultPattern from './default-pattern';
 import FormItem from './form-item';
+import FormIcon from './form-icon';
 
 const reduce = (fns = [], value, props) => {
   const [fn, ...rest] = fns;
@@ -18,7 +18,7 @@ const reduce = (fns = [], value, props) => {
   return value;
 };
 
-const defaultResolver = (f, resolver) => {
+const defaultResolver = f => {
   const {
     edit,
     editProps,
@@ -30,7 +30,7 @@ const defaultResolver = (f, resolver) => {
   switch (edit) {
     case 'phone':
       e = 'input';
-      newEditProps.suffix = <StyledIcon type="phone" />;
+      newEditProps.suffix = <FormIcon type="phone" />;
       rules.pattern = 'phone';
       rules.message = 'Ungültige Nummer';
       rules.min = 4;
@@ -39,7 +39,7 @@ const defaultResolver = (f, resolver) => {
 
     case 'url':
       e = 'input';
-      newEditProps.suffix = <StyledIcon type="link" />;
+      newEditProps.suffix = <FormIcon type="link" />;
       rules.pattern = 'url';
       rules.message = 'Ungültige URL';
       rules.min = 4;
@@ -47,7 +47,7 @@ const defaultResolver = (f, resolver) => {
 
     case 'email':
       e = 'input';
-      newEditProps.suffix = <StyledIcon type="mail" />;
+      newEditProps.suffix = <FormIcon type="mail" />;
       rules.pattern = 'email';
       rules.message = 'Ungültige E-Mail';
       rules.min = 4;
@@ -72,20 +72,15 @@ const defaultResolver = (f, resolver) => {
 };
 
 const compose = (resolvers = []) => {
-  if (!Array.isArray(resolvers)) {
-    resolvers = [resolvers];
-  }
-  resolvers = [...resolvers.filter(x => x), defaultResolver].reverse();
-  return (initial, props) => reduce(resolvers, initial, props);
-};
+  let r = [...resolvers];
 
-const StyledIcon = createComponent(
-  ({ theme }) => ({
-    color: theme.dark3
-  }),
-  p => <Icon {...p} />,
-  p => Object.keys(p)
-);
+  if (!Array.isArray(r)) {
+    r = [r];
+  }
+  r = [...r.filter(x => x), defaultResolver].reverse();
+
+  return (initial, props) => reduce(r, initial, props);
+};
 
 @Form.create({
   mapPropsToFields: ({ value }) => {
@@ -101,7 +96,7 @@ const StyledIcon = createComponent(
   onValuesChange: ({ onChange }, changed, all) => onChange(changed, all)
 })
 export default class AntForm extends Component {
-  renderEdits = (resolve) => {
+  renderEdits = resolve => {
     const { fields = [], form, layout = 'vertical' } = this.props;
 
     return Object.keys(fields).map(fieldName => {
