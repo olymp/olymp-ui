@@ -6,6 +6,7 @@ export default createComponent(
     flexFlow: 'row wrap',
     fontSize: '90%',
     marginTop: theme.space1,
+    minWidth: 200,
     '> *': {
       width: `${100 / 7}%`,
       textAlign: 'center'
