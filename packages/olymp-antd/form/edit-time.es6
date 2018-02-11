@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputNumber } from 'antd';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import { format, addMilliseconds, startOfDay } from 'date-fns';
 import MaskedTextInput from './edit-mask-input';
@@ -15,6 +15,16 @@ const durations = {
     parser: v => v.replace(' Minuten', ''),
     scalar: 60000
   }
+};
+
+export const getMilliseconds = time => {
+  let [hours = 0, minutes = 0] = time.split(' Uhr')[0].split(':');
+  hours = !!hours && parseInt(hours.replace('_', '0'), 10);
+  minutes = !!minutes && parseInt(minutes.replace('_', '0'), 10);
+
+  return hours === false && minutes === false
+    ? undefined
+    : hours * 3.6e6 + minutes * 60000;
 };
 
 const EditTime = ({ isDuration, value, onChange, ...rest }) => {
@@ -41,22 +51,13 @@ const EditTime = ({ isDuration, value, onChange, ...rest }) => {
               'HH:mm'
             )
       }
-      onChange={e => {
-        const time = e.target.value;
-        let [hours = 0, minutes = 0] = time.split(' Uhr')[0].split(':');
-        hours = !!hours && parseInt(hours.replace('_', '0'), 10);
-        minutes = !!minutes && parseInt(minutes.replace('_', '0'), 10);
-
-        onChange(
-          !hours && !minutes ? undefined : hours * 3.6e6 + minutes * 60000
-        );
-      }}
+      onChange={e => onChange(getMilliseconds(e.target.value))}
       pipe={createAutoCorrectedDatePipe('HH:MM')}
       {...rest}
     />
   );
 };
-EditTime.propTypes = {
+/* EditTime.propTypes = {
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-};
+}; */
 export default EditTime;

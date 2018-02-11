@@ -6,6 +6,7 @@ import color from './edit-color';
 import geocode from './edit-geocode';
 import date from './edit-date';
 import time from './edit-time';
+import datetime from './edit-datetime';
 import input from './edit-mask-input';
 /* import strings from './edit-strings';
 import tags from './edit-tags';
@@ -35,19 +36,8 @@ export default {
   color,
   date,
   time,
+  datetime,
   bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
-  datetime: ({ value, onChange, ...p }) => (
-    <DatePicker
-      value={value ? moment(value) : undefined}
-      showTime
-      format="DD.MM.YYYY"
-      onChange={(v, props) =>
-        v ? onChange(v.format(), props) : onChange(undefined, props)
-      }
-      style={{ width: '100%' }}
-      {...p}
-    />
-  ),
   week: ({ value, onChange, ...p }) => (
     <DatePicker.WeekPicker
       value={value ? moment(value).startOf('week') : undefined}
