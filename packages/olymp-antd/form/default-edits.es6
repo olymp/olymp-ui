@@ -1,10 +1,11 @@
 import React from 'react';
 import moment from 'moment';
-import { Input, Switch, TimePicker, DatePicker } from 'antd';
+import { Input, Switch, DatePicker } from 'antd';
 // import slate from './edit-slate';
 import color from './edit-color';
 import geocode from './edit-geocode';
 import date from './edit-date';
+import time from './edit-time';
 import input from './edit-mask-input';
 /* import strings from './edit-strings';
 import tags from './edit-tags';
@@ -33,23 +34,13 @@ export default {
   geocode,
   color,
   date,
+  time,
   bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
   datetime: ({ value, onChange, ...p }) => (
     <DatePicker
       value={value ? moment(value) : undefined}
       showTime
       format="DD.MM.YYYY"
-      onChange={(v, props) =>
-        v ? onChange(v.format(), props) : onChange(undefined, props)
-      }
-      style={{ width: '100%' }}
-      {...p}
-    />
-  ),
-  time: ({ value, onChange, ...p }) => (
-    <TimePicker
-      value={value ? moment(value).startOf('hour') : undefined}
-      format="HH:mm"
       onChange={(v, props) =>
         v ? onChange(v.format(), props) : onChange(undefined, props)
       }
