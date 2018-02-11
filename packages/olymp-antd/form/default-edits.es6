@@ -7,6 +7,7 @@ import geocode from './edit-geocode';
 import date from './edit-date';
 import time from './edit-time';
 import datetime from './edit-datetime';
+import daterange from './edit-daterange';
 import input from './edit-mask-input';
 /* import strings from './edit-strings';
 import tags from './edit-tags';
@@ -37,6 +38,7 @@ export default {
   date,
   time,
   datetime,
+  daterange,
   bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
   week: ({ value, onChange, ...p }) => (
     <DatePicker.WeekPicker
