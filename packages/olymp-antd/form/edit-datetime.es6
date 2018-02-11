@@ -4,7 +4,7 @@ import { format, addMilliseconds, startOfDay } from 'date-fns';
 import EditTime, { getMilliseconds } from './edit-time';
 import EditDate from './edit-date';
 
-export default ({ value, onChange, ...props }) => (
+export default ({ value, onChange, isDuration, ...props }) => (
   <Row gutter={16}>
     <Col span={13}>
       <EditDate value={value} onChange={onChange} {...props} />
@@ -15,6 +15,7 @@ export default ({ value, onChange, ...props }) => (
         onChange={v =>
           onChange(addMilliseconds(startOfDay(new Date(value)), v))
         }
+        isDuration={isDuration}
         {...props}
       />
     </Col>

@@ -8,6 +8,7 @@ import date from './edit-date';
 import time from './edit-time';
 import datetime from './edit-datetime';
 import daterange from './edit-daterange';
+import datetimerange from './edit-datetimerange';
 import input from './edit-mask-input';
 /* import strings from './edit-strings';
 import tags from './edit-tags';
@@ -39,6 +40,7 @@ export default {
   time,
   datetime,
   daterange,
+  datetimerange,
   bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
   week: ({ value, onChange, ...p }) => (
     <DatePicker.WeekPicker
