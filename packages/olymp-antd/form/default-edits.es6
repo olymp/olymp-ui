@@ -5,9 +5,10 @@ import { Input, Switch, DatePicker } from 'antd';
 import color from './edit-color';
 import geocode from './edit-geocode';
 import date from './edit-date';
-import time from './edit-time';
-import datetime from './edit-datetime';
 import daterange from './edit-daterange';
+import time from './edit-time';
+import timerange from './edit-timerange';
+import datetime from './edit-datetime';
 import datetimerange from './edit-datetimerange';
 import input from './edit-mask-input';
 /* import strings from './edit-strings';
@@ -37,9 +38,10 @@ export default {
   geocode,
   color,
   date,
-  time,
-  datetime,
   daterange,
+  time,
+  timerange,
+  datetime,
   datetimerange,
   bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
   week: ({ value, onChange, ...p }) => (
