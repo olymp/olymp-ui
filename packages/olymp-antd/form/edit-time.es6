@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import { format, addMilliseconds, startOfDay } from 'date-fns';
 import MaskedTextInput from './edit-mask-input';
@@ -15,7 +14,7 @@ export const getMilliseconds = time => {
     : hours * 3.6e6 + minutes * 60000;
 };
 
-const EditTime = ({ value, onChange, ...rest }) => (
+const Edit = ({ value, onChange, ...rest }) => (
   <MaskedTextInput
     mask={[/\d/, /\d/, ':', /\d/, /\d/, ' ', 'U', 'h', 'r']}
     placeholder="Zeit"
@@ -33,7 +32,6 @@ const EditTime = ({ value, onChange, ...rest }) => (
     {...rest}
   />
 );
-/* EditTime.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-}; */
-export default EditTime;
+Edit.displayName = 'EditTime';
+Edit.type = 'integer';
+export default Edit;

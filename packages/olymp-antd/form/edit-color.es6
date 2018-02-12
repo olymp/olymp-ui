@@ -2,7 +2,7 @@ import React from 'react';
 import { createComponent, withTheme } from 'react-fela';
 import { CompactPicker } from 'react-color';
 
-export default createComponent(
+const Edit = createComponent(
   () => ({
     '> div > div:first-child': {
       display: 'none'
@@ -32,3 +32,6 @@ export default createComponent(
   }),
   p => Object.keys(p)
 );
+Edit.displayName = 'EditColor';
+Edit.type = 'hex';
+export default Edit;

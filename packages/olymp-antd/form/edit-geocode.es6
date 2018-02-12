@@ -53,7 +53,7 @@ const enhance = compose(
 );
 
 @enhance
-export default class GeocodeEditor extends Component {
+class Edit extends Component {
   static defaultProps = {
     forceLatLng: true
   };
@@ -223,3 +223,6 @@ export default class GeocodeEditor extends Component {
     );
   }
 }
+Edit.displayName = 'EditGeocode';
+Edit.type = 'object';
+export default Edit;

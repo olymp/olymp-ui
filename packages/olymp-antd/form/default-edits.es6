@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Input, Switch, DatePicker } from 'antd';
-// import slate from './edit-slate';
+import slate from './edit-slate';
 import color from './edit-color';
 import geocode from './edit-geocode';
 import date from './edit-date';
@@ -34,7 +34,7 @@ export default {
   ),
   input, // phone, url, email
   text: Input.TextArea,
-  // slate,
+  slate,
   geocode,
   color,
   date,

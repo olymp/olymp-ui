@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Popover } from 'antd';
 import { format, isValid, startOfDay, compareAsc } from 'date-fns';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
@@ -10,15 +9,7 @@ import FormIcon from './form-icon';
 const getDate = date => !!date && new Date(date.split('.').reverse());
 const getDateString = date => format(new Date(date), 'DD.MM.YYYY');
 
-export default class EditDate extends Component {
-  static propTypes = {
-    value: PropTypes.oneOfType([
-      PropTypes.instanceOf(Date),
-      PropTypes.number,
-      PropTypes.string
-    ])
-  };
-
+class Edit extends Component {
   constructor(props) {
     super(props);
 
@@ -75,3 +66,6 @@ export default class EditDate extends Component {
     );
   }
 }
+Edit.displayName = 'EditColor';
+Edit.type = 'date';
+export default Edit;

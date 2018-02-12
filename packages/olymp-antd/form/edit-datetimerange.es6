@@ -9,7 +9,7 @@ import {
 import EditDateTime from './edit-datetime';
 import EditTimeRange from './edit-timerange';
 
-export default ({ value, onChange, mode, ...props }) => {
+const Edit = ({ value, onChange, mode, ...props }) => {
   const start = get(value, 'start', new Date());
   const end =
     get(value, 'end') && isBefore(start, get(value, 'end'))
@@ -46,3 +46,6 @@ export default ({ value, onChange, mode, ...props }) => {
     </div>
   );
 };
+Edit.displayName = 'EditDatetimerange';
+Edit.type = 'object';
+export default Edit;

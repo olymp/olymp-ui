@@ -43,6 +43,7 @@ const defaultResolver = f => {
       rules.pattern = 'url';
       rules.message = 'Ungültige URL';
       rules.min = 4;
+      rules.type = 'url';
       break;
 
     case 'email':
@@ -51,10 +52,16 @@ const defaultResolver = f => {
       rules.pattern = 'email';
       rules.message = 'Ungültige E-Mail';
       rules.min = 4;
+      rules.type = 'email';
       break;
 
     default:
   }
+
+  const component =
+    DefaultEdits[e] || DefaultEdits.test(e) || DefaultEdits.input;
+
+  // rules.type: https://github.com/yiminghe/async-validator#type
 
   return {
     ...f,
@@ -62,12 +69,16 @@ const defaultResolver = f => {
     decoratorProps: {
       initialValue,
       rules: [
-        { ...rules, pattern: defaultPattern[rules.pattern] || rules.pattern }
+        {
+          type: component.type,
+          ...rules,
+          pattern: defaultPattern[rules.pattern] || rules.pattern
+        }
       ],
       ...decoratorProps
     },
     editProps: newEditProps,
-    component: DefaultEdits[e] || DefaultEdits.test(e) || DefaultEdits.input
+    component
   };
 };
 
@@ -121,6 +132,7 @@ export default class AntForm extends Component {
   render() {
     const { layout = 'vertical', hideRequiredMark, resolve } = this.props;
     const composedResolver = compose(resolve);
+
     return (
       <Form layout={layout} hideRequiredMark={hideRequiredMark}>
         {this.renderEdits(composedResolver)}

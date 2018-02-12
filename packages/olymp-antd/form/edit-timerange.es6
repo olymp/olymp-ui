@@ -1,6 +1,5 @@
 import React from 'react';
 import { InputNumber } from 'antd';
-// import PropTypes from 'prop-types';
 
 const durations = {
   minutes: {
@@ -14,7 +13,7 @@ const durations = {
   }
 };
 
-const EditTimeRange = ({ value, mode = 'minutes', onChange, ...rest }) => {
+const Edit = ({ value, mode = 'minutes', onChange, ...rest }) => {
   const props = durations[mode] || durations.minutes;
 
   return (
@@ -31,7 +30,6 @@ const EditTimeRange = ({ value, mode = 'minutes', onChange, ...rest }) => {
     />
   );
 };
-/* EditTime.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-}; */
-export default EditTimeRange;
+Edit.displayName = 'EditTimerange';
+Edit.type = 'integer';
+export default Edit;

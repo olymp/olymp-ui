@@ -6,7 +6,7 @@ import { createTextMaskInputElement } from 'text-mask-core/dist/textMaskCore';
 // https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
 // https://github.com/text-mask/text-mask/tree/master/addons
 
-export default class MaskedTextInput extends Component {
+class Edit extends Component {
   componentDidMount() {
     if (this.props.mask) this.initTextMask();
   }
@@ -60,3 +60,6 @@ export default class MaskedTextInput extends Component {
     );
   }
 }
+Edit.displayName = 'EditMaskInput';
+Edit.type = 'string';
+export default Edit;

@@ -4,7 +4,7 @@ import { format, addMilliseconds, startOfDay } from 'date-fns';
 import EditTime, { getMilliseconds } from './edit-time';
 import EditDate from './edit-date';
 
-export default ({ value, onChange, ...props }) => (
+const Edit = ({ value, onChange, ...props }) => (
   <Row gutter={16}>
     <Col span={13}>
       <EditDate value={value} onChange={onChange} {...props} />
@@ -20,3 +20,6 @@ export default ({ value, onChange, ...props }) => (
     </Col>
   </Row>
 );
+Edit.displayName = 'EditDatetime';
+Edit.type = 'date';
+export default Edit;

@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { isBefore, endOfDay } from 'date-fns';
 import EditDate from './edit-date';
 
-export default ({ value, onChange, ...props }) => {
+const Edit = ({ value, onChange, ...props }) => {
   const end = isBefore(get(value, 'end'), get(value, 'start'))
     ? get(value, 'end', new Date())
     : get(value, 'start', new Date());
@@ -30,3 +30,6 @@ export default ({ value, onChange, ...props }) => {
     </Row>
   );
 };
+Edit.displayName = 'EditDaterange';
+Edit.type = 'object';
+export default Edit;

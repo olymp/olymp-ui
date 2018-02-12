@@ -6,7 +6,7 @@ import FormItem from './form-item';
 
 const enhance = compose(withState('isOpen', 'setOpen', false), toClass);
 
-export default enhance(
+const Edit = enhance(
   ({
     isOpen,
     setOpen,
@@ -18,31 +18,41 @@ export default enhance(
     label,
     children,
     ...p
-  }) => (
-    <FormItem label={label} {...p}>
-      <Button.Group data-__field={dataField} data-__meta={dataMeta}>
+  }) =>
+    console.log(value) || (
+      <FormItem
+        label={label}
+        data-__field={dataField}
+        data-__meta={dataMeta}
+        {...p}
+      >
         <Button
           type={isOpen === true ? 'primary' : 'default'}
           onClick={() => setOpen(!isOpen)}
+          style={{ width: '50%' }}
         >
           Bearbeiten
         </Button>
-        <Button onClick={() => setOpen('full')}>Vollbildmodus</Button>
-      </Button.Group>
+        <Button onClick={() => setOpen('full')} style={{ width: '50%' }}>
+          Vollbildmodus
+        </Button>
 
-      {isOpen && (
-        <SlateWriter
-          onChange={onChange}
-          value={value}
-          binding={binding}
-          placeholder={label || 'Hier Text eingeben!'}
-          style={{ padding: 20 }}
-          full={isOpen === 'full'}
-          setFull={() => setOpen(false)}
-        >
-          {children}
-        </SlateWriter>
-      )}
-    </FormItem>
-  )
+        {isOpen && (
+          <SlateWriter
+            onChange={onChange}
+            value={value}
+            binding={binding}
+            placeholder={label || 'Hier Text eingeben!'}
+            style={{ padding: 20 }}
+            full={isOpen === 'full'}
+            setFull={() => setOpen(false)}
+          >
+            {children}
+          </SlateWriter>
+        )}
+      </FormItem>
+    )
 );
+Edit.displayName = 'EditSlate';
+Edit.type = 'object';
+export default Edit;
