@@ -7,25 +7,28 @@ import {
   differenceInMilliseconds
 } from 'date-fns';
 import EditDateTime from './edit-datetime';
-import EditTime from './edit-time';
+import EditTimeRange from './edit-timerange';
 
-export default ({ value, onChange, isDuration = true, ...props }) => {
-  const start = get(value, 'start');
-  const end = get(value, 'end');
-
-  console.log(value);
+export default ({ value, onChange, mode, ...props }) => {
+  const start = get(value, 'start', new Date());
+  const end =
+    get(value, 'end') && isBefore(start, get(value, 'end'))
+      ? get(value, 'end')
+      : start;
 
   return (
     <div>
       <EditDateTime
         value={start}
-        onChange={v => onChange({ end, start: v })}
+        onChange={v => onChange({ start: v, end })}
         {...props}
       />
-      {isDuration ? (
-        <EditTime
-          isDuration={isDuration}
-          value={start && end ? differenceInMilliseconds(end, start) : 0}
+      {mode ? (
+        <EditTimeRange
+          mode={mode}
+          value={
+            start && end ? differenceInMilliseconds(end, start) : undefined
+          }
           onChange={v =>
             onChange({
               start,
@@ -35,7 +38,7 @@ export default ({ value, onChange, isDuration = true, ...props }) => {
         />
       ) : (
         <EditDateTime
-          value={start ? end : undefined}
+          value={end}
           onChange={v => onChange({ start, end: endOfDay(v) })}
           {...props}
         />
