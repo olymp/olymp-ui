@@ -9,7 +9,8 @@ const Edit = createComponent(
     },
     '& .ant-input': {
       height: 'auto',
-      padding: 'initial'
+      padding: 'initial',
+      width: 'calc(100% - 5px) !important'
     }
   }),
   withTheme(({ theme, value, colors = [], onChange, className, ...p }) => {
