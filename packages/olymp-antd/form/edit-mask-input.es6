@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Input } from 'antd';
+import { createComponent } from 'react-fela';
 import { get } from 'lodash';
 import { createTextMaskInputElement } from 'text-mask-core/dist/textMaskCore';
 
@@ -60,6 +61,16 @@ class Edit extends Component {
     );
   }
 }
-Edit.displayName = 'EditMaskInput';
-Edit.type = 'string';
-export default Edit;
+
+const Wrapper = createComponent(
+  ({ theme }) => ({
+    '&.ant-input-affix-wrapper > input.ant-input': {
+      paddingRight: theme.space3
+    }
+  }),
+  p => <Edit {...p} />,
+  p => Object.keys(p)
+);
+Wrapper.displayName = 'EditMaskInput';
+Wrapper.type = 'string';
+export default Wrapper;
