@@ -74,7 +74,9 @@ const Sidebar = ({
   overlap,
   width,
   left,
-  zIndex
+  zIndex,
+  onMouseEnter,
+  onMouseLeave
 }) => (
   <Fragment>
     <Aside
@@ -85,6 +87,8 @@ const Sidebar = ({
       width={width}
       left={left}
       zIndex={zIndex}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {menu}
     </Aside>
