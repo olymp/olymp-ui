@@ -46,15 +46,6 @@ const defaultResolver = f => {
       rules.type = 'url';
       break;
 
-    case 'email':
-      e = 'input';
-      newEditProps.suffix = <FormIcon type="mail" />;
-      rules.pattern = 'email';
-      rules.message = 'Ungültige E-Mail';
-      rules.min = 4;
-      rules.type = 'email';
-      break;
-
     default:
   }
 

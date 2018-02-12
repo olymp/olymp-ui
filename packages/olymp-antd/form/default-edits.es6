@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Input, Switch, DatePicker } from 'antd';
 import slate from './edit-slate';
+import email from './edit-email';
 import color from './edit-color';
 import geocode from './edit-geocode';
 import date from './edit-date';
@@ -32,7 +33,8 @@ export default {
       <Input id={id} {...p} />
     </div>
   ),
-  input, // phone, url, email
+  input, // phone, url
+  email,
   text: Input.TextArea,
   slate,
   geocode,

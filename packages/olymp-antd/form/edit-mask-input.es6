@@ -24,11 +24,11 @@ class Edit extends Component {
   };
 
   initTextMask() {
-    const { props, props: { value } } = this;
+    const { value } = this.props;
 
     this.textMaskInputElement = createTextMaskInputElement({
       inputElement: this.inputElement,
-      ...props
+      ...this.props
     });
     this.textMaskInputElement.update(value);
   }
