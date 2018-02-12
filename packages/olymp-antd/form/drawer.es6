@@ -28,7 +28,8 @@ export default ({
   layout,
   title,
   width,
-  resolve
+  resolve,
+  color = true
 }) => (
   <Drawer
     open={!!value}
@@ -37,7 +38,7 @@ export default ({
     onClose={onClose}
     menu={
       <Menu
-        color
+        color={color}
         inverted
         collapsed
         header={
