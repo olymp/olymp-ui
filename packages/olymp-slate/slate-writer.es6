@@ -9,7 +9,6 @@ import PasteLinkify from 'slate-paste-linkify';
 import AutoReplace from 'slate-auto-replace';
 import CollapseOnEscape from 'slate-collapse-on-escape';
 import TrailingBlock from 'slate-trailing-block';
-import EditTable from 'slate-edit-table';
 import EditBlockquote from 'slate-edit-blockquote';
 import { Block } from 'slate';
 import Portal from 'olymp-ui/portal';
@@ -58,12 +57,12 @@ const renderNode = props => {
             '213',
             props.node,
             props.node.type,
-            getType(props.node.type),
+            getType(props.node.type)
           );
           props.editor.onChange(
             props.editor.value
               .change()
-              .setNodeByKey(props.node.key, getType(props.node.type)),
+              .setNodeByKey(props.node.key, getType(props.node.type))
           );
         }}
       >
@@ -101,74 +100,74 @@ const enhance = compose(
       InsertBlockOnEnter({ type: 'paragraph' }),
       EditList({
         types: ['numbered-list', 'bulleted-list'],
-        typeItem: 'list-item',
+        typeItem: 'list-item'
       }),
       SoftBreak({
-        shift: true,
+        shift: true
         // onlyIn: ['paragraph']
       }),
       PasteLinkify({
-        type: 'link',
+        type: 'link'
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(>)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'block-quote' }),
+          transform.setBlock({ type: 'block-quote' })
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(\*)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'list-item' }),
+          transform.setBlock({ type: 'list-item' })
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(-)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'list-item' }),
+          transform.setBlock({ type: 'list-item' })
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(\+)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'list-item' }),
+          transform.setBlock({ type: 'list-item' })
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(#)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'heading-one' }),
+          transform.setBlock({ type: 'heading-one' })
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(##)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'heading-two' }),
+          transform.setBlock({ type: 'heading-two' })
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(###)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'heading-three' }),
+          transform.setBlock({ type: 'heading-three' })
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(####)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'heading-four' }),
+          transform.setBlock({ type: 'heading-four' })
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(#####)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'heading-five' }),
+          transform.setBlock({ type: 'heading-five' })
       }),
       AutoReplace({
         trigger: 'space',
         before: /^(######)$/,
         transform: (transform, e, matches) =>
-          transform.setBlock({ type: 'heading-six' }),
+          transform.setBlock({ type: 'heading-six' })
       }),
       CollapseOnEscape(),
       EditBlockquote(),
@@ -178,10 +177,10 @@ const enhance = compose(
       */
       {
         renderNode,
-        renderMark,
-      },
-    ],
-  })),
+        renderMark
+      }
+    ]
+  }))
 );
 
 class Writer extends Component {
@@ -194,7 +193,7 @@ class Writer extends Component {
     nodes: PropTypes.object,
     autoMarkDownKeyDown: PropTypes.func,
     plugins: PropTypes.array,
-    className: PropTypes.string,
+    className: PropTypes.string
   };
 
   onKeyDown = (e, change) => {
@@ -286,7 +285,7 @@ class Writer extends Component {
         schema,
         null,
         null,
-        change.select(ev),
+        change.select(ev)
       );
     }
   };
@@ -303,7 +302,7 @@ class Writer extends Component {
         schema,
         null,
         null,
-        change.select(range),
+        change.select(range)
       );
     }
   };
@@ -403,7 +402,7 @@ class Writer extends Component {
               minHeight: '100%',
               zIndex: 100,
               backgroundColor: 'white',
-              width: '100%',
+              width: '100%'
             }}
           >
             {inner}
