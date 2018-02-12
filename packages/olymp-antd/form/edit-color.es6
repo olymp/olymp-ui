@@ -1,6 +1,7 @@
 import React from 'react';
 import { createComponent, withTheme } from 'react-fela';
 import { CompactPicker } from 'react-color';
+import { getColor } from 'olymp-ui';
 
 const Edit = createComponent(
   () => ({
@@ -23,7 +24,7 @@ const Edit = createComponent(
       <div className={className}>
         <CompactPicker
           className="ant-input"
-          color={value}
+          color={getColor(theme, value, theme.palette) || value}
           colors={c.length ? c : undefined}
           onChange={({ hex }) => onChange(hex)}
           {...p}
