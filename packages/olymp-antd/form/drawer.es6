@@ -41,7 +41,16 @@ export default ({
         inverted
         collapsed
         header={
-          <Menu.Item large icon={icon ? <Icon type={icon} /> : <FaCube />}>
+          <Menu.Item
+            large
+            icon={
+              icon ? (
+                (typeof icon === 'string' && <Icon type={icon} />) || icon
+              ) : (
+                <FaCube />
+              )
+            }
+          >
             {label}
           </Menu.Item>
         }
