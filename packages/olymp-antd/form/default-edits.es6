@@ -4,6 +4,7 @@ import { Input, Switch, DatePicker } from 'antd';
 // import slate from './edit-slate';
 import email from './edit-email';
 import color from './edit-color';
+import themecolor from './edit-themecolor';
 import geocode from './edit-geocode';
 import date from './edit-date';
 import daterange from './edit-daterange';
@@ -39,6 +40,7 @@ export default {
   // slate,
   geocode,
   color,
+  themecolor,
   date,
   daterange,
   time,
