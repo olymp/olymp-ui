@@ -80,9 +80,6 @@ const compose = (resolvers = []) => {
     resolvers = [resolvers];
   }
   resolvers = [...resolvers.filter(x => x), defaultResolver].reverse();
-
-  console.log(resolvers);
-
   return (initial, props) => reduce(resolvers, initial, props);
 };
 
