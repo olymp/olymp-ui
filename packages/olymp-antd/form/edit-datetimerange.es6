@@ -39,5 +39,5 @@ const Edit = ({ value = [], onChange, mode, ...props }) => {
   );
 };
 Edit.displayName = 'EditDatetimerange';
-Edit.type = 'object';
+Edit.type = 'array';
 export default Edit;
