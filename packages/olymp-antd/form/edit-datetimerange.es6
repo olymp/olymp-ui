@@ -1,5 +1,4 @@
 import React from 'react';
-import { get } from 'lodash';
 import {
   isBefore,
   endOfDay,
@@ -10,36 +9,28 @@ import EditDateTime from './edit-datetime';
 import EditTimeRange from './edit-timerange';
 
 const Edit = ({ value, onChange, mode, ...props }) => {
-  const start = get(value, 'start', new Date());
-  const end =
-    get(value, 'end') && isBefore(start, get(value, 'end'))
-      ? get(value, 'end')
-      : start;
+  const [start = new Date(), end] = value;
+  const endFn = end && isBefore(start, end) ? end : start;
 
   return (
     <div>
       <EditDateTime
         value={start}
-        onChange={v => onChange({ start: v, end })}
+        onChange={v => onChange([v, endFn])}
         {...props}
       />
       {mode ? (
         <EditTimeRange
           mode={mode}
           value={
-            start && end ? differenceInMilliseconds(end, start) : undefined
+            start && endFn ? differenceInMilliseconds(endFn, start) : undefined
           }
-          onChange={v =>
-            onChange({
-              start,
-              end: addMilliseconds(new Date(start), v)
-            })
-          }
+          onChange={v => onChange([start, addMilliseconds(new Date(start), v)])}
         />
       ) : (
         <EditDateTime
-          value={end}
-          onChange={v => onChange({ start, end: endOfDay(v) })}
+          value={endFn}
+          onChange={v => onChange([start, endOfDay(v)])}
           {...props}
         />
       )}
