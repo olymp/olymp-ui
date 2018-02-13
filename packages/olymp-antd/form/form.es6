@@ -96,7 +96,8 @@ const compose = (resolvers = []) => {
 
     return obj;
   },
-  onValuesChange: ({ onChange }, changed, all) => onChange(changed, all)
+  onValuesChange: ({ onChange, form }, changed, all) =>
+    onChange(all, form, changed)
 })
 export default class AntForm extends Component {
   renderEdits = resolve => {
