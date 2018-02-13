@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import { format, addMilliseconds, startOfDay } from 'date-fns';
-import EditTime, { getMilliseconds } from './edit-time';
-import EditDate from './edit-date';
+import EditTime, { getMilliseconds } from './time';
+import EditDate from './date';
 
 const Edit = ({ value, onChange, ...props }) => (
   <Row gutter={16}>

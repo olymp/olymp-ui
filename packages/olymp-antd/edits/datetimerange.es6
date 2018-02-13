@@ -5,10 +5,10 @@ import {
   addMilliseconds,
   differenceInMilliseconds
 } from 'date-fns';
-import EditDate from './edit-date';
-import EditDateTime from './edit-datetime';
-import EditTimeRange from './edit-timerange';
-import EditDuration from './edit-duration';
+import EditDate from './date';
+import EditDateTime from './datetime';
+import EditTimeRange from './timerange';
+import EditDuration from './duration';
 
 const Edit = ({ value = [], onChange, mode, slots, ...props }) => {
   const [start, end] = value;

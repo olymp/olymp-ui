@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import { isBefore, endOfDay } from 'date-fns';
-import EditDate from './edit-date';
+import EditDate from './date';
 
 const Edit = ({ value = [], onChange, ...props }) => {
   const [start, end] = value;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import { format, addMilliseconds, startOfDay } from 'date-fns';
-import MaskedTextInput from './edit-mask-input';
+import MaskedTextInput from './mask-input';
 import FormIcon from './form-icon';
 
 export const getMilliseconds = time => {

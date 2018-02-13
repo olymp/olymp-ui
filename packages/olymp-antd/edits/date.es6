@@ -3,7 +3,7 @@ import { Popover } from 'antd';
 import { format, isValid, startOfDay, compareAsc } from 'date-fns';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import Calendar from 'olymp-ui/calendar';
-import MaskedTextInput from './edit-mask-input';
+import MaskedTextInput from './mask-input';
 import FormIcon from './form-icon';
 
 const getDate = date => !!date && new Date(date.split('.').reverse());

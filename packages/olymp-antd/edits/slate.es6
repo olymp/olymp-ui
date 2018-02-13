@@ -2,7 +2,7 @@ import React from 'react';
 import { compose, toClass, withState } from 'recompose';
 import SlateWriter from 'olymp-slate/slate-writer';
 import { Button } from 'antd';
-import FormItem from './form-item';
+import FormItem from '../form/form-item';
 
 const enhance = compose(withState('isOpen', 'setOpen', false), toClass);
 

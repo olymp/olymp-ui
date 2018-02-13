@@ -1,32 +1,32 @@
 import React from 'react';
 import moment from 'moment';
 import { Input, Switch, DatePicker } from 'antd';
-// import slate from './edit-slate';
-import email from './edit-email';
-import color from './edit-color';
-import themecolor from './edit-themecolor';
-import geocode from './edit-geocode';
-import date from './edit-date';
-import daterange from './edit-daterange';
-import time from './edit-time';
-import timerange from './edit-timerange';
-import datetime from './edit-datetime';
-import datetimerange from './edit-datetimerange';
-import duration from './edit-duration';
-import input from './edit-mask-input';
-/* import strings from './edit-strings';
-import tags from './edit-tags';
-import openings from './edit-openings';
-import list from './edit-list';
-import enu from './edit-enum';
-import date from './edit-date';
-import rel from './edit-rel';
-import relList from './edit-rel-list';
-import image from './edit-image';
-import color from './edit-color';
-import textarea from './edit-textarea';
-import geocode from './edit-geocode';
-import slug from './edit-slug'; */
+// import slate from '../edits/slate';
+import email from '../edits/email';
+import color from '../edits/color';
+import themecolor from '../edits/themecolor';
+import geocode from '../edits/geocode';
+import date from '../edits/date';
+import daterange from '../edits/daterange';
+import time from '../edits/time';
+import timerange from '../edits/timerange';
+import datetime from '../edits/datetime';
+import datetimerange from '../edits/datetimerange';
+import duration from '../edits/duration';
+import input from '../edits/mask-input';
+/* import strings from '../edits/strings';
+import tags from '../edits/tags';
+import openings from '../edits/openings';
+import list from '../edits/list';
+import enu from '../edits/enum';
+import date from '../edits/date';
+import rel from '../edits/rel';
+import relList from '../edits/rel-list';
+import image from '../edits/image';
+import color from '../edits/color';
+import textarea from '../edits/textarea';
+import geocode from '../edits/geocode';
+import slug from '../edits/slug'; */
 
 export default {
   test: e => ({ id, ...p }) => (
