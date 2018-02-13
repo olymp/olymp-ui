@@ -6,7 +6,6 @@ import defaultPattern from './default-pattern';
 import FormItem from './form-item';
 import FormIcon from './form-icon';
 
-console.log(DefaultEdits);
 const reduce = (fns = [], value, props) => {
   const [fn, ...rest] = fns;
 
@@ -25,7 +24,7 @@ const defaultResolver = f => {
     editProps,
     decoratorProps: { initialValue, rules = {}, ...decoratorProps } = {}
   } = f;
-  
+
   const newEditProps = { ...editProps };
   let e = edit;
 

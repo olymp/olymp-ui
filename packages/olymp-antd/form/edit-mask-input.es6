@@ -24,6 +24,17 @@ class Edit extends Component {
     }
   };
 
+  onKeyDown = e => {
+    if (e.keyCode > 47) {
+      const i = e.target.selectionStart;
+      const v = [...e.target.value];
+
+      v.splice(i, 1);
+      e.target.value = v.join('');
+      this.inputElement.selectionStart = i;
+    }
+  };
+
   initTextMask() {
     const { value } = this.props;
 
@@ -53,6 +64,7 @@ class Edit extends Component {
       <Input
         {...props}
         onChange={this.onChange}
+        onKeyDown={this.onKeyDown}
         defaultValue={this.props.value}
         ref={inputElement => {
           this.inputElement = get(inputElement, 'input');

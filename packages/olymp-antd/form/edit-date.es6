@@ -17,7 +17,7 @@ class Edit extends Component {
   }
 
   componentWillReceiveProps({ value }) {
-    if (compareAsc(new Date(this.value), new Date(value)) !== 0) {
+    if (compareAsc(new Date(this.props.value), new Date(value)) !== 0) {
       this.setState({
         input: !value ? undefined : getDateString(value)
       });
@@ -37,7 +37,6 @@ class Edit extends Component {
     return (
       <MaskedTextInput
         mask={[/\d/, /\d/, '.', /\d/, /\d/, '.', /\d/, /\d/, /\d/, /\d/]}
-        keepCharPositions
         placeholder="Datum"
         suffix={
           <Popover
