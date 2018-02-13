@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import { format, addMilliseconds, startOfDay } from 'date-fns';
 import MaskedTextInput from './edit-mask-input';
@@ -14,24 +14,49 @@ export const getMilliseconds = time => {
     : hours * 3.6e6 + minutes * 60000;
 };
 
-const Edit = ({ value, onChange, ...rest }) => (
-  <MaskedTextInput
-    mask={[/\d/, /\d/, ':', /\d/, /\d/, ' ', 'U', 'h', 'r']}
-    placeholder="Zeit"
-    suffix={<FormIcon type="clock-circle-o" />}
-    value={
-      value === undefined
-        ? undefined
-        : format(
-            addMilliseconds(startOfDay(new Date()), parseInt(value, 10)),
-            'HH:mm'
-          )
+const getTimeString = milliseconds =>
+  format(
+    addMilliseconds(startOfDay(new Date()), parseInt(milliseconds, 10)),
+    'HH:mm'
+  );
+
+class Edit extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { input: getTimeString(props.value) };
+  }
+
+  componentWillReceiveProps({ value }) {
+    if (this.props.value !== value) {
+      this.setState({
+        input: !value ? undefined : getTimeString(value)
+      });
     }
-    onChange={e => onChange(getMilliseconds(e.target.value))}
-    pipe={createAutoCorrectedDatePipe('HH:MM')}
-    {...rest}
-  />
-);
+  }
+
+  render() {
+    const { value, onChange, ...rest } = this.props;
+    const { input } = this.state;
+
+    return (
+      <MaskedTextInput
+        mask={[/\d/, /\d/, ':', /\d/, /\d/, ' ', 'U', 'h', 'r']}
+        placeholder="Zeit"
+        suffix={<FormIcon type="clock-circle-o" />}
+        value={input}
+        onChange={e => {
+          const time = e.target.value;
+
+          if (time.search('_') === -1) onChange(getMilliseconds(time));
+          else this.setState({ input: time });
+        }}
+        pipe={createAutoCorrectedDatePipe('HH:MM')}
+        {...rest}
+      />
+    );
+  }
+}
 Edit.displayName = 'EditTime';
 Edit.type = 'integer';
 export default Edit;
