@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-export default ({ id = 'id', item = 'item' } = {}) => WrappedComponent => class StateWrapper extends Component {
+export default ({ idProp = 'id', itemProp, valueProp = 'value' } = {}) => WrappedComponent => class StateWrapper extends Component {
   state = { changedItem: null };
   componentWillReceiveProps(newProps) {
-    if (newProps[id] !== this.props[id]) {
+    if (newProps[idProp] !== this.props[idProp]) {
       this.setState({ changedItem: null, hasChanged: false })
     }
   }
@@ -14,7 +14,7 @@ export default ({ id = 'id', item = 'item' } = {}) => WrappedComponent => class 
     const props = {
       onChange: this.onChange,
       hasChanged: !!this.state.hasChanged,
-      item: this.state.changedItem || this.props[item] || {},
+      [valueProp]: this.state.changedItem || this.props[itemProp || valueProp] || {},
     };
     return <WrappedComponent {...this.props} {...props} />;
   }
