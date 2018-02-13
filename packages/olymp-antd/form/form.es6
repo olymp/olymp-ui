@@ -75,7 +75,7 @@ const defaultResolver = f => {
 };
 
 const compose = (resolvers = []) => {
-  let r;
+  let r = [];
 
   if (!Array.isArray(resolvers)) {
     r = [resolvers];
