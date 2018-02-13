@@ -3,7 +3,7 @@ import { Row, Col } from 'antd';
 import { isBefore, endOfDay } from 'date-fns';
 import EditDate from './edit-date';
 
-const Edit = ({ value, onChange, ...props }) => {
+const Edit = ({ value = [], onChange, ...props }) => {
   const [start, end] = value;
   const endFn = isBefore(end, start) ? end || new Date() : start || new Date();
 
