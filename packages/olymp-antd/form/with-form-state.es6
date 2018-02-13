@@ -20,8 +20,8 @@ export default ({
       this.setState({ item: onChange(item), hasChanged: false });
     }
   }
-  onChange = (change, item) => {
-    this.setState({ item: onChange(item), hasChanged: true });
+  onChange = (item, form, change) => {
+    this.setState({ item: onChange((item, form, change), hasChanged: true });
   };
   render() {
     const props = {
