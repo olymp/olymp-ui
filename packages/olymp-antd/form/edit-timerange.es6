@@ -60,67 +60,71 @@ const Edit = withPropsOnChange(['slots'], ({ slots = [9, 12, 15, 18] }) => {
     obj,
     onChange,
     slider = true
-  }) => (
-    <div>
-      <RadioGroup
-        onChange={e =>
-          onChange(
-            e.target.value
-              ? e.target.value.split('|').map(v => parseInt(v, 10))
-              : undefined
-          )
-        }
-        value={[start, end].join('|')}
-      >
-        {slots.map(
-          (mark, i) =>
-            slots[i + 1] ? (
-              <Radio.Button
-                key={[mark * 60000 * 60, slots[i + 1] * 60000 * 60].join('|')}
-                value={[mark * 60000 * 60, slots[i + 1] * 60000 * 60].join('|')}
-              >
-                {numberToTime(mark)}
-                <br />
-                {numberToTime(slots[i + 1])}
-              </Radio.Button>
-            ) : (
-              <Radio.Button
-                value={[
-                  Math.min(...slots) * 60000 * 60,
-                  Math.max(...slots) * 60000 * 60
-                ].join('|')}
-              >
-                {numberToTime(Math.min(...slots))}
-                <br />
-                {numberToTime(Math.max(...slots))}
-              </Radio.Button>
-            )
-        )}
-        <Radio.Button>
-          <FaTimes size={16} />
-        </Radio.Button>
-      </RadioGroup>
-
-      {!!slider && (
-        <Container className="ant-input">
-          <Slider
-            range
-            min={Math.min(...slots)}
-            max={Math.max(...slots)}
-            marks={obj}
-            tipFormatter={v => numberToTime(v)}
-            step={step}
-            onChange={([s, e]) => onChange([s * 60000 * 60, e * 60000 * 60])}
-            value={
-              start && end
-                ? [start / (60000 * 60), end / (60000 * 60)]
+  }) =>
+    console.log(start, end) || (
+      <div>
+        <RadioGroup
+          onChange={e =>
+            onChange(
+              e.target.value
+                ? e.target.value.split('|').map(v => parseInt(v, 10))
                 : undefined
-            }
-          />
-        </Container>
-      )}
-    </div>
-  )
+            )
+          }
+          value={[start, end].join('|')}
+        >
+          {slots.map(
+            (mark, i) =>
+              slots[i + 1] ? (
+                <Radio.Button
+                  key={[mark * 60000 * 60, slots[i + 1] * 60000 * 60].join('|')}
+                  value={[mark * 60000 * 60, slots[i + 1] * 60000 * 60].join(
+                    '|'
+                  )}
+                >
+                  {numberToTime(mark)}
+                  <br />
+                  {numberToTime(slots[i + 1])}
+                </Radio.Button>
+              ) : (
+                <Radio.Button
+                  key="all"
+                  value={[
+                    Math.min(...slots) * 60000 * 60,
+                    Math.max(...slots) * 60000 * 60
+                  ].join('|')}
+                >
+                  {numberToTime(Math.min(...slots))}
+                  <br />
+                  {numberToTime(Math.max(...slots))}
+                </Radio.Button>
+              )
+          )}
+          <Radio.Button key="cancel">
+            <FaTimes size={16} />
+          </Radio.Button>
+        </RadioGroup>
+
+        {!!slider && (
+          <Container className="ant-input">
+            <Slider
+              range
+              min={Math.min(...slots)}
+              max={Math.max(...slots)}
+              marks={obj}
+              tipFormatter={v => numberToTime(v)}
+              step={step}
+              onChange={([s, e]) => onChange([s * 60000 * 60, e * 60000 * 60])}
+              value={
+                start && end
+                  ? [start / (60000 * 60), end / (60000 * 60)]
+                  : undefined
+              }
+            />
+          </Container>
+        )}
+      </div>
+    )
 );
 Edit.displayName = 'EditTimerange';
 Edit.type = 'array';

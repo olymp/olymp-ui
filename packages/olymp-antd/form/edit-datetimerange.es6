@@ -3,8 +3,7 @@ import {
   startOfDay,
   endOfDay,
   addMilliseconds,
-  differenceInMilliseconds,
-  startOfMinute
+  differenceInMilliseconds
 } from 'date-fns';
 import EditDate from './edit-date';
 import EditDateTime from './edit-datetime';
@@ -33,16 +32,20 @@ const Edit = ({ value = [], onChange, mode, slots, ...props }) => {
         />
         <EditTimeRange
           slots={slots}
-          value={[
-            differenceInMilliseconds(start, startOfDay(start)),
-            differenceInMilliseconds(end, startOfDay(end))
-          ]}
+          value={
+            start && end
+              ? [
+                  differenceInMilliseconds(start, startOfDay(start)),
+                  differenceInMilliseconds(end, startOfDay(end))
+                ]
+              : undefined
+          }
           onChange={v =>
             onChange(
               Array.isArray(v)
                 ? [
-                    addMilliseconds(startOfDay(start), v[0]),
-                    addMilliseconds(startOfDay(end), v[1])
+                    addMilliseconds(startOfDay(start || new Date()), v[0]),
+                    addMilliseconds(startOfDay(end || new Date()), v[1])
                   ]
                 : v
             )
