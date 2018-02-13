@@ -3,7 +3,7 @@ import { InputNumber } from 'antd';
 
 const durations = {
   minutes: {
-    min: 5,
+    min: 0,
     max: 300,
     step: 15,
     defaultValue: 60,
