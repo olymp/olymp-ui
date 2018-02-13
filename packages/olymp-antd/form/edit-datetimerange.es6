@@ -11,8 +11,8 @@ import EditDateTime from './edit-datetime';
 import EditTimeRange from './edit-timerange';
 import EditDuration from './edit-duration';
 
-const Edit = ({ value = [], onChange, mode, ...props }) => {
-  const [start = startOfMinute(new Date()), end = start] = value;
+const Edit = ({ value = [], onChange, mode, slots, ...props }) => {
+  const [start, end] = value;
 
   if (mode === 'slots') {
     return (
@@ -32,20 +32,20 @@ const Edit = ({ value = [], onChange, mode, ...props }) => {
           {...props}
         />
         <EditTimeRange
-          mode={mode}
-          value={
-            start && end
-              ? [
-                  differenceInMilliseconds(start, startOfDay(start)),
-                  differenceInMilliseconds(end, startOfDay(end))
-                ]
-              : undefined
-          }
-          onChange={([s, e]) =>
-            onChange([
-              addMilliseconds(startOfDay(start), s),
-              addMilliseconds(startOfDay(end), e)
-            ])
+          slots={slots}
+          value={[
+            differenceInMilliseconds(start, startOfDay(start)),
+            differenceInMilliseconds(end, startOfDay(end))
+          ]}
+          onChange={v =>
+            onChange(
+              Array.isArray(v)
+                ? [
+                    addMilliseconds(startOfDay(start), v[0]),
+                    addMilliseconds(startOfDay(end), v[1])
+                  ]
+                : v
+            )
           }
         />
       </div>

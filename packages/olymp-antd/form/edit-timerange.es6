@@ -2,6 +2,7 @@ import React from 'react';
 import { createComponent } from 'react-fela';
 import { Radio, Slider } from 'antd';
 import { withPropsOnChange } from 'recompose';
+import { FaTimes } from 'olymp-icons';
 
 const Container = createComponent(
   ({ theme }) => ({
@@ -22,7 +23,16 @@ const RadioGroup = createComponent(
       textAlign: 'center',
       height: 'auto',
       lineHeight: 'initial',
-      padding: theme.space2
+      padding: theme.space2,
+      position: 'relative',
+      '> span > svg': {
+        center: true
+      },
+      onHover: {
+        '> span > svg': {
+          fill: theme.color
+        }
+      }
     }
   }),
   p => <Radio.Group {...p} />,
@@ -32,21 +42,21 @@ const RadioGroup = createComponent(
 const numberToTime = number =>
   number % 1 === 0.5 ? `${number}`.replace('.5', ':30') : `${number}:00`;
 
-const Edit = withPropsOnChange(['marks'], ({ marks = [9, 12, 15, 18] }) => {
+const Edit = withPropsOnChange(['slots'], ({ slots = [9, 12, 15, 18] }) => {
   const obj = {};
-  marks.forEach(m => {
+  slots.forEach(m => {
     obj[m] = numberToTime(m);
   });
 
   return {
     obj,
-    marks
+    slots
   };
 })(
   ({
     value: [start = 0, end = 0] = [],
     step = 0.5,
-    marks,
+    slots,
     obj,
     onChange,
     slider = true
@@ -54,42 +64,49 @@ const Edit = withPropsOnChange(['marks'], ({ marks = [9, 12, 15, 18] }) => {
     <div>
       <RadioGroup
         onChange={e =>
-          onChange(e.target.value.split('|').map(v => parseInt(v, 10)))
+          onChange(
+            e.target.value
+              ? e.target.value.split('|').map(v => parseInt(v, 10))
+              : undefined
+          )
         }
         value={[start, end].join('|')}
       >
-        {marks.map(
+        {slots.map(
           (mark, i) =>
-            marks[i + 1] ? (
+            slots[i + 1] ? (
               <Radio.Button
-                key={[mark * 60000 * 60, marks[i + 1] * 60000 * 60].join('|')}
-                value={[mark * 60000 * 60, marks[i + 1] * 60000 * 60].join('|')}
+                key={[mark * 60000 * 60, slots[i + 1] * 60000 * 60].join('|')}
+                value={[mark * 60000 * 60, slots[i + 1] * 60000 * 60].join('|')}
               >
                 {numberToTime(mark)}
                 <br />
-                {numberToTime(marks[i + 1])}
+                {numberToTime(slots[i + 1])}
               </Radio.Button>
             ) : (
               <Radio.Button
                 value={[
-                  Math.min(...marks) * 60000 * 60,
-                  Math.max(...marks) * 60000 * 60
+                  Math.min(...slots) * 60000 * 60,
+                  Math.max(...slots) * 60000 * 60
                 ].join('|')}
               >
-                {numberToTime(Math.min(...marks))}
+                {numberToTime(Math.min(...slots))}
                 <br />
-                {numberToTime(Math.max(...marks))}
+                {numberToTime(Math.max(...slots))}
               </Radio.Button>
             )
         )}
+        <Radio.Button>
+          <FaTimes size={16} />
+        </Radio.Button>
       </RadioGroup>
 
       {!!slider && (
         <Container className="ant-input">
           <Slider
             range
-            min={Math.min(...marks)}
-            max={Math.max(...marks)}
+            min={Math.min(...slots)}
+            max={Math.max(...slots)}
             marks={obj}
             tipFormatter={v => numberToTime(v)}
             step={step}
