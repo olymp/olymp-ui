@@ -6,6 +6,7 @@ import defaultPattern from './default-pattern';
 import FormItem from './form-item';
 import FormIcon from './form-icon';
 
+console.log(DefaultEdits);
 const reduce = (fns = [], value, props) => {
   const [fn, ...rest] = fns;
 
@@ -24,6 +25,7 @@ const defaultResolver = f => {
     editProps,
     decoratorProps: { initialValue, rules = {}, ...decoratorProps } = {}
   } = f;
+  
   const newEditProps = { ...editProps };
   let e = edit;
 
@@ -74,14 +76,14 @@ const defaultResolver = f => {
 };
 
 const compose = (resolvers = []) => {
-  let r = [...resolvers];
-
-  if (!Array.isArray(r)) {
-    r = [r];
+  if (!Array.isArray(resolvers)) {
+    resolvers = [resolvers];
   }
-  r = [...r.filter(x => x), defaultResolver].reverse();
+  resolvers = [...resolvers.filter(x => x), defaultResolver].reverse();
 
-  return (initial, props) => reduce(r, initial, props);
+  console.log(resolvers);
+
+  return (initial, props) => reduce(resolvers, initial, props);
 };
 
 @Form.create({
