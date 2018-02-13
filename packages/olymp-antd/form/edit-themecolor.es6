@@ -16,13 +16,19 @@ const Edit = createComponent(
           },
           '> div': {
             overflowY: 'auto !important',
+            padding: theme.space2,
             '> div': {
               display: 'flex',
               flexWrap: !!compact && 'wrap',
+              justifyContent: 'space-around',
               padding: '0 !important',
               '> div': {
-                padding: `${theme.space1} !important`,
-                margin: `${theme.space1} !important`
+                padding: `${theme.space0} !important`,
+                margin: `${theme.space1} !important`,
+                width: '20% !important',
+                '> span > div': {
+                  width: '100% !important'
+                }
               }
             }
           }
