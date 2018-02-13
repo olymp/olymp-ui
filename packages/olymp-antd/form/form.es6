@@ -75,11 +75,14 @@ const defaultResolver = f => {
 };
 
 const compose = (resolvers = []) => {
+  let r;
+
   if (!Array.isArray(resolvers)) {
-    resolvers = [resolvers];
+    r = [resolvers];
   }
-  resolvers = [...resolvers.filter(x => x), defaultResolver].reverse();
-  return (initial, props) => reduce(resolvers, initial, props);
+  r = [...r.filter(x => x), defaultResolver].reverse();
+
+  return (initial, props) => reduce(r, initial, props);
 };
 
 @Form.create({

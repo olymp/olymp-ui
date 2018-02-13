@@ -42,12 +42,12 @@ const Edit = ({ value = [], onChange, mode, slots, ...props }) => {
           }
           onChange={v =>
             onChange(
-              Array.isArray(v)
+              Array.isArray(v) && v[0] && v[1]
                 ? [
                     addMilliseconds(startOfDay(start || new Date()), v[0]),
                     addMilliseconds(startOfDay(end || new Date()), v[1])
                   ]
-                : v
+                : undefined
             )
           }
         />
