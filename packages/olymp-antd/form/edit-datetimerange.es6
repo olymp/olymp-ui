@@ -17,7 +17,7 @@ const Edit = ({ value = [], onChange, mode, ...props }) => {
     <div>
       <EditDateTime
         value={start}
-        onChange={v => onChange([v, endFn])}
+        onChange={v => onChange([v, end])}
         {...props}
       />
       {mode ? (
