@@ -3,13 +3,14 @@ import {
   isBefore,
   endOfDay,
   addMilliseconds,
-  differenceInMilliseconds
+  differenceInMilliseconds,
+  startOfMinute
 } from 'date-fns';
 import EditDateTime from './edit-datetime';
 import EditTimeRange from './edit-timerange';
 
 const Edit = ({ value = [], onChange, mode, ...props }) => {
-  const [start = new Date(), end] = value;
+  const [start = startOfMinute(new Date()), end] = value;
   const endFn = end && isBefore(start, end) ? end : start;
 
   return (
