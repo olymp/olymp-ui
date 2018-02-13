@@ -29,7 +29,8 @@ export default ({
   title,
   width,
   resolve,
-  color = true
+  color = true,
+  hasChanged = true
 }) => (
   <Drawer
     open={!!value}
@@ -57,7 +58,7 @@ export default ({
         }
       >
         {!!onSave && (
-          <Menu.Item icon={<FaCheck />} onClick={onSave}>
+          <Menu.Item icon={<FaCheck />} onClick={onSave} disabled={!hasChanged}>
             Speichern
           </Menu.Item>
         )}
