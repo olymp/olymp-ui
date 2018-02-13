@@ -68,5 +68,5 @@ const Edit = createComponent(
   p => Object.keys(p)
 );
 Edit.displayName = 'EditThemecolor';
-Edit.type = 'object';
+Edit.type = 'array';
 export default Edit;
