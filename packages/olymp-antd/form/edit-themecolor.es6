@@ -31,7 +31,7 @@ const Edit = createComponent(
     }
   }),
   withTheme(
-    ({ theme, value, onChange, className, compact = true, ...props }) => {
+    ({ theme, value = [], onChange, className, compact = true, ...props }) => {
       const [col = 0, pal = props.palette || theme.palette] = value;
       const getColorIndex = hex => {
         let palette;
