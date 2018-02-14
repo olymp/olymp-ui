@@ -1,12 +1,14 @@
 import { Form } from 'antd';
 
-export default (name = 'value') =>
+export default (name = 'value', transform = value => value) =>
   Form.create({
     mapPropsToFields: props => {
+      const value = transform(props[name]);
+
       const obj = {};
-      Object.keys(props[name] || {}).forEach(field => {
+      Object.keys(value || {}).forEach(field => {
         obj[field] = Form.createFormField({
-          value: props[name][field]
+          value: value[field]
         });
       });
 
