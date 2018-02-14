@@ -30,7 +30,9 @@ export default ({
   width,
   resolve,
   color = true,
-  hasChanged = true
+  form,
+  hasChanged = form.isFieldsTouched(),
+  isLoading
 }) => (
   <Drawer
     open={!!value}
@@ -83,6 +85,8 @@ export default ({
           layout={layout}
           fields={fields}
           resolve={resolve}
+          form={form}
+          isLoading={isLoading}
         />
       </Wrapper>
     </Menu>

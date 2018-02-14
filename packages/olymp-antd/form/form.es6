@@ -85,20 +85,6 @@ const compose = (resolvers = []) => {
   return (initial, props) => reduce(r, initial, props);
 };
 
-@Form.create({
-  mapPropsToFields: ({ value }) => {
-    const obj = {};
-    Object.keys(value || {}).forEach(field => {
-      obj[field] = Form.createFormField({
-        value: value[field]
-      });
-    });
-
-    return obj;
-  },
-  onValuesChange: ({ onChange, form }, changed, all) =>
-    onChange(all, form, changed)
-})
 export default class AntForm extends Component {
   renderEdits = resolve => {
     const { fields = [], form, layout = 'vertical' } = this.props;
@@ -123,8 +109,17 @@ export default class AntForm extends Component {
   };
 
   render() {
-    const { layout = 'vertical', hideRequiredMark, resolve } = this.props;
+    const {
+      layout = 'vertical',
+      hideRequiredMark,
+      resolve,
+      isLoading
+    } = this.props;
     const composedResolver = compose(resolve);
+
+    if (isLoading) {
+      return <div>lädt...</div>;
+    }
 
     return (
       <Form layout={layout} hideRequiredMark={hideRequiredMark}>
