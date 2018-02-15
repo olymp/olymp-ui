@@ -4,35 +4,35 @@ import { css, StyleSheet } from 'aphrodite/no-important';
 import defaults from '../theme';
 import { deepMerge } from '../utils';
 
-function Footer({
-  caption,
-  countCurrent,
-  countSeparator,
-  countTotal,
-  showCount,
-  ...props,
-}, {
-  theme,
-}) {
-  if (!caption && !showCount) { return null; }
+function Footer(
+  { caption, countCurrent, countSeparator, countTotal, showCount, ...props },
+  { theme }
+) {
+  if (!caption && !showCount) {
+    return null;
+  }
 
   const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
 
   const imageCount = showCount ? (
     <div className={css(classes.footerCount)}>
-    {countCurrent}
+      {countCurrent}
       {countSeparator}
       {countTotal}
-  </div>)
-    : <span />;
+    </div>
+  ) : (
+    <span />
+  );
 
   return (
     <div className={css(classes.footer)} {...props}>
       {caption ? (
         <figcaption className={css(classes.footerCaption)}>
-    {caption}
-  </figcaption>
-      ) : <span />}
+          {caption}
+        </figcaption>
+      ) : (
+        <span />
+      )}
       {imageCount}
     </div>
   );
@@ -43,10 +43,10 @@ Footer.propTypes = {
   countCurrent: PropTypes.number,
   countSeparator: PropTypes.string,
   countTotal: PropTypes.number,
-  showCount: PropTypes.bool,
+  showCount: PropTypes.bool
 };
 Footer.contextTypes = {
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 };
 
 const defaultStyles = {
@@ -61,16 +61,16 @@ const defaultStyles = {
     paddingBottom: defaults.footer.gutter.vertical,
     paddingLeft: defaults.footer.gutter.horizontal,
     paddingRight: defaults.footer.gutter.horizontal,
-    paddingTop: defaults.footer.gutter.vertical,
+    paddingTop: defaults.footer.gutter.vertical
   },
   footerCount: {
     color: defaults.footer.count.color,
     fontSize: defaults.footer.count.fontSize,
-    paddingLeft: '1em', // add a small gutter for the caption
+    paddingLeft: '1em' // add a small gutter for the caption
   },
   footerCaption: {
-    flex: '1 1 0',
-  },
+    flex: '1 1 0'
+  }
 };
 
 export default Footer;

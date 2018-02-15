@@ -6,15 +6,10 @@ import defaults from '../theme';
 import { deepMerge } from '../utils';
 import Icon from './Icon';
 
-function Header({
-  customControls,
-  onClose,
-  showCloseButton,
-  closeButtonTitle,
-  ...props,
-}, {
-  theme,
-}) {
+function Header(
+  { customControls, onClose, showCloseButton, closeButtonTitle, ...props },
+  { theme }
+) {
   const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
 
   return (
@@ -26,7 +21,10 @@ function Header({
           className={css(classes.close)}
           onClick={onClose}
         >
-          <Icon fill={!!theme.close && theme.close.fill || defaults.close.fill} type="close" />
+          <Icon
+            fill={(!!theme.close && theme.close.fill) || defaults.close.fill}
+            type="close"
+          />
         </button>
       )}
     </div>
@@ -36,17 +34,17 @@ function Header({
 Header.propTypes = {
   customControls: PropTypes.array,
   onClose: PropTypes.func.isRequired,
-  showCloseButton: PropTypes.bool,
+  showCloseButton: PropTypes.bool
 };
 Header.contextTypes = {
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 };
 
 const defaultStyles = {
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    height: defaults.header.height,
+    height: defaults.header.height
   },
   close: {
     background: 'none',
@@ -61,8 +59,8 @@ const defaultStyles = {
     height: 40,
     marginRight: -10,
     padding: 10,
-    width: 40,
-  },
+    width: 40
+  }
 };
 
 export default Header;
