@@ -9,7 +9,8 @@ const enhance = compose(
   withPropsOnChange(
     ['activeIndex', 'activeInnerIndex'],
     ({ activeIndex, activeInnerIndex }) => ({
-      activeIndex: activeIndex !== undefined ? parseInt(activeIndex, 10) : activeInnerIndex
+      activeIndex:
+        activeIndex !== undefined ? parseInt(activeIndex, 10) : activeInnerIndex
     })
   )
 );
@@ -44,6 +45,7 @@ const Tabs = enhance(
       basic,
       compact,
       onChange,
+      innerStyle,
       ...p
     }) => (
       <div>
@@ -76,7 +78,7 @@ const Tabs = enhance(
           children,
           (child, i) =>
             child ? (
-              <Content visible={i === activeIndex}>
+              <Content visible={i === activeIndex} innerStyle={innerStyle}>
                 {get(child, 'props.children', null)}
               </Content>
             ) : (
@@ -93,7 +95,7 @@ Tabs.displayName = 'Tabs';
 const Tab = createComponent(
   ({ theme, active, right, color, palette, basic, compact }) => ({
     display: 'flex',
-    color: !!active && (!basic ? theme.light : theme.color),
+    color: !!active && (!basic ? theme.light : getColor(theme, color, palette)),
     backgroundColor: !!active && !basic && getColor(theme, color, palette),
     borderBottom:
       !!active && !!basic && `2px solid ${getColor(theme, color, palette)}`,
@@ -145,11 +147,12 @@ const Group = createComponent(
 Group.displayName = 'TabsGroup';
 
 const Content = createComponent(
-  ({ visible }) => ({
-    display: !visible && 'none'
+  ({ theme, visible, innerStyle = {} }) => ({
+    display: !visible && 'none',
+    ...innerStyle(theme)
   }),
   'div',
-  ({ visible, ...p }) => Object.keys(p)
+  ({ visible, innerStyle, ...p }) => Object.keys(p)
 );
 Group.displayName = 'TabsContent';
 
