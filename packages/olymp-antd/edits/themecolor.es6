@@ -27,7 +27,14 @@ const Edit = createComponent(
                 margin: `${theme.space1} !important`,
                 width: '20% !important',
                 '> span > div': {
-                  width: '100% !important'
+                  width: '100% !important',
+                  '> div': {
+                    position: 'relative',
+                    margin: '0 !important',
+                    '> svg': {
+                      centerX: true
+                    }
+                  }
                 }
               }
             }
