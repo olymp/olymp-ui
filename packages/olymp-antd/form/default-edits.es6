@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Input, Switch, DatePicker } from 'antd';
+import { Input, InputNumber, Switch, DatePicker } from 'antd';
 // import slate from '../edits/slate';
 import email from '../edits/email';
 import color from '../edits/color';
@@ -29,6 +29,12 @@ import textarea from '../edits/textarea';
 import geocode from '../edits/geocode';
 import slug from '../edits/slug'; */
 
+const text = p => <Input.TextArea style={{ width: '100%' }} {...p} />;
+text.type = 'string';
+
+const number = p => <InputNumber style={{ width: '100%' }} {...p} />;
+number.type = 'number';
+
 export default {
   test: e => ({ id, ...p }) => (
     <div style={{ color: 'red' }}>
@@ -38,7 +44,8 @@ export default {
   ),
   input, // phone, url
   email,
-  text: Input.TextArea,
+  text,
+  number,
   select,
   // slate,
   geocode,
