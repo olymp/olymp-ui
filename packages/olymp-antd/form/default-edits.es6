@@ -14,6 +14,7 @@ import datetime from '../edits/datetime';
 import datetimerange from '../edits/datetimerange';
 import duration from '../edits/duration';
 import input from '../edits/mask-input';
+import select from '../edits/select';
 /* import strings from '../edits/strings';
 import tags from '../edits/tags';
 import openings from '../edits/openings';
@@ -38,6 +39,7 @@ export default {
   input, // phone, url
   email,
   text: Input.TextArea,
+  select,
   // slate,
   geocode,
   color,
