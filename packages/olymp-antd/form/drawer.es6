@@ -19,6 +19,7 @@ const Wrapper = createComponent(
 export default ({
   icon,
   label,
+  sublabel,
   fields,
   value,
   onChange,
@@ -27,6 +28,7 @@ export default ({
   onDelete,
   layout,
   title,
+  subtitle,
   width,
   resolve,
   color = true,
@@ -54,6 +56,7 @@ export default ({
                 <FaCube />
               )
             }
+            subtitle={sublabel}
           >
             {label}
           </Menu.Item>
@@ -77,7 +80,15 @@ export default ({
       </Menu>
     }
   >
-    <Menu header={!!title && <Menu.Item large>{title}</Menu.Item>}>
+    <Menu
+      header={
+        !!title && (
+          <Menu.Item large subtitle={subtitle}>
+            {title}
+          </Menu.Item>
+        )
+      }
+    >
       <Wrapper>
         <Form
           value={value}
