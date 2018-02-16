@@ -64,8 +64,8 @@ export default class AutoSizer extends React.PureComponent {
     // Outer div should not force width/height since that may prevent containers from shrinking.
     // Inner component should overflow and use calculated width/height.
     // See issue #68 for more information.
-    const outerStyle: Object = { overflow: 'visible' };
-    const childParams: Object = {};
+    const outerStyle = { overflow: 'visible' };
+    const childParams = {};
 
     // childParams.height = height;
     childParams.width = width;
@@ -125,7 +125,8 @@ export default class AutoSizer extends React.PureComponent {
 
       if (
         // (!disableHeight && this.state.height !== newHeight) ||
-        (!disableWidth && this.state.width !== newWidth)
+        !disableWidth &&
+        this.state.width !== newWidth
       ) {
         if (!steps.length) {
           this.setState({
@@ -135,24 +136,25 @@ export default class AutoSizer extends React.PureComponent {
           // onResize({ height, width });
           onResize({ width });
         } else {
-          const lastStep = [...steps].reverse().filter(x => x < this.state.width);
+          const lastStep = [...steps]
+            .reverse()
+            .filter(x => x < this.state.width);
           const step = [...steps].reverse().filter(x => x < width);
           if (lastStep[0] !== step[0]) {
             this.setState({
               // height: height - paddingTop - paddingBottom,
               width: width - paddingLeft - paddingRight,
-              step: step[0] || steps[0],
+              step: step[0] || steps[0]
             });
             // onResize({ height, width });
             onResize({ width });
           }
         }
-
       }
     }
   };
 
-  _setRef = (autoSizer: ?HTMLElement) => {
+  _setRef = autoSizer => {
     this._autoSizer = autoSizer;
   };
 }
