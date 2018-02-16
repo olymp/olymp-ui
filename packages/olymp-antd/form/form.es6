@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form } from 'antd';
-import { get } from 'lodash';
+import { get, set } from 'lodash';
 import DefaultEdits from './default-edits';
 import defaultPattern from './default-pattern';
 import FormItem from './form-item';
@@ -60,18 +60,30 @@ const defaultResolver = f => {
     edit: e,
     decoratorProps: {
       initialValue,
-      rules: [
-        {
-          type: component.type,
-          ...rules,
-          pattern: defaultPattern[rules.pattern] || rules.pattern
-        }
-      ],
+      rules: [rules],
       ...decoratorProps
     },
     editProps: newEditProps,
     component
   };
+};
+
+const defaultProps = f => {
+  const result = { ...f };
+
+  if (!get(result, 'decoratorProps.rules.0.type'))
+    set(result, 'decoratorProps.rules.0.type', get(f, 'component.type'));
+  if (!get(result, 'decoratorProps.rules.0.pattern'))
+    set(
+      result,
+      'decoratorProps.rules.0.pattern',
+      defaultPattern[get(f, 'decoratorProps.rules.pattern')] ||
+        get(f, 'decoratorProps.rules.pattern')
+    );
+  if (!get(result, 'editProps.placeholder'))
+    set(result, 'editProps.placeholder', f.label);
+
+  return result;
 };
 
 const compose = (resolvers = []) => {
@@ -80,7 +92,7 @@ const compose = (resolvers = []) => {
   if (!Array.isArray(resolvers)) {
     r = [resolvers];
   }
-  r = [...r.filter(x => x), defaultResolver].reverse();
+  r = [defaultProps, ...r.filter(x => x), defaultResolver].reverse();
 
   return (initial, props) => reduce(r, initial, props);
 };
