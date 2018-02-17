@@ -147,7 +147,7 @@ const Group = createComponent(
 Group.displayName = 'TabsGroup';
 
 const Content = createComponent(
-  ({ theme, visible, innerStyle = {} }) => ({
+  ({ theme, visible, innerStyle = () => {} }) => ({
     display: !visible && 'none',
     ...innerStyle(theme)
   }),
