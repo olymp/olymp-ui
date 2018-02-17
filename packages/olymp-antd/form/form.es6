@@ -73,13 +73,13 @@ const defaultProps = f => {
 
   if (!get(result, 'decoratorProps.rules.0.type'))
     set(result, 'decoratorProps.rules.0.type', get(f, 'component.type'));
-  if (!get(result, 'decoratorProps.rules.0.pattern'))
-    set(
-      result,
-      'decoratorProps.rules.0.pattern',
+  if (!get(result, 'decoratorProps.rules.0.pattern')) {
+    const pattern =
       defaultPattern[get(f, 'decoratorProps.rules.pattern')] ||
-        get(f, 'decoratorProps.rules.pattern')
-    );
+      get(f, 'decoratorProps.rules.pattern');
+
+    if (pattern) set(result, 'decoratorProps.rules.0.pattern', pattern);
+  }
   if (!get(result, 'editProps.placeholder'))
     set(result, 'editProps.placeholder', f.label);
 
@@ -109,6 +109,14 @@ export default class AntForm extends Component {
         component: Edit,
         ...field
       } = resolve(get(fields, [fieldName]), this.props);
+
+      console.log({
+        edit,
+        decoratorProps,
+        editProps,
+        component: Edit,
+        ...field
+      });
 
       return (
         <FormItem key={fieldName} layout={layout} {...field}>
