@@ -110,14 +110,6 @@ export default class AntForm extends Component {
         ...field
       } = resolve(get(fields, [fieldName]), this.props);
 
-      console.log({
-        edit,
-        decoratorProps,
-        editProps,
-        component: Edit,
-        ...field
-      });
-
       return (
         <FormItem key={fieldName} layout={layout} {...field}>
           {form.getFieldDecorator(fieldName, decoratorProps)(
