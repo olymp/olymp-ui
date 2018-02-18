@@ -1,96 +1,30 @@
-import React, { Children, cloneElement } from 'react';
+import React, { Children, Component, cloneElement } from 'react';
 import { createComponent } from 'react-fela';
 import { getColor } from 'olymp-ui';
 import { get } from 'lodash';
 import { withState, compose, withPropsOnChange } from 'recompose';
 
-const enhance = compose(
-  withState('activeInnerIndex', 'setActiveInnerIndex', 0),
-  withPropsOnChange(
-    ['activeIndex', 'activeInnerIndex'],
-    ({ activeIndex, activeInnerIndex }) => ({
-      activeIndex:
-        activeIndex !== undefined ? parseInt(activeIndex, 10) : activeInnerIndex
-    })
-  )
-);
-
-const Tabs = enhance(
-  createComponent(
-    ({ theme, basic, fluid, compact }) => ({
-      display: 'flex',
-      width: '100%',
-      flexWrap: 'wrap',
-      marginTop: theme.space3,
-      marginBottom: theme.space3,
-      borderBottom: !!basic && `2px solid ${theme.dark4}`,
-      justifyContent: fluid && 'space-between',
-      extend: [
-        {
-          condition: compact,
-          style: {
-            marginTop: theme.space2
-          }
+const TabsButtons = createComponent(
+  ({ theme, basic, fluid, compact }) => ({
+    display: 'flex',
+    width: '100%',
+    flexWrap: 'wrap',
+    marginTop: theme.space3,
+    marginBottom: theme.space3,
+    borderBottom: !!basic && `2px solid ${theme.dark4}`,
+    justifyContent: fluid && 'space-between',
+    extend: [
+      {
+        condition: compact,
+        style: {
+          marginTop: theme.space2
         }
-      ]
-    }),
-    ({
-      className,
-      children,
-      activeIndex,
-      setActiveInnerIndex,
-      activeTab,
-      color = true,
-      palette,
-      basic,
-      compact,
-      onChange,
-      innerStyle,
-      ...p
-    }) => (
-      <div>
-        <div className={className} {...p}>
-          {Children.map(
-            children,
-            (child, i) =>
-              child
-                ? cloneElement(child, {
-                    active: i === activeIndex,
-                    onClick: e => {
-                      if (onChange) {
-                        onChange(e, child);
-                      } else {
-                        setActiveInnerIndex(i);
-                      }
-                      if (get(child, 'props.onClick')) {
-                        child.props.onClick(e);
-                      }
-                    },
-                    color,
-                    palette,
-                    basic,
-                    compact
-                  })
-                : child
-          )}
-        </div>
-        {Children.map(
-          children,
-          (child, i) =>
-            child ? (
-              <Content visible={i === activeIndex} innerStyle={innerStyle}>
-                {get(child, 'props.children', null)}
-              </Content>
-            ) : (
-              child
-            )
-        )}
-      </div>
-    ),
-    ({ activeInnerIndex, fluid, ...p }) => Object.keys(p)
-  )
+      }
+    ]
+  }),
+  'div',
+  ({ basic, fluid, compact, color, activeInnerIndex, ...p }) => Object.keys(p)
 );
-Tabs.displayName = 'Tabs';
 
 const Tab = createComponent(
   ({ theme, active, right, color, palette, basic, compact }) => ({
@@ -154,8 +88,113 @@ const Content = createComponent(
   'div',
   ({ visible, innerStyle, ...p }) => Object.keys(p)
 );
-Group.displayName = 'TabsContent';
+Content.displayName = 'TabsContent';
 
+const enhance = compose(
+  withState('activeInnerIndex', 'setActiveInnerIndex', 0),
+  withPropsOnChange(
+    ['activeIndex', 'activeInnerIndex'],
+    ({ activeIndex, activeInnerIndex }) => ({
+      activeIndex:
+        activeIndex !== undefined ? parseInt(activeIndex, 10) : activeInnerIndex
+    })
+  )
+);
+
+@enhance
+class Tabs extends Component {
+  getTab = (child, key) => {
+    const {
+      activeIndex,
+      setActiveInnerIndex,
+      color = true,
+      palette,
+      basic,
+      compact,
+      onChange
+    } = this.props;
+
+    if (get(child, 'type.displayName') === 'TabsGroup') {
+      const { children, ...props } = get(child, 'props', {});
+
+      return (
+        <Group {...props}>
+          {Children.map(
+            children,
+            (c, i) => (c ? this.getTab(c, `${key}.${i}`) : c)
+          )}
+        </Group>
+      );
+    }
+
+    return cloneElement(child, {
+      active: key === activeIndex,
+      onClick: e => {
+        if (onChange) {
+          onChange(e, child);
+        } else {
+          setActiveInnerIndex(key);
+        }
+        if (get(child, 'props.onClick')) {
+          child.props.onClick(e);
+        }
+      },
+      color,
+      palette,
+      basic,
+      compact
+    });
+  };
+
+  getTabContent = (children, prefix) => {
+    const { activeIndex, innerStyle } = this.props;
+
+    return Children.map(children, (child, i) => {
+      const key = prefix ? `${prefix}.${i}` : i;
+
+      if (!child) return child;
+
+      if (get(child, 'type.displayName') === 'TabsGroup') {
+        return this.getTabContent(get(child, 'props.children'), i);
+      }
+
+      return (
+        <Content visible={key === activeIndex} innerStyle={innerStyle}>
+          {get(child, 'props.children', null)}
+        </Content>
+      );
+    });
+  };
+
+  render() {
+    const {
+      className,
+      children,
+      activeIndex,
+      setActiveInnerIndex,
+      activeTab,
+      palette,
+      basic,
+      compact,
+      onChange,
+      innerStyle,
+      ...p
+    } = this.props;
+
+    return (
+      <div>
+        <TabsButtons basic={basic} compact={compact} {...p}>
+          {Children.map(
+            children,
+            (child, i) => (child ? this.getTab(child, i) : child)
+          )}
+        </TabsButtons>
+        {this.getTabContent(children)}
+      </div>
+    );
+  }
+}
+Tabs.displayName = 'Tabs';
 Tabs.Tab = Tab;
 Tabs.Group = Group;
 export default Tabs;
