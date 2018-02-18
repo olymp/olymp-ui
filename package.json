@@ -1,5 +1,8 @@
 {
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "version": "15.2.8",
   "name": "olymp-ui",
   "description": "",
@@ -37,7 +40,10 @@
     "url": "https://github.com/olymp/olymp/issues"
   },
   "homepage": "https://github.com/olymp/olymp#readme",
-  "dependencies": {},
+  "dependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-import": "1.6.3"
+  },
   "devDependencies": {
     "eslint-config-olymp": "^20.2.16",
     "lerna": "^2.9.0",
