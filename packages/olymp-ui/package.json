@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
-    "olymp-fela": "^20.2.9",
+    "olymp-fela": "^20.2.11",
     "olymp-icons": "^20.2.6",
     "particles.js": "^2.0.0",
     "react-beautiful-dnd": "^4.0.1",
