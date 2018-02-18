@@ -655,21 +655,11 @@ babel-messages@^6.23.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-add-module-exports@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-add-module-exports/-/babel-plugin-add-module-exports-0.2.1.tgz#9ae9a1f4a8dc67f0cdec4f4aeda1e43a5ff65e25"
-
 babel-plugin-check-es2015-constants@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-check-es2015-constants/-/babel-plugin-check-es2015-constants-6.22.0.tgz#35157b101426fd2ffd3da3f75c7d1e91835bbf8a"
   dependencies:
     babel-runtime "^6.22.0"
-
-babel-plugin-import@1.6.3:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-import/-/babel-plugin-import-1.6.3.tgz#f4deeac51ff9f997c9cf38e8d7d7b9142504eaf5"
-  dependencies:
-    "@babel/helper-module-imports" "^7.0.0-beta.34"
 
 babel-plugin-import@^1.6.3:
   version "1.6.4"
@@ -2117,7 +2107,7 @@ eslint-config-airbnb@^16.1.0:
   dependencies:
     eslint-config-airbnb-base "^12.1.0"
 
-eslint-config-olymp@^20.2.16:
+eslint-config-olymp@20.2.17:
   version "20.2.17"
   resolved "https://registry.yarnpkg.com/eslint-config-olymp/-/eslint-config-olymp-20.2.17.tgz#074198a77463a00cbd4f476d1d16c327b99fb7bd"
   dependencies:
@@ -3826,7 +3816,7 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-lerna@^2.9.0:
+lerna@2.9.0, lerna@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/lerna/-/lerna-2.9.0.tgz#303f70bc50b1c4541bdcf54eda13c36fe54401f3"
   dependencies:
@@ -4519,9 +4509,9 @@ olymp-babel@^20.2.20:
     babel-preset-env "^1.6.1"
     babel-preset-react "^6.24.1"
 
-olymp-fela@^20.1.51:
-  version "20.2.8"
-  resolved "https://registry.yarnpkg.com/olymp-fela/-/olymp-fela-20.2.8.tgz#da40a4aa78a0e0bb88d1290857d0cb0ff4a8257b"
+olymp-fela@^20.2.9:
+  version "20.2.9"
+  resolved "https://registry.yarnpkg.com/olymp-fela/-/olymp-fela-20.2.9.tgz#8ee988755acbc8d7ad337a10ff1210d253c4f951"
   dependencies:
     fela "^6.1.3"
     fela-monolithic "^5.0.17"
@@ -4537,11 +4527,7 @@ olymp-fela@^20.1.51:
     react-fela "^6.2.4"
     tinycolor2 "^1.4.1"
 
-olymp-icons@^20.1.50:
-  version "20.2.8"
-  resolved "https://registry.yarnpkg.com/olymp-icons/-/olymp-icons-20.2.8.tgz#9a6b316ca18f046e59344aaae2bbff4b18125679"
-
-olymp-lerna@^20.2.16:
+olymp-lerna@20.2.20:
   version "20.2.20"
   resolved "https://registry.yarnpkg.com/olymp-lerna/-/olymp-lerna-20.2.20.tgz#056f043e2647e4503571918667336dc9b85dfed0"
   dependencies:
