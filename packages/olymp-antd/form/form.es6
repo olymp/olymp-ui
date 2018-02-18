@@ -71,8 +71,14 @@ const defaultResolver = f => {
 const defaultProps = f => {
   const result = { ...f };
 
-  if (!get(result, 'decoratorProps.rules.0.type'))
-    set(result, 'decoratorProps.rules.0.type', get(f, 'component.type'));
+  if (!get(result, 'decoratorProps.rules.0.type')) {
+    const type = get(f, 'component.type');
+    set(result, 'decoratorProps.rules.0.type', type);
+
+    if (type === 'date') {
+      set(result, 'decoratorProps.rules.0.transform', v => new Date(v));
+    }
+  }
   if (!get(result, 'decoratorProps.rules.0.pattern')) {
     const pattern =
       defaultPattern[get(f, 'decoratorProps.rules.pattern')] ||

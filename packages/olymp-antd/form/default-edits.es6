@@ -16,19 +16,6 @@ import duration from '../edits/duration';
 import input from '../edits/mask-input';
 import select from '../edits/select';
 import currency from '../edits/currency';
-/* import strings from '../edits/strings';
-import tags from '../edits/tags';
-import openings from '../edits/openings';
-import list from '../edits/list';
-import enu from '../edits/enum';
-import date from '../edits/date';
-import rel from '../edits/rel';
-import relList from '../edits/rel-list';
-import image from '../edits/image';
-import color from '../edits/color';
-import textarea from '../edits/textarea';
-import geocode from '../edits/geocode';
-import slug from '../edits/slug'; */
 
 const text = p => <Input.TextArea style={{ width: '100%' }} {...p} />;
 text.type = 'string';
@@ -83,17 +70,4 @@ export default {
       {...p}
     />
   )
-  // image: p => <EditImage maxHeight={100} maxWidth={250} {...p} />
-
-  /* 
-  enum: enu,
-  image,
-  list,
-  openings,
-  relList,
-  rel,
-  slug,
-  strings,
-  tags,
-  textarea, */
 };
