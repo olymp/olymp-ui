@@ -44,12 +44,13 @@ export const Icon = createComponent(
 );
 
 export const ContentContainer = createComponent(
-  ({ overflowX = 'auto', overflowY = 'hidden', overflow }) => ({
+  ({ overflowX, overflowY, overflow = 'auto' }) => ({
     display: 'flex',
     flexDirection: 'row',
     flex: 1,
-    overflowX: overflow || overflowX,
-    overflowY: overflow || overflowY
+    overflowX: overflowX || overflow,
+    overflowY: overflowY || overflow,
+    '-webkit-overflow-scrolling': 'touch'
   }),
   ({ children, className }) => <div className={className}>{children}</div>,
   []

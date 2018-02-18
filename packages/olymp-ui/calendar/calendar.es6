@@ -165,10 +165,10 @@ const Calendar = (...enhancers) =>
         <Swipeable
           className={className}
           onSwipedRight={() => {
-            setDate(addMonths(date, 1));
+            setDate(subMonths(date, 1));
           }}
           onSwipedLeft={() => {
-            setDate(subMonths(date, 1));
+            setDate(addMonths(date, 1));
           }}
         >
           <h4>

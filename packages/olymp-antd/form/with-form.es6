@@ -6,14 +6,16 @@ export default (name, transform) => {
     name = undefined;
   }
   if (!name) name = 'value';
-  if (!transform) transform = value => value;
 
   return Form.create({
     mapPropsToFields: props => {
-      const value = transform(props[name]);
+      let value = props[name] || {};
+      if (transform) {
+        value = transform(value) || value;
+      }
 
       const obj = {};
-      Object.keys(value || {}).forEach(field => {
+      Object.keys(value).forEach(field => {
         obj[field] = Form.createFormField({
           value: value[field]
         });
