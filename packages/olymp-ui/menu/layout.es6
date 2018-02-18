@@ -44,11 +44,12 @@ export const Icon = createComponent(
 );
 
 export const ContentContainer = createComponent(
-  () => ({
+  ({ overflowX = 'auto', overflowY = 'hidden', overflow }) => ({
     display: 'flex',
     flexDirection: 'row',
     flex: 1,
-    overflow: 'hidden'
+    overflowX: overflow || overflowX,
+    overflowY: overflow || overflowY
   }),
   ({ children, className }) => <div className={className}>{children}</div>,
   []
@@ -218,10 +219,17 @@ export const Area = ({
   width = 400,
   hasContent = true,
   placeholder = null,
+  overflow,
+  overflowX,
+  overflowY,
   goBack = () => {},
   className
 }) => (
-  <ContentContainer>
+  <ContentContainer
+    overflow={overflow}
+    overflowX={overflowX}
+    overflowY={overflowY}
+  >
     <Sidebar
       width={width}
       className={className}
