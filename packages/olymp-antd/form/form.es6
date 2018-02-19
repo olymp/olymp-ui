@@ -32,7 +32,16 @@ const defaultResolver = f => {
     case 'phone':
       e = 'input';
       newEditProps.suffix = <FormIcon type="phone" />;
-      rules.pattern = 'phone';
+      // rules.pattern = 'phone';
+      rules.message = 'Ungültige Nummer';
+      rules.min = 4;
+      rules.max = 20;
+      break;
+
+    case 'mobile':
+      e = 'input';
+      newEditProps.suffix = <FormIcon type="mobile" />;
+      // rules.pattern = 'phone';
       rules.message = 'Ungültige Nummer';
       rules.min = 4;
       rules.max = 20;

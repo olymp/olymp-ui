@@ -7,7 +7,7 @@ const Edit = props => (
   <MaskedTextInput
     mask={emailMask}
     placeholder="E-Mail"
-    suffix={<FormIcon type="email" />}
+    suffix={<FormIcon type="mail" />}
     {...props}
   />
 );
