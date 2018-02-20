@@ -152,7 +152,7 @@ class Edit extends Component {
           .then(({ data, loading }) => {
             setGeocodeLoading(loading);
 
-            if (data.geocode[0] && (force || !value.id)) {
+            if (data.geocode[0] && (force || !get(value, 'id'))) {
               onChange(data.geocode[0]);
               setInput();
             }
@@ -164,7 +164,7 @@ class Edit extends Component {
     }
   };
 
-  handleSearch = debounce(input => this.props.setInput(input), 500, {
+  handleSearch = debounce(input => this.props.setInput(input), 800, {
     trailing: true,
     leading: false
   });
