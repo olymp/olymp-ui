@@ -25,55 +25,47 @@ const Wrapper = createComponent(
   'div'
 );
 
-const enhance = compose(
-  withState('keys', 'setKeys', []),
-  withPropsOnChange(['keys'], ({ keys }) => {
-    const [lastKey, ...rest] = [...keys].reverse();
+const flatten = (fields, activeKeys = [], wrap) => {
+  const active = wrap
+    ? activeKeys.join('.')
+    : activeKeys[activeKeys.length - 1] || '';
+  const flattenFields = {};
+  const innerFlatten = (f, k = '') =>
+    Object.keys(f).forEach(fieldName => {
+      const key = wrap && k ? `${k}.${fieldName}` : fieldName;
 
-    return {
-      lastKey,
-      restKeys: rest.reverse()
-    };
-  }),
-  withPropsOnChange(
-    ['fields', 'keys'],
-    ({ fields, lastKey, keys, ...rest }) => {
-      let schema = get(fields, keys.join('.editProps.fields.'), {
-        fields,
-        ...rest
-      });
-      schema = {
-        ...schema,
-        ...get(schema, 'editProps', {}),
-        editProps: undefined
-      };
-
-      return {
-        schema
-      };
-    }
-  ),
-  withPropsOnChange(['schema', 'keys', 'wrap'], ({ schema, keys, wrap }) => {
-    const prevFields = get(schema, 'fields', {});
-    const fields = {};
-    Object.keys(prevFields).forEach(field => {
-      if (wrap) {
-        fields[[...keys, field].join('.')] = prevFields[field];
-      } else {
-        fields[field] = prevFields[field];
+      if (f[fieldName].edit === 'form') {
+        innerFlatten(get(f[fieldName], 'editProps.fields', {}), key);
       }
+
+      flattenFields[key] = {
+        ...f[fieldName],
+        key,
+        hidden: k !== active
+      };
     });
 
-    return {
-      fields
-    };
-  }),
+  innerFlatten(fields);
+  return flattenFields;
+};
+
+const enhance = compose(
+  withState('keys', 'setKeys', []),
+  withPropsOnChange(['fields', 'keys', 'wrap'], ({ fields, keys, wrap }) => ({
+    fields: flatten(fields, keys, wrap)
+  })),
   withPropsOnChange(
-    ['title', 'subtitle', 'lastKey', 'schema'],
-    ({ title, subtitle, lastKey, schema }) => ({
-      title: lastKey ? schema.label : title,
-      subtitle: lastKey ? title : subtitle
-    })
+    ['title', 'subtitle', 'keys', 'fields', 'wrap'],
+    ({ title, subtitle, keys, fields, wrap }) => {
+      const field = wrap
+        ? fields[keys.join('.')]
+        : fields[keys[keys.length - 1]];
+
+      return {
+        title: keys.length ? field.label : title,
+        subtitle: keys.length ? title : subtitle
+      };
+    }
   ),
   withPropsOnChange(['fields'], ({ fields }) => ({
     formTabs: Object.keys(fields)
@@ -125,10 +117,10 @@ export default class DrawerForm extends Component {
       title,
       subtitle,
       fields,
-      lastKey,
-      restKeys,
+      keys,
       setKeys
     } = this.props;
+    const [lastKey, ...restKeys] = [...keys].reverse();
 
     return (
       <Menu
@@ -179,13 +171,12 @@ export default class DrawerForm extends Component {
       form,
       hasChanged = form.isFieldsTouched(),
       isLoading,
-      lastKey,
-      restKeys,
       keys,
       setKeys,
       formTabs,
       wrap
     } = this.props;
+    const [lastKey, ...restKeys] = [...keys].reverse();
 
     return (
       <Drawer

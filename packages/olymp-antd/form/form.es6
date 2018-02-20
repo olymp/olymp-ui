@@ -122,14 +122,23 @@ export default class AntForm extends Component {
         decoratorProps,
         editProps,
         component: Edit,
+        hidden,
         ...field
       } = resolve(get(fields, [fieldName]), this.props);
 
-      return edit === 'form' ? (
-        <FormItem key={fieldName} layout={layout} {...field}>
-          <Edit {...editProps} id={fieldName} />
-        </FormItem>
-      ) : (
+      if (edit === 'form')
+        return !hidden ? (
+          <FormItem key={fieldName} layout={layout} {...field}>
+            <Edit {...editProps} id={fieldName} />
+          </FormItem>
+        ) : null;
+
+      if (hidden) {
+        form.getFieldDecorator(fieldName, decoratorProps);
+        return null;
+      }
+
+      return (
         <FormItem key={fieldName} layout={layout} {...field}>
           {form.getFieldDecorator(fieldName, decoratorProps)(
             <Edit {...editProps} />
