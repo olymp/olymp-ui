@@ -40,7 +40,14 @@ export default ({
     open={!!value}
     width={width || (layout === 'horizontal' ? 520 : 400)}
     right
-    onClose={onClose}
+    onClose={() => {
+      if (
+        !form.isFieldsTouched() ||
+        window.confirm('Formular wirklich schließen?')
+      ) {
+        onClose();
+      }
+    }}
     menu={
       <Menu
         color={color}
