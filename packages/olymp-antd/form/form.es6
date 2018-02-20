@@ -125,7 +125,11 @@ export default class AntForm extends Component {
         ...field
       } = resolve(get(fields, [fieldName]), this.props);
 
-      return (
+      return edit === 'form' ? (
+        <FormItem key={fieldName} layout={layout} {...field}>
+          <Edit {...editProps} id={fieldName} />
+        </FormItem>
+      ) : (
         <FormItem key={fieldName} layout={layout} {...field}>
           {form.getFieldDecorator(fieldName, decoratorProps)(
             <Edit {...editProps} />
@@ -145,7 +149,7 @@ export default class AntForm extends Component {
     const composedResolver = compose(resolve);
 
     if (isLoading) {
-      return <div>lädt...</div>;
+      return <div>Lädt...</div>;
     }
 
     return (

@@ -16,6 +16,7 @@ import duration from '../edits/duration';
 import input from '../edits/mask-input';
 import select from '../edits/select';
 import currency from '../edits/currency';
+import form from './autoform';
 
 const text = p => <Input.TextArea style={{ width: '100%' }} {...p} />;
 text.type = 'string';
@@ -26,7 +27,7 @@ number.type = 'number';
 export default {
   test: e => ({ id, ...p }) => (
     <div style={{ color: 'red' }}>
-      {id} vom Typ {e} fehlt!
+      Editor {e} fehlt für Wert {id}!
       <Input id={id} {...p} />
     </div>
   ),
@@ -36,6 +37,7 @@ export default {
   number,
   currency,
   select,
+  form,
   // slate,
   geocode,
   color,
