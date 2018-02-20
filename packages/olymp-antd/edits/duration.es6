@@ -1,5 +1,6 @@
 import React from 'react';
 import { InputNumber } from 'antd';
+import { withPropsOnChange } from 'recompose';
 
 const durations = {
   seconds: {
@@ -67,23 +68,23 @@ const durations = {
   }
 };
 
-const Edit = ({ value, mode = 'minutes', onChange, ...rest }) => {
-  const props = durations[mode] || durations.minutes;
+const enhance = withPropsOnChange(
+  ['value', 'onChange', 'mode'],
+  ({ value, onChange, mode }) => {
+    const props = durations[mode] || durations.minutes;
 
-  return (
-    <InputNumber
-      {...props}
-      value={
+    return {
+      ...props,
+      value:
         value || value === 0
           ? parseInt(value, 10) / props.scalar || 0
-          : undefined
-      }
-      onChange={v => onChange(v || v === 0 ? v * props.scalar : undefined)}
-      style={{ width: '100%' }}
-      {...rest}
-    />
-  );
-};
+          : undefined,
+      onChange: v => onChange(v || v === 0 ? v * props.scalar : undefined)
+    };
+  }
+);
+
+const Edit = enhance(props => <InputNumber style={{ width: '100%' }} {...props} />);
 Edit.displayName = 'EditDuration';
 Edit.type = 'integer';
 export default Edit;
