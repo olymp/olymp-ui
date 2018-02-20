@@ -5,7 +5,7 @@ import { withApollo, graphql } from 'react-apollo';
 import { createComponent } from 'react-fela';
 import { compose, withState } from 'recompose';
 import gql from 'graphql-tag';
-import FormIcon from './form-icon';
+import FormIcon from '../form/form-icon';
 
 const StyledInput = createComponent(
   ({ theme }) => ({

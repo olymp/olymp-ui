@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import { format, addMilliseconds, startOfDay } from 'date-fns';
 import MaskedTextInput from './mask-input';
-import FormIcon from './form-icon';
+import FormIcon from '../form/form-icon';
 
 export const getMilliseconds = time => {
   let [hours = 0, minutes = 0] = time.split(' Uhr')[0].split(':');

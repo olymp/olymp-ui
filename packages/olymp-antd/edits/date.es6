@@ -4,7 +4,7 @@ import { format, isValid, startOfDay, compareAsc } from 'date-fns';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import Calendar from 'olymp-ui/calendar';
 import MaskedTextInput from './mask-input';
-import FormIcon from './form-icon';
+import FormIcon from '../form/form-icon';
 
 const getDate = date => !!date && new Date(date.split('.').reverse());
 const getDateString = date => format(new Date(date), 'DD.MM.YYYY');
