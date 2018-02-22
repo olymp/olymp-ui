@@ -3,7 +3,6 @@ import { InputNumber } from 'antd';
 
 const Edit = props => (
   <InputNumber
-    defaultValue={0}
     formatter={value =>
       value || value === 0
         ? `${value} €`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
