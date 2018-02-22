@@ -24,6 +24,35 @@ text.type = 'string';
 const number = p => <InputNumber style={{ width: '100%' }} {...p} />;
 number.type = 'number';
 
+const bool = ({ value, ...p }) => <Switch checked={!!value} {...p} />;
+bool.type = 'boolean';
+
+const week = ({ value, onChange, ...p }) => (
+  <DatePicker.WeekPicker
+    value={value ? moment(value).startOf('week') : undefined}
+    format="ww. / YYYY"
+    onChange={(v, props) =>
+      v ? onChange(v.format(), props) : onChange(undefined, props)
+    }
+    style={{ width: '100%' }}
+    {...p}
+  />
+);
+week.type = 'date';
+
+const month = ({ value, onChange, ...p }) => (
+  <DatePicker.MonthPicker
+    value={value ? moment(value).startOf('month') : undefined}
+    format="MM / YYYY"
+    onChange={(v, props) =>
+      v ? onChange(v.format(), props) : onChange(undefined, props)
+    }
+    style={{ width: '100%' }}
+    {...p}
+  />
+);
+month.type = 'date';
+
 export default {
   test: e => ({ id, ...p }) => (
     <div style={{ color: 'red' }}>
@@ -49,27 +78,7 @@ export default {
   datetime,
   datetimerange,
   duration,
-  bool: ({ value, ...p }) => <Switch checked={!!value} {...p} />,
-  week: ({ value, onChange, ...p }) => (
-    <DatePicker.WeekPicker
-      value={value ? moment(value).startOf('week') : undefined}
-      format="ww. / YYYY"
-      onChange={(v, props) =>
-        v ? onChange(v.format(), props) : onChange(undefined, props)
-      }
-      style={{ width: '100%' }}
-      {...p}
-    />
-  ),
-  month: ({ value, onChange, ...p }) => (
-    <DatePicker.MonthPicker
-      value={value ? moment(value).startOf('month') : undefined}
-      format="MM / YYYY"
-      onChange={(v, props) =>
-        v ? onChange(v.format(), props) : onChange(undefined, props)
-      }
-      style={{ width: '100%' }}
-      {...p}
-    />
-  )
+  bool,
+  week,
+  month
 };
