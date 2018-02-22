@@ -126,6 +126,9 @@ export default class AntForm extends Component {
         ...field
       } = resolve(get(fields, [fieldName]), this.props);
 
+      if (fieldName === 'einheitenIds')
+        console.log(fieldName, form.getFieldValue(fieldName));
+
       if (edit === 'form')
         return !hidden ? (
           <FormItem key={fieldName} layout={layout} {...field}>
@@ -134,8 +137,13 @@ export default class AntForm extends Component {
         ) : null;
 
       if (hidden) {
-        form.getFieldDecorator(fieldName, decoratorProps);
-        return null;
+        return (
+          <div key={fieldName} style={{ display: 'none' }}>
+            {form.getFieldDecorator(fieldName, decoratorProps)(
+              <Edit {...editProps} />
+            )}
+          </div>
+        );
       }
 
       return (

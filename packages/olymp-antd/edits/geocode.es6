@@ -117,7 +117,7 @@ class Edit extends Component {
       setGeocodeLoading
     } = this.props;
 
-    if (navigator.geolocation) {
+    if (navigator && navigator.geolocation) {
       setGeocodeLoading(true);
 
       navigator.geolocation.getCurrentPosition(({ coords }) => {
@@ -151,9 +151,10 @@ class Edit extends Component {
           })
           .then(({ data, loading }) => {
             setGeocodeLoading(loading);
+            const geocode = get(data, 'geocode.0');
 
-            if (data.geocode[0] && (force || !get(value, 'id'))) {
-              onChange(data.geocode[0]);
+            if (geocode && (force || !get(value, 'id'))) {
+              onChange(geocode);
               setInput();
             }
           })
