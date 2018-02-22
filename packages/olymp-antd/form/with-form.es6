@@ -1,4 +1,5 @@
 import { Form } from 'antd';
+import validateMessages from './validate-messages';
 
 export default (name, transform) => {
   if (typeof name === 'function') {
@@ -22,6 +23,7 @@ export default (name, transform) => {
       });
 
       return obj;
-    }
+    },
+    validateMessages
   });
 };
