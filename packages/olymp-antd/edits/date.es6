@@ -7,7 +7,8 @@ import MaskedTextInput from './mask-input';
 import FormIcon from '../form/form-icon';
 
 const getDate = date => !!date && new Date(date.split('.').reverse());
-const getDateString = date => format(new Date(date), 'DD.MM.YYYY');
+const getDateString = date =>
+  date ? format(new Date(date), 'DD.MM.YYYY') : undefined;
 
 class Edit extends Component {
   constructor(props) {

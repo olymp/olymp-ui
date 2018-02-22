@@ -73,7 +73,10 @@ const enhance = compose(
         key => (fields[key].edit === 'form' ? { key, ...fields[key] } : null)
       )
       .filter(x => x)
-  }))
+  })),
+  withPropsOnChange(['open'], ({ setKeys }) => {
+    setKeys([]);
+  })
 );
 
 @enhance

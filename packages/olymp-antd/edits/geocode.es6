@@ -185,7 +185,8 @@ class Edit extends Component {
       value,
       location,
       placesLoading,
-      geocodeLoading
+      geocodeLoading,
+      ...rest
     } = this.props;
 
     const dataSource = [...(items || [])];
@@ -205,6 +206,7 @@ class Edit extends Component {
         optionLabelProp="text"
         value={input || get(value, 'id')}
         disabled={placesLoading || geocodeLoading}
+        {...rest}
       >
         <StyledInput
           suffix={
