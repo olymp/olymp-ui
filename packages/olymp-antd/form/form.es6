@@ -126,9 +126,6 @@ export default class AntForm extends Component {
         ...field
       } = resolve(get(fields, [fieldName]), this.props);
 
-      if (fieldName === 'einheitenIds')
-        console.log(fieldName, form.getFieldValue(fieldName));
-
       if (edit === 'form')
         return !hidden ? (
           <FormItem key={fieldName} layout={layout} {...field}>
