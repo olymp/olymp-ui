@@ -1,7 +1,7 @@
 import React from 'react';
 import { createComponent } from 'react-fela';
 import { FaPencil } from 'olymp-icons';
-import { Link } from 'olymp-router';
+import { Link } from '@powr/router';
 
 const Button = createComponent(
   ({ theme, size = 30 }) => ({
@@ -12,11 +12,11 @@ const Button = createComponent(
     color: theme.light,
     '> svg': {
       fill: theme.light,
-      stroke: theme.light,
+      stroke: theme.light
     },
     '> *': {
-      center: true,
-    },
+      center: true
+    }
   }),
   ({ className, children, to, updateQuery }) => (
     <Link updateQuery={updateQuery} to={to}>

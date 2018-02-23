@@ -7,7 +7,7 @@ import {
   withProps,
   withPropsOnChange
 } from 'recompose';
-import { withStyle, withTheme, createComponent } from 'olymp-fela';
+import { withStyle, withTheme, createComponent } from '@powr/fela';
 import { connect } from 'react-redux';
 import { FaChevronLeft, FaEllipsisV } from 'olymp-icons';
 import Tappable from 'react-tappable';

@@ -1,4 +1,4 @@
-import { immutable, withDynamicRedux } from 'olymp-redux';
+import { immutable, withDynamicRedux } from '@powr/redux';
 
 const defaultState = {};
 export const ADD = 'LIGHTBOX_ADD';
@@ -19,8 +19,8 @@ const reducer = (state = defaultState, action) => {
         .set(
           action.payload.gallery,
           state[action.payload.gallery].filter(
-            image => image.ref !== action.payload.image,
-          ),
+            image => image.ref !== action.payload.image
+          )
         )
         .value();
     default:
@@ -32,16 +32,16 @@ export const lightboxActions = dispatch => ({
   addToLightbox: (image, gallery = 'images') =>
     dispatch({
       type: ADD,
-      payload: { image, gallery },
+      payload: { image, gallery }
     }),
   removeFromLightbox: (image, gallery = 'images') =>
     dispatch({
       type: REMOVE,
-      payload: { image, gallery },
-    }),
+      payload: { image, gallery }
+    })
 });
 
 export default withDynamicRedux({
   name,
-  reducer,
+  reducer
 });

@@ -1,5 +1,5 @@
 import React, { Fragment, cloneElement } from 'react';
-import { createComponent, withStyle } from 'olymp-fela';
+import { createComponent, withStyle } from '@powr/fela';
 import { withState, compose } from 'recompose';
 import Swipeable from 'react-swipeable';
 import { getColor } from './colors-provider';
@@ -17,10 +17,10 @@ export const Navigation = createComponent(
       zIndex: 5,
       position: 'absolute',
       right: right ? 0 : undefined,
-      left: right ? undefined :0,
+      left: right ? undefined : 0,
       height: '100%',
-      flexWidth: !collapsed ? width : 72,
-    },
+      flexWidth: !collapsed ? width : 72
+    }
   }),
   ({ children, className, setCollapsed, right }) => (
     <div className={className}>

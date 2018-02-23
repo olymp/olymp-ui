@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createUpdateQuery } from 'olymp-router';
+import { createUpdateQuery } from '@powr/router';
 import { createComponent } from 'react-fela';
 import { lightboxActions } from './lightbox-redux';
 import cloudinaryUrl from './cloudinary-url';

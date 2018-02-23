@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FaExpand, FaCode, FaCompress, FaCube } from 'olymp-icons';
-import { createReplaceQuery } from 'olymp-router';
+import { createReplaceQuery } from '@powr/router';
 import Menu from 'olymp-ui/menu';
 import { AutoSidebar } from 'olymp-ui';
 import { withPropsOnChange } from 'recompose';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getContext } from 'recompose';
 import PropTypes from 'prop-types';
-import { createUpdateQuery } from 'olymp-router';
+import { createUpdateQuery } from '@powr/router';
 import { asyncComponent } from 'react-async-component';
 
 const LightBox = asyncComponent({

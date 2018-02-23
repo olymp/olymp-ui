@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createComponent } from 'react-fela';
-import { Link } from 'olymp-router';
+import { Link } from '@powr/router';
 import ReactDOM from 'react-dom';
 import { compose, withPropsOnChange, withState, getContext } from 'recompose';
 import Grid from './grid';
